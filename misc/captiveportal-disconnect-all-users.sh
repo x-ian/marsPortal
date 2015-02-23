@@ -17,7 +17,7 @@ wget --keep-session-cookies --load-cookies cookies.txt --no-check-certificate --
   "$PF_SERVER/status_captiveportal.php?zone=$ZONE"
 
 # loop over users and terminate all sessions
-cat all.html | grep '&order=&showact=&act=del&id' | cut -d "\"" -f2 | while read -r url
+cat all.html | grep '&amp;order=&amp;showact=&amp;act=del&amp;id' | cut -d "\"" -f2 | sed 's/amp;//g' | while read -r url
 do
   wget --keep-session-cookies --load-cookies cookies.txt --no-check-certificate  --output-document=all2.html \
     "$PF_SERVER/status_captiveportal.php$url"
