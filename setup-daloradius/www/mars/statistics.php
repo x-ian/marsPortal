@@ -206,7 +206,7 @@ for ($i=1; $i<=10; $i++) {
 	echo "<td>Top #" . $i . "</td>";
 	echo "<td>";
 	if ($row = mysql_fetch_assoc($down_work_today)) {
-	    echo $row['download'] . " (" . uservolumelink($row['username']) . " " . userdetailslink($row['username'], $row['name']). " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";
+	    echo $row['download'] . " (" . uservolumelink($row['username']) . " " . userdetailslink($row['username'], $row['name']). " " . $row['email'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";
 	}
 	echo "</td>";
 	echo "<td>";
