@@ -25,6 +25,10 @@
 	  return '<a href="/daloradius/mng-edit.php?username=' . $mac . '">' . $name . '</a>';
   }
   
+  function uservolumelink($mac) {
+	  return '<a href="/mars/user_with_volume?username=' . $mac . '">' . $mac . '</a>';
+  }
+  
 //  $today = '2014-10-29';
 $today = date('Y-m-d', strtotime('-0 day'));
   $yesterday = date('Y-m-d', strtotime('-1 day'));
@@ -202,7 +206,7 @@ for ($i=1; $i<=10; $i++) {
 	echo "<td>Top #" . $i . "</td>";
 	echo "<td>";
 	if ($row = mysql_fetch_assoc($down_work_today)) {
-	    echo $row['download'] . " (" . userdetailslink($row['username'], $row['name']). " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";
+	    echo $row['download'] . " (" . uservolumelink($row['username']) . " " . userdetailslink($row['username'], $row['name']). " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";
 	}
 	echo "</td>";
 	echo "<td>";
