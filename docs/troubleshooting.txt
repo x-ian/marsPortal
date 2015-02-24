@@ -4,11 +4,15 @@ Troubleshooting
 Misc
 ----
 
-speed testing httpf or 10 mb: wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip (for 500 mb change to test500)
+speed testing httpf or 10 mb (for 500 mb change to test500):
+wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip 
 
 Test RADIUS connectivity with radtest 002500486010 radius 172.16.1.7 0 radius
-radtest 080027d7d7e9 radius 192.168.10.2 0 radius
+radtest 08:00:27:d7:d7:e9 radius 192.168.10.2 0 radius
 08002709403b
+
+radtest 00:25:4b:cd:81:3e radius 192.168.1.2 0 radius
+
 
 pfSense Log files
 -----------------

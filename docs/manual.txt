@@ -67,6 +67,20 @@ Maintenance
 Backup & Restore
 ----------------
 
+
 Import existing users/devices
 -----------------------------
 
+
+Reset accounting data
+---------------------
+
+Before removing all accounting data, make sure that there is no active session on the captive portal anymore.
+/home/marsPortal/misc/captiveportal-disconnect-all-users.sh
+
+mysql -u radius -pradius radius <<EOF
+truncate daily_accounting;
+truncate radacct;
+EOF
+
+/home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
