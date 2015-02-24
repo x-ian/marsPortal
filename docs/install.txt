@@ -30,12 +30,12 @@ Enable transparent Squid for HTTP and activate logging
 Enable Lightsquid reporting
 Change default passwords in Web UI - System - User manager - admin
 Adjust timezone if needed
+Set DHCP server lease time to 43200 (note that this must be greater than any Captive portal and RADIUS session timeouts)
 
 
 Firewall
 --------
 Add firewall rule to allow ICMP pings
-Add a default firewall rule for every inside network/VLAN interface allowing any protocol to pass
 Add firewall rules on wan interface to allow traffic on port 3000 (for ntop)
 
 
@@ -48,13 +48,14 @@ enable 'send RADIUS accounting packets' with 'interim updates'
 enable 'RADIUS MAC authentication'
 set 'MAC authentication secret' to radius
 enable 'Use RADIUS Session-Timeout attributes'
-MAC address format 'unformatted'
+MAC address format 'default' (separated with colons)
 disable concurrent logins
 add 172.16.1.0 as allowed IP addresses (to bypass captive portal registration and traffic accounting for local servers)
 add other external hostname as allowed hostname in case they should be accessed without captive portal
 Services - DNS forwarder - add new host override with host = pfsense, domain = mars, IP = 172.16.1.8 and description = to make pfsense.mars locally available (e.g. required for radcheck)
 Enable all VLAN interfaces if available
-
+Use File manager of Captive portal to upload all files from setup-captiveportal/filemanager/*
+Upload file setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
 
 Automatic pfSense mails
 -----------------------
@@ -62,7 +63,6 @@ Go to System - Advanced - Notifications and enter
 E-Mail server: smtp.gmail.com
 SMTP Port of E-Mail server: 465
 Secure SMTP Connection	Enable SMTP over SSL/TLS
-Enable STARTTLS
 From e-mail address: <...>
 Notification E-Mail address: <...<>
 Notification E-Mail auth username (optional): <...>
@@ -70,10 +70,25 @@ Notification E-Mail auth password: <specify password here>
 Add 'Weekly Network Utilization' under Status - Email Reports with settings
 weekly, on Sunday at 23:00
 with RRD Graphs captive portal :: concurrent and a weekly time span and RRD Graph WAN :: Traffic
+Depending on the gmail account configuration you might need to enable 'less secure apps'
 
 
 marsPortal Customization
 ------------------------
+
+pfSense 2.2
+https://doc.pfsense.org/index.php/Installing_FreeBSD_Packages
+pkg
+pkg update
+pkg install bash
+pkg install curl
+pkg install wget
+pkg install p5-Net-SMTP-TLS
+pkg install git
+# pkg_add -r python
+rehash
+
+pfSense 2.1
 Login with SSH as root and run these statements in the shell (to get to the shell press 8)
 # for AMD64 used 
 #setenv PACKAGESITE ftp://ftp-archive.freebsd.org/pub/FreeBSD-Archive/ports/amd64/packages-8.3-release/Latest/

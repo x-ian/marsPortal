@@ -42,7 +42,7 @@ Registering new device
 Changing group of a device
 --------------------------
 
-Remember: Disconnect this device from the captive portal session to make sure the changes are immidiately applied
+Remember: Disconnect this device from the captive portal session after assigning a new group to make sure the changes are immidiately applied
 
 
 Opening blocked device for the rest of today

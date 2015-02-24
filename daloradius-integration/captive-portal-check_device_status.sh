@@ -17,7 +17,7 @@ echo $RADTEST | grep "Access-Reject" >/dev/null
 CHECK_ACCESS=$?
 
 if [ $CHECK_REPLY -eq 1 ] && [ $CHECK_ACCESS -eq 0 ]; then
-  echo "no reply message, assume device not yet registered"
+  echo "no reply message, assume device (MAC address $MAC) not yet registered"
   echo "$MAC - $IP - 1 - device not yet registered - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
   exit 1
 fi
