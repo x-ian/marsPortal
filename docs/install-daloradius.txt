@@ -7,40 +7,49 @@ pfSense requires an external freeRADIUS server to authenticate users/connected d
 Configuration of physical host for daloRADIUS virtual machine
 -------------------------------------------------------------
 
-The system to host the daloRADIUS virtual machine could be almost any system, but the main system currently is powered by Virtual Box on top of a Lubuntu installation. Only a few additional changes are required:
-Linux and FreeBSD VMs need to see the host hardware clock as UTC. Enable this VM setting with the System - Motherboard - Extended features option.
+The system to host the daloRADIUS virtual machine could be almost any system, but a common deployment is to run a VirtualBox on top of a Lubuntu installation. Only a few additional changes are required.
+
 Install and activate SSH server
+
+Set IP address as needed, typically same subnet as pfSense.
+
 add autologin http://ubuntuforums.org/showthread.php?t=1472113
 
-autostart of vbox virtual box
+autostart of vbox virtual box:
 create file ~/Desktop/autostart_daloradius.sh with content (taken from https://forums.virtualbox.org/viewtopic.php?f=11&t=51529)
 #! /bin/sh
 sleep 30
 VBoxManage startvm "daloRADIUS VM"
 
-make executable with chmod +x ~/Desktop/autostart_daloradius.sh (http://askubuntu.com/questions/459277/how-do-i-make-a-program-auto-start-everytime-i-log-in-in-ubuntu-14-04, http://wiki.ubuntuusers.de/LXDE_Einstellungen#Autostart-und-Sitzungseinstellungen-Default-application-for-LXSession-und-LXSession-edit,
+make script executable with chmod +x ~/Desktop/autostart_daloradius.sh (http://askubuntu.com/questions/459277/how-do-i-make-a-program-auto-start-everytime-i-log-in-in-ubuntu-14-04, http://wiki.ubuntuusers.de/LXDE_Einstellungen#Autostart-und-Sitzungseinstellungen-Default-application-for-LXSession-und-LXSession-edit,
 http://askubuntu.com/questions/517633/how-do-i-run-a-script-on-unity-login-logout)
 
-Todo: Get history of system to see all changes
-
 sudo chmod a+rw /opt (at least for Ubuntu 14.04 as saving machine states otherwise doesnt work)
+
+Import the daloRADIUS VM into Virtual Box. Use default settings.
+
+Linux need to see the host hardware clock as UTC. Enable this VM setting with the System - Motherboard - Extended features option.
+
+Start the Virtual Machine.
 
 
 System configuration
 --------------------
 
-SSH into the system and run 'dpkg-reconfigure tzdata' from command line as root and set correct timezone
+After starting the VM and (re-) configure the network interface (typically a static IP in the 'server subnet') the Web UI is accessible through the network.
+
+SSH into the system (root/daloradius as default username/password) and run 'dpkg-reconfigure tzdata' from command line as root and set correct timezone
 
 Set timezone for PHP to date.timezone = 'Africa/Blantyre' (or 'Europe/Berlin') in /etc/php5/apache2/php.ini
 
 Deactivate /etc/cron.d/cron-apt in cron (to avoid system load while checking for updates)
 
-TODO: Copy/clone marsPortal package to /home/ (git clone https://github.com/x-ian/marsPortal.git)
+Copy and extract marsPortal.tgz to /home/marsPortal
 
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
-Edit /home/marsPortal/config.txt
+Edit and adjust value in /home/marsPortal/config.txt
 
-Create symbloc link /var/www/mars pointing to setup-daloradius/www/mars
+Create symbloc link /var/www/mars pointing to setup-daloradius/www/mars:
 ln -s /home/marsPortal/setup-daloradius/www/mars /var/www/mars
 
 
@@ -61,20 +70,39 @@ Modify /etc/freeradius/sites-enabled/default as follows:
                 }
         }
 
-        # accounting during business hours, preventing re-connect in case session previously terminated
-        # copy/paste into authorize section of daloradius /etc/freeradius/sites-enabled/default
+        # accounting during business hours, preventing re-connect
+        # copy/paste into daloradius /etc/freeradius/sites-enabled/default
         # below the counterChilliSpot entries
         update control {
                 # based on content in table daily_accounting, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND work_end IS NOT NULL AND day_end IS NULL), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND work_end IS NOT NULL AND day_end IS NULL), '0')}"
+                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
         }
 
         # check for daily volume restrictions during business hours
-        if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" && "%{check:mars-Input-Megabytes-Daily-Work-Hours}") {
+        if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" > 0 && "%{check:mars-Input-Megabytes-Daily-Work-Hours}" > 0) {
                 if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Work-Hours}")) {
                         update reply {
                                 Reply-Message := "Data bundle during business hours exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-Output-Megabytes-Daily-Work-Hours} / %{check:mars-Input-Megabytes-Daily-Work-Hours} MB (download/upload)"
+                        }
+                        reject
+                }
+        }
+
+        # accounting for full day, preventing re-connect
+        # copy/paste into daloradius /etc/freeradius/sites-enabled/default
+        # below the counterChilliSpot entries
+        update control {
+                # based on content in table daily_accounting, which is updated by cronjobs
+                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_day_end - outputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_day_end - inputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+        }
+
+        # check for daily volume restrictions
+        if ("%{check:mars-Output-Megabytes-Daily-Total}" > 0 && "%{check:mars-Input-Megabytes-Daily-Total}" > 0) {
+                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Total}")) {
+                        update reply {
+                                Reply-Message := "Daily data bundle exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-Output-Megabytes-Daily-Total} / %{check:mars-Input-Megabytes-Daily-Total} MB (download/upload)"
                         }
                         reject
                 }
@@ -91,13 +119,28 @@ Modify /etc/freeradius/sites-enabled/default as follows:
         # needs to go in accounting section, e.g. before exec block
         update control {
                 # based on content in table daily_accounting, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND work_end IS NOT NULL AND day_end IS NULL), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND work_end IS NOT NULL AND day_end IS NULL), '0')}"
+                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
         }
 
         # check for daily volume restrictions during working hours
         if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" && "%{check:mars-Input-Megabytes-Daily-Work-Hours}") {
                 if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Work-Hours}")) {
+                        captiveportal-disconnect-user
+                }
+        }
+
+        # daily total accounting, kicking out active session if limit is reached
+        # needs to go in accounting section, e.g. before exec block
+        update control {
+                # based on content in table daily_accounting, which is updated by cronjobs
+                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_day_end - outputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_day_end - inputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+        }
+
+        # check for daily volume restrictions during working hours
+        if ("%{check:mars-Output-Megabytes-Daily-Total}" && "%{check:mars-Input-Megabytes-Daily-Total}") {
+                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Total}")) {
                         captiveportal-disconnect-user
                 }
         }
@@ -118,6 +161,8 @@ ATTRIBUTE       mars-Output-Megabytes-Daily-Work-Hours  3004    integer
 ATTRIBUTE       My-Local-Input                          3005    integer
 ATTRIBUTE       My-Local-Output                         3006    integer
 ATTRIBUTE       mars-Max-Concurrent-Devices             3007    integer
+ATTRIBUTE       mars-Input-Megabytes-Daily-Total        3008    integer
+ATTRIBUTE       mars-Output-Megabytes-Daily-Total       3009    integer
 
 Run command and make sure the line 'Starting FreeRADIUS' ends with an OK:  /etc/init.d/freeradius force-reload
 
@@ -125,22 +170,30 @@ Run command and make sure the line 'Starting FreeRADIUS' ends with an OK:  /etc/
 Configuration of daloRADIUS
 ---------------------------
 
-After starting the VM and (re-) configure the network interface (typically a static IP in the 'server subnet') the Web UI is accessible through the network.
+Log into daloRADIUS web interface with http://<ip of daloradius> (default access with admin/admin and administrator/radius)
 
 Create a NAS with the IP of pfSense (requires a reboot of freeRADIUS afterwards),
 
 Add additional attributes via Management - Attributes - New Vendor Attribute
 marsPortal
-mars-Max-Concurrent-Devices, mars-Input-Megabytes-Daily-Work-Hours and mars-Output-Megabytes-Daily-Work-Hours
+mars-Max-Concurrent-Devices, mars-Input-Megabytes-Daily-Total, mars-Output-Megabytes-Daily-Total, mars-Input-Megabytes-Daily-Work-Hours and mars-Output-Megabytes-Daily-Work-Hours
 integer
 :=
 check
 
 Remove all unneeded pre-default user groups (called profiles) except daloRADIUS-Disabled-Users.
 
-Create new user groups (called profiles) as required, e.g. Users, Guests, Leadership. For every user group, create a matching XYZ-open-for-today group (these names are part of some automated scripts, so do not simply change them here). 
+Create new user groups (called profiles) as required, e.g. Users, Guests, Leadership. 
 
-For each of these groups the following reply or check attributes can be added to determine the characteristics of the group Possible RADIUS attributes for each group: CS-Output-Octets-Daily, CS-Input-Octets-Daily, Session-Timeout, mars-Max-Concurrent-Devices, WISPr-Bandwidth-Max-Down, WISPr-Bandwidth-Max-Up
+For each of these groups the following attributes can be added to determine the characteristics of the group Possible RADIUS attributes for each group: 
+- WISPr-Bandwidth-Max-Down, WISPr-Bandwidth-Max-Up
+- Session-Timeout
+- mars-Output-Megabytes-Daily-Work-Hours and mars-Input-Megabytes-Daily-Work-Hours
+- mars-Output-Megabytes-Daily-Total and mars-Input-Megabytes-Daily-Total
+- mars-Max-Concurrent-Devices
+- Accept-Method: reject
+
+Optional: For every user group, create a matching XYZ-open-for-today group (these names are part of some automated scripts, so do not change this postfix). 
 
 
 Manual configs
@@ -170,35 +223,12 @@ CREATE TABLE daily_accounting (
 ALTER TABLE daily_accounting ADD UNIQUE INDEX (username, day);
 EOF
 
-crontab 
+add these cronjobs to the crontab 
 59 23 * * * /home/marsPortal/daloradius-accounting/reset-groups-open-for-today.sh
 5 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
 0 7 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-work.sh
-1,9,19,29,39,49,59 7-17 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-work.sh
-0,10,20,30,40,50,59 18-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-day.sh
+9,19,29,39,49,59 7-17 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-work.sh
+5,15,25,35,45,55 1-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-day.sh
 
 Reboot daloRADIUS VM
 
-
-Notes/ideas
------------
-
-conditional accounting
-enabling/disabling captive portal accounting together with kicking out all sessions seems to do the trick. it however terminates all active sessions and connections. in case someone would like to work around this, these are potential places to look at
-https://doc.pfsense.org/index.php/Captive_Portal_Troubleshooting
-https://github.com/pfsense/pfsense/blob/27c2e32e28f871adf036b666e8e3ae1bf54ea7a2/etc/inc/captiveportal.inc
-https://github.com/pfsense/pfsense/blob/9775c69d65dd629f29bf3daa0b1efa277719f0d0/usr/local/captiveportal/radius_accounting.inc
-https://github.com/pfsense/pfsense/search?utf8=%E2%9C%93&q=pfSense_ipfw_getTablestats
-
-another attempt to externalize accounting out of radius
-http://www.netexpertise.eu/en/freeradius/daily-accounting.html
-
-
-Additional information & usage notes
-------------------------------------
-
-freeradius daloradius sql counter module: https://web.archive.org/web/20120428165635/http://sourceforge.net/projects/daloradius/forums/forum/684102/topic/3307738
-
-Apply backups from another installation: http://sourceforge.net/p/daloradius/discussion/684102/thread/cc248889/
-
-Export full snapshots/backups from the daloRADIUS VM via VirtualBox - Menu - File - Export Appliance. For easy of use crete link from ~/Desktop dir with "ln -s ../Documents/ backups"

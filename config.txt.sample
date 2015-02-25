@@ -6,7 +6,7 @@ NTOP_PASSWD=admin
 
 # pfSense
 PF_IP=172.16.1.8
-PF_SERVER=http://172.16.1.8/
+PF_SERVER=https://172.16.1.8/
 USER=admin
 PASSWD=pfsense
 ZONE=mars

@@ -3,7 +3,7 @@
 	<table align="center">
 		<tr><td><img src="/captiveportal-mars.jpg" /></td><td>Portal</td></tr>
 	</table>
-</span>
+</span> 
 
 <div align="center">
 	<?php
@@ -17,6 +17,7 @@
 			case 1:
 				// not yet registered
 				echo "<b>Unknown device. Please consult the IT team.</b>";
+				echo "<p>Once the IT team has given access, please try again: <a href=$PORTAL_REDIRURL$>$PORTAL_REDIRURL$</a></p>";
 				echo "<br/><br/><p>Exit code: $exitCode</p>";
 				echo "<p>   (Reason: " . implode(" ", $output) . ")</p>";
 				break;
