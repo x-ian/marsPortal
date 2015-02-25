@@ -37,7 +37,8 @@ Deactivate /etc/cron.d/cron-apt in cron (to avoid system load while checking for
 
 TODO: Copy/clone marsPortal package to /home/ (git clone https://github.com/x-ian/marsPortal.git)
 
-copy config.txt.sample to config.txt and apply values
+cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
+Edit /home/marsPortal/config.txt
 
 Create symbloc link /var/www/mars pointing to setup-daloradius/www/mars
 ln -s /home/marsPortal/setup-daloradius/www/mars /var/www/mars
@@ -78,6 +79,11 @@ Modify /etc/freeradius/sites-enabled/default as follows:
                         reject
                 }
         }
+
+        # ---------------
+
+		# add at end of preacct section
+        sql.authorize
 
 	    # ---------------
 	

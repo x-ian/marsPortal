@@ -59,3 +59,9 @@ Local testing of data volume/bundles
 
 Run a HTTP server on your hosts (e.g. any rails environment) and place a reasonable sized file into the public directory. Now from a pfSense Client system run somethink like 'wget http://10.0.2.2:3000/r.zip' to invoke a transfer through pfSense.
 
+
+Git on servers
+--------------
+
+Cloning the repo on daloRADIUS via HTTPS fails when pushing data back. Add this to make it 'pushable:
+git remote set-url origin https://x-ian@github.com/x-ian/marsPortal
