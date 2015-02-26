@@ -49,8 +49,9 @@ Copy and extract marsPortal.tgz to /home/marsPortal
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 Edit and adjust value in /home/marsPortal/config.txt
 
-Create symbloc link /var/www/mars pointing to setup-daloradius/www/mars:
 ln -s /home/marsPortal/setup-daloradius/www/mars /var/www/mars
+
+ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /etc/freeradius/modules/captiveportal-disconnect-user
 
 
 Configuration of freeRADIUS
@@ -58,113 +59,19 @@ Configuration of freeRADIUS
 
 Modify /etc/freeradius/sites-enabled/default as follows:
 
-        # checking for concurrently active users of same user group / profile
-        # copy/paste into authorize section of daloradius /etc/freeradius/sites-enabled/default
-        # below the counterChilliSpot entries
-        if ("%{check:mars-Max-Concurrent-Devices}") {
-                if("%{check:mars-Max-Concurrent-Devices}" <= "%{sql:select count(*) from radacct where acctstoptime is null and username in (select username from radusergroup where groupname in (select groupname from radusergroup where username='%{User-Name}'));}") {
-                        update reply {
-                                Reply-Message := "Too many users - please try again later (%{sql:select count(*) from radacct where acctstoptime is null and username in (select username from radusergroup where groupname in (select groupname from radusergroup where username='%{User-Name}'))} of %{check:mars-Max-Concurrent-Devices})"
-                        }
-                        reject
-                }
-        }
-
-        # accounting during business hours, preventing re-connect
-        # copy/paste into daloradius /etc/freeradius/sites-enabled/default
-        # below the counterChilliSpot entries
-        update control {
-                # based on content in table daily_accounting, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-        }
-
-        # check for daily volume restrictions during business hours
-        if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" > 0 && "%{check:mars-Input-Megabytes-Daily-Work-Hours}" > 0) {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Work-Hours}")) {
-                        update reply {
-                                Reply-Message := "Data bundle during business hours exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-Output-Megabytes-Daily-Work-Hours} / %{check:mars-Input-Megabytes-Daily-Work-Hours} MB (download/upload)"
-                        }
-                        reject
-                }
-        }
-
-        # accounting for full day, preventing re-connect
-        # copy/paste into daloradius /etc/freeradius/sites-enabled/default
-        # below the counterChilliSpot entries
-        update control {
-                # based on content in table daily_accounting, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_day_end - outputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_day_end - inputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-        }
-
-        # check for daily volume restrictions
-        if ("%{check:mars-Output-Megabytes-Daily-Total}" > 0 && "%{check:mars-Input-Megabytes-Daily-Total}" > 0) {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Total}")) {
-                        update reply {
-                                Reply-Message := "Daily data bundle exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-Output-Megabytes-Daily-Total} / %{check:mars-Input-Megabytes-Daily-Total} MB (download/upload)"
-                        }
-                        reject
-                }
-        }
-
-        # ---------------
-
-		# add at end of preacct section
-        sql.authorize
-
-	    # ---------------
-	
-        # accounting during working hours, kicking out active session if limit is reached
-        # needs to go in accounting section, e.g. before exec block
-        update control {
-                # based on content in table daily_accounting, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-        }
-
-        # check for daily volume restrictions during working hours
-        if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" && "%{check:mars-Input-Megabytes-Daily-Work-Hours}") {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Work-Hours}")) {
-                        captiveportal-disconnect-user
-                }
-        }
-
-        # daily total accounting, kicking out active session if limit is reached
-        # needs to go in accounting section, e.g. before exec block
-        update control {
-                # based on content in table daily_accounting, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_day_end - outputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_day_end - inputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-        }
-
-        # check for daily volume restrictions during working hours
-        if ("%{check:mars-Output-Megabytes-Daily-Total}" && "%{check:mars-Input-Megabytes-Daily-Total}") {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Total}")) {
-                        captiveportal-disconnect-user
-                }
-        }
-
-add to /etc/freeradius/modules/exec
-# enforce user disconnect from pfSense 
-exec captiveportal-disconnect-user {
-	wait = no
-	program = "/bin/bash /home/marsPortal/misc/captiveportal-disconnect-user.sh %{User-Name}"
-	input_pairs = request
-	shell_escape = yes
-	output = none
-}
+        # add to authorize section
+		$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.authorize
+		
+		# add to preacct section
+		$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.preacct
+		
+		# add to accounting section
+		$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.accounting
 
 Add to /etc/freeradius/dictionary
-ATTRIBUTE       mars-Input-Megabytes-Daily-Work-Hours   3003    integer
-ATTRIBUTE       mars-Output-Megabytes-Daily-Work-Hours  3004    integer
-ATTRIBUTE       My-Local-Input                          3005    integer
-ATTRIBUTE       My-Local-Output                         3006    integer
-ATTRIBUTE       mars-Max-Concurrent-Devices             3007    integer
-ATTRIBUTE       mars-Input-Megabytes-Daily-Total        3008    integer
-ATTRIBUTE       mars-Output-Megabytes-Daily-Total       3009    integer
+$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.dictionary
 
-Run command and make sure the line 'Starting FreeRADIUS' ends with an OK:  /etc/init.d/freeradius force-reload
+Run command and make sure the line 'Starting FreeRADIUS' ends with an OK: /etc/init.d/freeradius force-reload
 
 
 Configuration of daloRADIUS
@@ -173,15 +80,6 @@ Configuration of daloRADIUS
 Log into daloRADIUS web interface with http://<ip of daloradius> (default access with admin/admin and administrator/radius)
 
 Create a NAS with the IP of pfSense (requires a reboot of freeRADIUS afterwards),
-
-Add additional attributes via Management - Attributes - New Vendor Attribute
-marsPortal
-mars-Max-Concurrent-Devices, mars-Input-Megabytes-Daily-Total, mars-Output-Megabytes-Daily-Total, mars-Input-Megabytes-Daily-Work-Hours and mars-Output-Megabytes-Daily-Work-Hours
-integer
-:=
-check
-
-Remove all unneeded pre-default user groups (called profiles) except daloRADIUS-Disabled-Users.
 
 Create new user groups (called profiles) as required, e.g. Users, Guests, Leadership. 
 
@@ -201,6 +99,16 @@ Manual configs
 
 Execute the following block in a SSH shell:
 mysql -u radius -pradius radius <<EOF
+delete from radgroupreply;
+delete from radgroupcheck where id > 1;
+
+INSERT INTO `dictionary` (`Type`, `Attribute`, `Value`, `Format`, `Vendor`, `RecommendedOP`, `RecommendedTable`, `RecommendedHelper`, `RecommendedTooltip`) VALUES
+('integer', 'mars-Max-Concurrent-Devices', NULL, NULL, 'marsPortal', ':=', 'check', '', ''),
+('integer', 'mars-Input-Megabytes-Daily-Work-Hours', NULL, NULL, 'marsPortal', ':=', 'check', NULL, ''),
+('integer', 'mars-Output-Megabytes-Daily-Work-Hours', NULL, NULL, 'marsPortal', ':=', 'check', NULL, ''),
+('integer', 'mars-Input-Megabytes-Daily-Total', NULL, NULL, 'marsPortal', ':=', 'check', NULL, ''),
+('integer', 'mars-Output-Megabytes-Daily-Total', NULL, NULL, 'marsPortal', ':=', 'check', NULL, '');
+
 DROP TABLE IF EXISTS daily_accounting;
 CREATE TABLE daily_accounting (
   id int(32) NOT NULL AUTO_INCREMENT,
@@ -222,6 +130,43 @@ CREATE TABLE daily_accounting (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE daily_accounting ADD UNIQUE INDEX (username, day);
 EOF
+
+
+# INTERNAL WORK, NOT FOR USE (YET)
+DROP TABLE IF EXISTS daily_accounting2;
+CREATE TABLE daily_accounting2 (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  day date NOT NULL,
+
+  day_offset datetime,
+  day_offset_input bigint(20) DEFAULT 0,
+  day_offset_output bigint(20) DEFAULT 0,
+
+  work_offset datetime,
+  work_offset_input bigint(20) DEFAULT 0,
+  work_offset_output bigint(20) DEFAULT 0,
+
+  lunch_offset datetime,
+  lunch_offset_input bigint(20) DEFAULT 0,
+  lunch_offset_output bigint(20) DEFAULT 0,
+
+  lunch_total datetime,
+  lunch_total_input bigint(20) DEFAULT 0,
+  lunch_total_output bigint(20) DEFAULT 0,
+
+  work_total datetime,
+  work_total_input bigint(20) DEFAULT 0,
+  work_total_output bigint(20) DEFAULT 0,
+
+  day_total datetime,
+  day_total_input bigint(20) DEFAULT 0,
+  day_total_output bigint(20) DEFAULT 0,
+
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE daily_accounting2 ADD UNIQUE INDEX (username, day);
+
 
 add these cronjobs to the crontab 
 59 23 * * * /home/marsPortal/daloradius-accounting/reset-groups-open-for-today.sh

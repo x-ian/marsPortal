@@ -1,0 +1,31 @@
+
+        # accounting during working hours, kicking out active session if limit is reached
+        # needs to go in accounting section
+        update control {
+                # based on content in table daily_accounting, which is updated by cronjobs
+                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+        }
+
+        # check for daily volume restrictions during working hours
+        if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" && "%{check:mars-Input-Megabytes-Daily-Work-Hours}") {
+                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Work-Hours}")) {
+                        captiveportal-disconnect-user
+                }
+        }
+
+        # daily total accounting, kicking out active session if limit is reached
+        # needs to go in accounting section, e.g. before exec block
+        update control {
+                # based on content in table daily_accounting, which is updated by cronjobs
+                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((outputoctets_day_end - outputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((inputoctets_day_end - inputoctets_day_beg) / 1000000) FROM daily_accounting WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+        }
+
+        # check for daily volume restrictions during working hours
+        if ("%{check:mars-Output-Megabytes-Daily-Total}" && "%{check:mars-Input-Megabytes-Daily-Total}") {
+                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Total}")) {
+                        captiveportal-disconnect-user
+                }
+        }
+
