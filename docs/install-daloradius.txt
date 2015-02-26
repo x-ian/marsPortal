@@ -42,16 +42,10 @@ SSH into the system (root/daloradius as default username/password) and run 'dpkg
 
 Set timezone for PHP to date.timezone = 'Africa/Blantyre' (or 'Europe/Berlin') in /etc/php5/apache2/php.ini
 
-Deactivate /etc/cron.d/cron-apt in cron (to avoid system load while checking for updates)
-
 Copy and extract marsPortal.tgz to /home/marsPortal
 
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 Edit and adjust value in /home/marsPortal/config.txt
-
-ln -s /home/marsPortal/setup-daloradius/www/mars /var/www/mars
-
-ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /etc/freeradius/modules/captiveportal-disconnect-user
 
 
 Configuration of freeRADIUS
@@ -74,35 +68,39 @@ $INCLUDE    /home/marsPortal/freeradius-config/marsPortal.dictionary
 Run command and make sure the line 'Starting FreeRADIUS' ends with an OK: /etc/init.d/freeradius force-reload
 
 
-Configuration of daloRADIUS
----------------------------
-
-Log into daloRADIUS web interface with http://<ip of daloradius> (default access with admin/admin and administrator/radius)
-
-Create a NAS with the IP of pfSense (requires a reboot of freeRADIUS afterwards),
-
-Create new user groups (called profiles) as required, e.g. Users, Guests, Leadership. 
-
-For each of these groups the following attributes can be added to determine the characteristics of the group Possible RADIUS attributes for each group: 
-- WISPr-Bandwidth-Max-Down, WISPr-Bandwidth-Max-Up
-- Session-Timeout
-- mars-Output-Megabytes-Daily-Work-Hours and mars-Input-Megabytes-Daily-Work-Hours
-- mars-Output-Megabytes-Daily-Total and mars-Input-Megabytes-Daily-Total
-- mars-Max-Concurrent-Devices
-- Accept-Method: reject
-
-Optional: For every user group, create a matching XYZ-open-for-today group (these names are part of some automated scripts, so do not change this postfix). 
-
-
 Manual configs
 --------------
 
 Execute the following block in a SSH shell:
+
+rm /etc/cron.d/cron-apt # avoids system load while checking for updates
+ln -s /home/marsPortal/setup-daloradius/www/mars /var/www/mars
+ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /etc/freeradius/modules/captiveportal-disconnect-user
+(crontab -l ; echo "#59 23 * * * /home/marsPortal/daloradius-accounting/reset-groups-open-for-today.sh") | crontab -
+(crontab -l ; echo "5 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh") | crontab -
+(crontab -l ; echo "0 7 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-work.sh") | crontab -
+(crontab -l ; echo "9,19,29,39,49,59 7-17 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-work.sh") | crontab -
+(crontab -l ; echo "5,15,25,35,45,55 1-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-day.sh") | crontab -
+
+# daily accounting starts at 00:06
+(crontab -l ; echo "6 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_offset") | crontab 
+# work day starts mo-fr 08:01
+(crontab -l ; echo "1 8 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh work_offset") | crontab 
+# lunch starts mo-fr 12:30
+(crontab -l ; echo "30 12 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh lunch_offset") | crontab 
+# lunch goes up to 13:30 mo-fr
+(crontab -l ; echo "40,50 12 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh lunch_total") | crontab 
+(crontab -l ; echo "0,10,20,30 13 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh lunch_total") | crontab 
+# work goes up to 16:52 mo-fr
+(crontab -l ; echo "2,12,22,32,42,52 8-16 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh work_total") | crontab 
+# daily accounting end at 23:57
+(crontab -l ; echo "7,17,27,37,47,57 1-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_total") | crontab 
+
 mysql -u radius -pradius radius <<EOF
 delete from radgroupreply;
 delete from radgroupcheck where id > 1;
 
-INSERT INTO `dictionary` (`Type`, `Attribute`, `Value`, `Format`, `Vendor`, `RecommendedOP`, `RecommendedTable`, `RecommendedHelper`, `RecommendedTooltip`) VALUES
+INSERT INTO dictionary (Type, Attribute, Value, Format, Vendor, RecommendedOP, RecommendedTable, RecommendedHelper, RecommendedTooltip) VALUES
 ('integer', 'mars-Max-Concurrent-Devices', NULL, NULL, 'marsPortal', ':=', 'check', '', ''),
 ('integer', 'mars-Input-Megabytes-Daily-Work-Hours', NULL, NULL, 'marsPortal', ':=', 'check', NULL, ''),
 ('integer', 'mars-Output-Megabytes-Daily-Work-Hours', NULL, NULL, 'marsPortal', ':=', 'check', NULL, ''),
@@ -129,12 +127,24 @@ CREATE TABLE daily_accounting (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE daily_accounting ADD UNIQUE INDEX (username, day);
-EOF
 
+INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
+('marsPortal-Template', 'mars-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
+('marsPortal-Template', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '250'),
+('marsPortal-Template', 'mars-Input-Megabytes-Daily-Total', ':=', '500'),
+('marsPortal-Template', 'mars-Output-Megabytes-Daily-Total', ':=', '500'),
+('marsPortal-Template', 'mars-Max-Concurrent-Devices', ':=', '100');
+
+INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
+('marsPortal-Template', 'Session-Timeout', ':=', '43200'),
+('marsPortal-Template', 'WISPr-Bandwidth-Max-Up', ':=', '512000'),
+('marsPortal-Template', 'WISPr-Bandwidth-Max-Down', ':=', '512000');
+
+UPDATE radgroupcheck set groupname='No-Internet-access' where groupname='daloRADIUS-Disabled-Users';
 
 # INTERNAL WORK, NOT FOR USE (YET)
-DROP TABLE IF EXISTS daily_accounting2;
-CREATE TABLE daily_accounting2 (
+DROP TABLE IF EXISTS daily_accounting_v2;
+CREATE TABLE daily_accounting_v2 (
   id int(32) NOT NULL AUTO_INCREMENT,
   username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   day date NOT NULL,
@@ -165,15 +175,45 @@ CREATE TABLE daily_accounting2 (
 
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-ALTER TABLE daily_accounting2 ADD UNIQUE INDEX (username, day);
+ALTER TABLE daily_accounting_v2 ADD UNIQUE INDEX (username, day);
+
+EOF
 
 
-add these cronjobs to the crontab 
-59 23 * * * /home/marsPortal/daloradius-accounting/reset-groups-open-for-today.sh
-5 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
-0 7 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-work.sh
-9,19,29,39,49,59 7-17 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-work.sh
-5,15,25,35,45,55 1-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-day.sh
+Configuration of daloRADIUS
+---------------------------
+
+Log into daloRADIUS web interface with http://<ip of daloradius> (default access with admin/admin and administrator/radius)
+
+Create a NAS with the IP of pfSense.
+
+Create new user groups (called profiles) as required, e.g. Users, Guests, Leadership. Easiest to duplicate profile marsPortal-Template.
+
+For each of these groups the following attributes can be added to determine the characteristics of the group. Possible RADIUS attributes for each group are: 
+- WISPr-Bandwidth-Max-Down, WISPr-Bandwidth-Max-Up
+- Session-Timeout
+- mars-Output-Megabytes-Daily-Work-Hours and mars-Input-Megabytes-Daily-Work-Hours
+- mars-Output-Megabytes-Daily-Total and mars-Input-Megabytes-Daily-Total
+- mars-Max-Concurrent-Devices
+- Accept-Method: reject
+
+Optional: For every user group, create a matching XYZ-open-for-today group (these names are part of some automated scripts, so do not change this postfix). 
+
+
+Finalizing
+----------
 
 Reboot daloRADIUS VM
 
+Connect a client to LAN subnet of pfSense and daloRADIUS server and try to access any HTTP (not HTTPS) page. E.g. http://www.marsgeneral.com
+
+Catch the MAC address from resulting error page and create new daloradius user with MAC authentication in the Web UI.
+
+Try again to connect to a HTTP (!) page.
+
+If everything worked out, you should be able to access this web page now. In that case a session on the pfSense is also created and visible from the menu Status - Captive Portal.
+
+In case no Internet access is granted and no session is created on the captive portal, use the command line to troubleshoot the RADIUS communication. E.g. from the pfSense shell, invoke this command (change settings as needed):
+radtest <mac address> radius <daloradius IP> 0 radius
+
+Receiving an Access-Reject packet indicates that something with the radius user entry or configuration doesn't match; receiving an Access-Accept packet while still not being able to access the Internet points towards a Captive Portal problem.
