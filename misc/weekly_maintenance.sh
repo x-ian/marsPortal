@@ -27,6 +27,8 @@ source $BASEDIR/config.txt
 /bin/rm -f /var/dhcpd/var/db/dhcpd.leases
 /bin/rm -f /var/dhcpd/var/db/dhcpd.leases~
 
-# just for the case, restart once in a while
+/home/marsPortal/misc/heartbeat.sh
+
+# just in case, restart once in a while
 /sbin/reboot
 
