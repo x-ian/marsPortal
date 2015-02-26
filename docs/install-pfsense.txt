@@ -4,7 +4,7 @@ NOTES ON INSTALLATION OF PFSENSE
 Installation
 ------------
 
-pfSense requires a system with 2 physical network interfaces
+pfSense requires a system with at least 2 physical network interfaces.
 
 Booting the Live/Installer CD can be troublesome at times. Check the notes below if it doesn't automatically proceed.
 
@@ -12,14 +12,14 @@ When performing an installation to the hard disk from a bootable CD, pay attenti
 
 Choose quick / default installation of pfSense
 
-Once the installation and the copying process is done, remove the Boot CD before restarting. Otherwise it boots up again from the CD instead of the newly created installation on the hard disk.
+Once the installation and the copying process is done, remove the Boot CD before restarting. Otherwise it might boot up again from the CD instead of the newly created installation on the hard disk.
 
 Installation notes:
 On the old Baobab servers the 64 Bit version AMD64 had some performance issues with PHP. Switching back to the i386 32 Bit version solved them.
 
 During boot it might be necessary to disable ACPI via boot option (2) (https://doc.pfsense.org/index.php/Booting_Options#pfSense_2.0)
 
-When booting from LiveCD stops in the middle of the boot process (or stops with a mount error as described here https://doc.pfsense.org/index.php/Boot_Troubleshooting), choose 'Boot from USB drive (option 3) at the first pfSense selection screen
+When booting from LiveCD stops in the middle of the boot process (or stops with a mount error as described here https://doc.pfsense.org/index.php/Boot_Troubleshooting), attach an external USB CD drive and coose 'Boot from USB drive' (option 3) at the first pfSense selection screen.
 
 
 Initial configuration
@@ -45,17 +45,9 @@ Adjust timezone if needed
 
 Change and add network interfaces as needed, e.g. add vlan interfaces to em1 starting from 192.168.11.x upwards, don't forget to disable the parent interface for VLANs (e.g. em1)
 
-Configure DHCP server for every inside network/VLAN interface as required
+Configure/activate DHCP server for every inside network/VLAN interface as required
 
 Set DHCP server lease time to 43200 (note that this must be greater than any Captive portal and RADIUS session timeouts)
-
-
-Firewall
---------
-
-Add firewall rule to allow ICMP pings
-
-Add firewall rules on wan interface to allow traffic on port 3000 (for ntop)
 
 
 Captive Portal
@@ -88,6 +80,8 @@ optional: add all local IP addresses and external hostnames as allowed systems w
 marsPortal Customization
 ------------------------
 
+Copy marsPortal.tgz to pfsense, e.g. with scp marsPortal.tgz root@192.168.1.1:/home
+
 Connect via SSH/Putty and execute these statements in the shell (press 8 to access the shell after initial login):
 mkdir /home/client_activities_log
 mkdir /home/local_backups
@@ -95,27 +89,17 @@ cd /home
 tar xzf marsPortal.tgz
 ln -s /usr/local/bin/bash /bin/bash
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
+(crontab -l ; echo "@reboot /home/marsPortal/misc/send_gmail_after_startup.sh") | crontab -
+(crontab -l ; echo "59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
+(crontab -l ; echo "#5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh") | crontab -
+(crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
+(crontab -l ; echo "55 23 * * * /home/marsPortal/misc/daloradius-mail-statistics.sh") | crontab -
 
-Now open config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
-
-add these line to root crontab via 'crontab -e'
-@reboot /home/marsPortal/misc/send_gmail_after_startup.sh
-59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh
-5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh
-#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh
-55 23 * * * /home/marsPortal/misc/daloradius-mail-statistics.sh
+Now open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
 
 
 Configurations which require Internet access
 --------------------------------------------
-
-Install 'freeradius2', 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
-
-Stop service freeradius from status - services
-
-Enable transparent Squid for HTTP and activate logging
-
-Enable Lightsquid reporting
 
 pfSense 2.2: https://doc.pfsense.org/index.php/Installing_FreeBSD_Packages
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection:
@@ -135,7 +119,14 @@ setenv PACKAGESITE ftp://ftp-archive.freebsd.org/pub/FreeBSD-Archive/ports/i386/
 pkg_add -r wget
 pkg_add -r bash
 pkg_add -r p5-Net-SMTP-TLS
-reboot
+
+Install 'freeradius2', 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
+
+Stop service freeradius from status - services
+
+Enable transparent Squid for HTTP and activate logging
+
+Enable Lightsquid reporting
 
 
 Optional: Automatic pfSense mails
@@ -161,6 +152,14 @@ Add 'Weekly Network Utilization' under Status - Email Reports with settings
 weekly, on Sunday at 23:00 with RRD Graphs captive portal :: concurrent and a weekly time span and RRD Graph WAN :: Traffic
 
 Depending on the gmail account configuration you might need to enable 'less secure apps' for this gmail account 
+
+
+Optional: Firewall
+------------------
+
+Add firewall rule to allow ICMP pings
+
+Add firewall rules on wan interface to allow traffic on port 3000 (for ntop)
 
 
 Additional notes
