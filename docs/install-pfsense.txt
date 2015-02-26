@@ -55,9 +55,13 @@ Captive Portal
 
 Create and enable new Captive portal zone labeled mars on the internal LAN interfaces
 
-Configure RADIUS server with RADIUS authentication
+Check 'Disable concurrent logins'
+
+Configure RADIUS server with RADIUS authentication and RADIUS protocol PAP
 
 Set IP of primary RADIUS server to the daloRADIUS server
+
+Use radius as the shared secret
 
 enable 'send RADIUS accounting packets' with 'interim updates'
 
@@ -65,14 +69,17 @@ enable 'RADIUS MAC authentication'
 
 set 'MAC authentication secret' to radius
 
-enable 'Use RADIUS Session-Timeout attributes'
+RADIUS NAS IP attribute should be set to an IP which is never changing as this needs to match a daloRADIUS config
 
-MAC address format 'default' (separated with colons)
+enable 'Use RADIUS Session-Timeout attributes'
 
 disable concurrent logins
 
-Use File manager of Captive portal to upload all files from setup-captiveportal/filemanager/*
+Save settings
+
 Upload file setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
+
+Use File manager of Captive portal to upload all files from setup-captiveportal/filemanager/*
 
 optional: add all local IP addresses and external hostnames as allowed systems where access should be possible without passing through the Captive Portal (to bypass captive portal registration and traffic accounting for local servers)
 
@@ -87,7 +94,6 @@ mkdir /home/client_activities_log
 mkdir /home/local_backups
 cd /home
 tar xzf marsPortal.tgz
-ln -s /usr/local/bin/bash /bin/bash
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 (crontab -l ; echo "@reboot /home/marsPortal/misc/send_gmail_after_startup.sh") | crontab -
 (crontab -l ; echo "59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
@@ -98,10 +104,9 @@ cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 Now open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
 
 
-Configurations which require Internet access
---------------------------------------------
+Configurations that require Internet access
+-------------------------------------------
 
-pfSense 2.2: https://doc.pfsense.org/index.php/Installing_FreeBSD_Packages
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection:
 pkg
 pkg update
@@ -109,18 +114,9 @@ pkg install bash
 pkg install wget
 pkg install p5-Net-SMTP-TLS
 rehash
+ln -s /usr/local/bin/bash /bin/bash
 
-pfSense 2.1
-Login with SSH as root and run these statements in the shell (to get to the shell press 8)
-# for AMD64 used 
-#setenv PACKAGESITE ftp://ftp-archive.freebsd.org/pub/FreeBSD-Archive/ports/amd64/packages-8.3-release/Latest/
-# for i386 use
-setenv PACKAGESITE ftp://ftp-archive.freebsd.org/pub/FreeBSD-Archive/ports/i386/packages-8.3-release/Latest/
-pkg_add -r wget
-pkg_add -r bash
-pkg_add -r p5-Net-SMTP-TLS
-
-Install 'freeradius2', 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
+Install pfSense packages 'freeradius2', 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
 
 Stop service freeradius from status - services
 
