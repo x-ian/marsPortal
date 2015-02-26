@@ -13,14 +13,24 @@ source /home/marsPortal/config.txt
 rm $LOG
 rm $LOG.tmp
 
+# check radius server
+/sbin/ping -t 4 $DR_IP  >> $LOG.tmp
+if [ $? -eq 0 ]; then
+  echo  
+  # echo $i alive >> $LOG
+else
+  echo $DR_IP not alive >> $LOG
+fi
+
+# check the rest
 for i in `cat $BASEDIR/monitor_network_devices.txt`; do
   /bin/sleep 5
   /sbin/ping -t 4 $i  >> $LOG.tmp
   if [ $? -eq 0 ]; then
     echo  
-    # echo $i alive >> $LOG
+    # echo $i reachable >> $LOG
   else
-    echo $i not alive >> $LOG
+    echo $i not reachable >> $LOG
   fi
 done
 
