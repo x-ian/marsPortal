@@ -7,16 +7,17 @@ source $BASEDIR/config.txt
 SENDER=notification@marsgeneral.com
 RECEIVER=cneumann@marsgeneral.com
 
+PUBLIC_IP="1.2.3.4" #"wget http://www.marsmonitoring.com/whatismyip"
 FIRST_MAC=" `/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
 INET=`ifconfig | grep "inet "`
-VALUE="GoingToIbiza"
+VALUE=`echo "GoingToIbiza"`
+LOAD=`top | grep averages`
 MEM=`top | grep Mem`
 SWAP=`top | grep Swap`
-LOAD=`top | grep averages`
 
-SUBJECT="`echo "pfSense heartbeat"` $ZONE $FIRST_MAC `date +%Y%m%d-%H%M`"	
+SUBJECT="`echo "pfSense heartbeat"` $ZONE $PUBLIC_IP `date +%Y%m%d-%H%M`"	
 BODY="
 $UPTIME
 $ALL_MACS
