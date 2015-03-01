@@ -33,7 +33,7 @@ else
 fi
 
 /usr/bin/mysql -u `echo $DR_MYSQL_USER` -p`echo $DR_MYSQL_PASSWD` radius <<EOF
-INSERT INTO daily_accounting2 (username, day, $TIME_COL, $INPUT_COL, $OUTPUT_COL)
+INSERT INTO daily_accounting_v2 (username, day, $TIME_COL, $INPUT_COL, $OUTPUT_COL)
 SELECT DISTINCT(radacct.username), date_format(now(), '%Y-%m-%d'), now(), SUM(radacct.acctinputoctets), SUM(radacct.acctoutputoctets)
   FROM radacct 
   WHERE UNIX_TIMESTAMP(AcctStartTime) + AcctSessionTime > UNIX_TIMESTAMP(date_format(now(), '%Y-%m-%d')) 
