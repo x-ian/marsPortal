@@ -21,6 +21,6 @@ DR_MYSQL_USER=radius
 DR_MYSQL_PASSWD=radius
 
 # mail notifications
-GMAIL_SENDER=cneumann@marsgeneral.com
-GMAIL_SENDER_PASSWD=..change_me..
+# also adjust values of this ssmtp config file
+SSMTP_CONFIG=/home/marsPortal/ssmtp.config
 RECEIVER=cneumann@marsgeneral.com

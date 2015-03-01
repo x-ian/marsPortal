@@ -1,0 +1,5 @@
+FromLineOverride=YES
+mailhub=smtp.gmail.com:587
+AuthUser=notification@marsgeneral.com
+AuthPass=CHANGE_ME
+UseSTARTTLS=YES
