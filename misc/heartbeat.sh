@@ -4,26 +4,39 @@ BASEDIR=/home/marsPortal
 
 source $BASEDIR/config.txt
 
-SENDER=notification@marsgeneral.com
-RECEIVER=cneumann@marsgeneral.com
-
 PUBLIC_IP="1.2.3.4" #"wget http://www.marsmonitoring.com/whatismyip"
 FIRST_MAC=" `/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
 INET=`ifconfig | grep "inet "`
-VALUE=`echo "GoingToIbiza"`
 LOAD=`top | grep averages`
 MEM=`top | grep Mem`
 SWAP=`top | grep Swap`
 
-SUBJECT="`echo "pfSense heartbeat"` $ZONE $PUBLIC_IP `date +%Y%m%d-%H%M`"	
-BODY="
-$UPTIME
-$ALL_MACS
-$INET
-$MEM
-$SWAP
-$LOAD"
+TEMP_CONFIG=`mktemp /tmp/ssmtp.config.XXXXXX`
+echo "FromLineOverride=YES
+mailhub=smtp.gmail.com:587
+AuthUser=notification@marsgeneral.com
+AuthPass=GoingToIbiza
+UseSTARTTLS=YES" > $TEMP_CONFIG
+TEMP_MAIL=`mktemp /tmp/ssmtp.mail.XXXXXX`
+echo "From: notification@marsgeneral.com
+To: cneumann@marsgeneral.com
+Subject: pfSense heartbeat zone: $ZONE, public ip: $PUBLIC_IP, `date +%Y%m%d-%H%M`
 
-/usr/bin/perl -I /usr/local/lib/perl5/site_perl/5.10.1/ -I /usr/local/lib/perl5/site_perl/5.10.1/mach $BASEDIR/send_gmail.perl "$SUBJECT" "$BODY" $SENDER $VALUE $RECEIVER
+uptime: 
+	$UPTIME
+all macs: 
+$ALL_MACS
+ipconfig: 
+$INET
+memory:
+	$MEM
+swap:
+	$SWAP
+load:
+	$LOAD" > $TEMP_MAIL
+
+/usr/local/sbin/ssmtp -C $TEMP_CONFIG cneumann@marsgeneral.com < $TEMP_MAIL
+
+rm -f $TEMP_MAIL $TEMP_CONFIG
