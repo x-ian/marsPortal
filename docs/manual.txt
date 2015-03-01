@@ -84,3 +84,12 @@ truncate radacct;
 EOF
 
 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
+
+
+Troubleshooting
+===============
+
+Validating RADIUS connectivity
+------------------------------
+
+radtest 00:25:00:48:60:10 radius 192.168.1.2 0 radius

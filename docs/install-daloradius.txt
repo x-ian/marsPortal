@@ -76,13 +76,17 @@ Execute the following block in a SSH shell:
 rm /etc/cron.d/cron-apt # avoids system load while checking for updates
 ln -s /home/marsPortal/setup-daloradius/www/mars /var/www/mars
 ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /etc/freeradius/modules/captiveportal-disconnect-user
-(crontab -l ; echo "59 23 * * * /home/marsPortal/daloradius-accounting/reset-groups-open-for-today.sh") | crontab -
-(crontab -l ; echo "30 5 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
+(crontab -l ; echo "#59 23 * * * /home/marsPortal/daloradius-accounting/reset-groups-open-for-today.sh") | crontab -
+# open up network outside of work hours and at weekends
+(crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/daloradius-accounting/activate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/daloradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+# run daily accounting for full day and work hours not excluding lunch
 (crontab -l ; echo "5 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh") | crontab -
 (crontab -l ; echo "0 7 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-work.sh") | crontab -
 (crontab -l ; echo "9,19,29,39,49,59 7-17 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-work.sh") | crontab -
 (crontab -l ; echo "5,15,25,35,45,55 1-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-day.sh") | crontab -
 
+# daily accounting with respecting lunch hours during work days
 # daily accounting starts at 00:06
 (crontab -l ; echo "6 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_offset") | crontab 
 # work day starts mo-fr 08:01

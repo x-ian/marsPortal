@@ -69,7 +69,7 @@ enable 'RADIUS MAC authentication'
 
 set 'MAC authentication secret' to radius
 
-RADIUS NAS IP attribute should be set to an IP which is never changing as this needs to match a daloRADIUS config
+RADIUS NAS IP attribute should be set to an IP which is never changing as this needs to match a daloRADIUS config, e.g. the first LAN IP address
 
 enable 'Use RADIUS Session-Timeout attributes'
 
@@ -77,9 +77,9 @@ disable concurrent logins
 
 Save settings
 
-Upload file setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
+Upload file marsPortal/setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
 
-Use File manager of Captive portal to upload all files from setup-captiveportal/filemanager/*
+Use File manager of Captive portal to upload all files from marsPortal/setup-captiveportal/filemanager/*
 
 optional: add all local IP addresses and external hostnames as allowed systems where access should be possible without passing through the Captive Portal (to bypass captive portal registration and traffic accounting for local servers)
 
@@ -95,7 +95,7 @@ mkdir /home/local_backups
 cd /home
 tar xzf marsPortal.tgz
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
-(crontab -l ; echo "@reboot /home/marsPortal/misc/send_gmail_after_startup.sh") | crontab -
+(crontab -l ; echo "@reboot /home/marsPortal/misc/mail_after_startup.sh") | crontab -
 (crontab -l ; echo "59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
 (crontab -l ; echo "#5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh") | crontab -
 (crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
@@ -112,7 +112,9 @@ pkg
 pkg update
 pkg install bash
 pkg install wget
-pkg install p5-Net-SMTP-TLS
+pkg install curl
+pkg install ssmtp
+#pkg install p5-Net-SMTP-TLS
 rehash
 ln -s /usr/local/bin/bash /bin/bash
 
