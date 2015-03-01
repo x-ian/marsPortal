@@ -19,7 +19,7 @@ To: $RECEIVER
 Subject: $SUBJECT
 MIME-Version: 1.0
 Content-type: multipart/mixed;
-	boundary=\"frontier\"
+	boundary=\"frontier"
 
 --frontier
 Content-type: text/plain
@@ -36,7 +36,6 @@ Content-Disposition: attachment; filename=\"$FILENAME\"
 --frontier--
 " > $TEMP_MAIL
 
-/usr/local/sbin/ssmtp -v -C $SSMTP_CONFIG $RECEIVER < $TEMP_MAIL
+/usr/local/sbin/ssmtp -C $SSMTP_CONFIG $RECEIVER < $TEMP_MAIL
 
-#rm -f $TEMP_MAIL $TEMP_CONFIG
-
+rm -f $TEMP_MAIL $TEMP_CONFIG

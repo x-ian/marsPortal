@@ -11,7 +11,7 @@ if [ $? -eq 0 ]; then
   BASEDIR=/home/marsPortal
   SUBJECT="MAC found"
   BODY="SYSTEM ALIVE"
-  /usr/local/bin/perl -I /usr/local/lib/perl5/site_perl/5.10.1/ -I   /usr/local/lib/perl5/site_perl/5.10.1/mach send_gmail.perl "$SUBJECT" "$BODY" "$GMAIL_SENDER" "$GMAIL_SENDER_PASSWD" "$RECEIVER"
+  $BASEDIR/misc/send_mail.sh "$SUBJECT" "$BODY"
 
   echo "system active "
 else

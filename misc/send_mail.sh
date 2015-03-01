@@ -5,9 +5,9 @@ BASEDIR=/home/marsPortal
 source $BASEDIR/config.txt
 source $BASEDIR/ssmtp.config
  
-SUBJECT=$1;
-BODY=$2;
-SENDER=$AuthUser;
+SUBJECT=$1
+BODY=$2
+SENDER=$AuthUser
 #RECEIVER=$RECEIVER already part of config.txt
 
 TEMP_MAIL=`mktemp /tmp/ssmtp.mail.XXXXXX`
