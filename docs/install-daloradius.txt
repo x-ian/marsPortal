@@ -7,6 +7,12 @@ pfSense requires an external freeRADIUS server to authenticate users/connected d
 Configuration of physical host for daloRADIUS virtual machine
 -------------------------------------------------------------
 
+
+
+
+TODO ASSUME AND DESCRIBE LUBUNTU AS DEFAULT
+
+
 The system to host the daloRADIUS virtual machine could be almost any system, but a common deployment is to run a VirtualBox on top of a Lubuntu installation. Only a few additional changes are required.
 
 Install and activate SSH server
@@ -45,7 +51,11 @@ Set timezone for PHP to date.timezone = 'Africa/Blantyre' (or 'Europe/Berlin') i
 Copy and extract marsPortal.tgz to /home/marsPortal
 
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
-Edit and adjust value in /home/marsPortal/config.txt
+cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
+
+Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
+
+Open /home/marsPortal/ssmtp.config and adjust the config values as needed, e.g. with vi /home/marsPortal/ssmtp.config
 
 
 Configuration of freeRADIUS

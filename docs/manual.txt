@@ -3,33 +3,48 @@ RADIUS configuration
 
 RADIUS groups
 -------------
-...
-...-open-for-today
-daloRADIUS-Disabled-Users
+
+Management - Profile
+
+Most of the behaviour is defined through RADIUS groups. These groups can list various restrictions and the name of the group can be freely chosen. Optionally for each group there can be additional groups with the name postfix -open-for-today and -non-work-hours.
+
+-open-for-today can be used if single systems have used up their available data bundle(s) and need to be temporarily unblocked for the rest of the day. All devices placed in this group will be automatically be moved back to their main groups.
+
+The group -non-work-hour contains group settings for devices outside of working hours (often Monday to Friday between 8:00 and 17:00.
+
+Finally a default group No-Internet-access is available. All outside network access (sometimes depending on the network setup) is blocked. Note that this still gives local (on the level of the subnet) access for these devices.
 
 
 Changing restrictions of groups
 -------------------------------
 
-WISPr-Bandwidth-Max-Down
-WISPr-Bandwidth-Max-Up
+Management - Profiles - Edit profile
 
-Session Timeout
+Each RADIUS group can have these following attributes
+- WISPr-Bandwidth-Max-Down: Max download bandwidth (bits per second)
+- WISPr-Bandwidth-Max-Up: Max upload bandwith (bits per second)
 
-mars-Max-Concurrent-Devices
+- Session Timeout: Time after which a Captive Portal sessions expires (in seconds, needs to be smaller than DHCP lease time)
 
-mars-Input-Megabytes-Daily-Work-Hours
-mars-Output-Megabytes-Daily-Work-Hours
+- mars-Max-Concurrent-Devices: Number of concurrent connected devices (session) per group
 
-CS-Input-Octets-Daily
-CS-Output-Octets-Daily
+- mars-Input-Megabytes-Daily-Work-Hours: Upload data bundle during work hours (in MB)
+- mars-Output-Megabytes-Daily-Work-Hours: Download data bundle during work hours (in MB)
 
-CS-Input-Octets-Weekly
-CS-Output-Octets-Weekly
+- mars-Input-Megabytes-Daily-Total: Daily upload data bundle (in MB)
+- mars-Output-Megabytes-Daily-Total: Daily download data bundle (in MB)
+
+- Auth-Type with value Reject: Use to completely block all devices of this group. Can be temporarily added to existing groups to prevent them from accessing outside network in case the network should only be available to selected devices.
 
 
-Changing work hour times
-------------------------
+Changing work and lunch hour times
+----------------------------------
+
+Work and lunch hours times need to be changed through the crontab of the daloRADIUS system. Log in to daloRADIUS via SSH and run 'crontab -e'.
+
+For each period (work and lunch times) there is one matching entry for the beginning of the period, typically at 08:00 am and 12:30. The relevant lines contain the invocation of the script daily_accounting with the parameter 'work_offset' and 'lunch_offset'.
+
+Throughout these periods there are the lines with the call of daily_accounting with the parameter 'work_total' and 'lunch_total'. These calls need to be made throughout the whole period beginning with '_offset' up to the end. If work and lunch periods do not start and/or end full hours, then the '_total' calls might be split across two lines.
 
 
 Device management
@@ -38,15 +53,21 @@ Device management
 Registering new device
 ----------------------
 
+Management - Users - New user - MAC Address Authentication - Add additional attributes as required and typically choose a defult group.
+
 
 Changing group of a device
 --------------------------
 
+Management - Users - Edit one user - Groups - Assign new group. Only one group per device is allowed. 
+ 
 Remember: Disconnect this device from the captive portal session after assigning a new group to make sure the changes are immidiately applied
 
 
 Opening blocked device for the rest of today
 --------------------------------------------
+
+Management - Users - Edit one user - Groups - Assign new group -open-for-today is available.
 
 
 Reporting
@@ -61,28 +82,76 @@ All devices with total data volume for last 7 days
 Data volume of one device for last 7 days
 
 
+Misc
+====
+
+Blocking Adult content
+----------------------
+
+Generic blocking of all (most) Adult content sites for all is best done through EasyTomato. Check 'Block Adult Content' from Universal Blocking Rule at the Easy Tomato Groups page.
+
+Todo: How to configure local and OpenDNS settings.
+
+
 Maintenance
 ===========
+
+Changing passwords
+------------------
+
+pfSense root:
+- Admin Web UI - System - User Manager - admin
+- edit /home/marsPortal/config.txt and change PASSWD
+
+daloRADIUS Host: 
+- Depending on operating system
+
+daloRADIUS Virtual Maschine root:
+- Log in with SSH
+- run 'passwd'
+
+daloRADIUS Apache:
+- Log in with SSH
+- Run 'htpasswd -c /var/www/daloradius/.htpasswd admin'
+- edit /home/marsPortal/config.txt and change DR_HTTP_USER
+
+daloRADIUS PHP Web GUI:
+- Connect via HTTP
+- Log into daloRADIUS and go to Config - Operators - Edit operator - Set password
+- edit /home/marsPortal/config.txt and change DR_PASSWD
+
+daloRADIUS MySQL:
+- Direct remote login to the MySQL server process seems to be deactivated, reducing the risk of misusing the default username and password. If you still want to change, somewhere the PHP environment and freeRADIUS component need to be reconfigured. As of now unknown how. But if you manage, then don't forget to update the /home/marsPortal/config.txt file with section DR_MYSQL_USER and _PASSWD.
+
+REMINDER: In all cases, do NOT forget to update both /home/marsPortal/config.txt files on daloRADIUS and pfSense with the new passwords.
+
 
 Backup & Restore
 ----------------
 
 
-Import existing users/devices
------------------------------
+Changing IP addresses
+---------------------
+
+There are a couple of places where IP addresses of the pfSense and daloRADIUS configuration are relevant. When changing subnets they should all be changed together (typically in the following order):
+- IP address of NAS within daloRADIUS: Via daloRADIUS web admin - Management - NAS - change NAS IP/Host
+- Network config of daloRADIUS guest: Go to Virtual Box console of host system and select: Advanced - Networking - Static IP address
+- Network config of daloRADIUS host system: Depending on the host operating system
+- If required, all Access Points within the LAN
+- IP address of LAN interface from pfSense: pfSense Admin GUI - Interfaces - LAN - IP 
+- Check and verify the DHCP server settings to see if they still match. Note that most likely previous static DHCP mappings will be automatically removed.
 
 
 Reset accounting data
 ---------------------
 
-Before removing all accounting data, make sure that there is no active session on the captive portal anymore.
-/home/marsPortal/misc/captiveportal-disconnect-all-users.sh
+If accounting data needs to be removed (most for a fresh start), these statements from a daloRADIUS shell can be invoked:
 
+/home/marsPortal/misc/captiveportal-disconnect-all-users.sh
 mysql -u radius -pradius radius <<EOF
 truncate daily_accounting;
 truncate radacct;
 EOF
-
 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
 
 
@@ -92,4 +161,11 @@ Troubleshooting
 Validating RADIUS connectivity
 ------------------------------
 
+If there is a problem in the configuration between pfSense and daloRADIUS no outside network access is granted. To check if with the RADIUS config itself everything is fine, run this command from a pfSense shell. Make sure at least one device is registered within daloRADIUS with its MAC address and change the MAC and IP addresses of the following command as needed:
+
 radtest 00:25:00:48:60:10 radius 192.168.1.2 0 radius
+
+
+Customizing PHP reports
+=======================
+

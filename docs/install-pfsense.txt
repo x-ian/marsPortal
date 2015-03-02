@@ -102,11 +102,21 @@ cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
 (crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
 (crontab -l ; echo "55 23 * * * /home/marsPortal/misc/daloradius-mail-statistics.sh") | crontab -
 
-Now open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
+Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
+
+Open /home/marsPortal/ssmtp.config and adjust the config values as needed, e.g. with vi /home/marsPortal/ssmtp.config
 
 
 Configurations that require Internet access
 -------------------------------------------
+
+Install pfSense packages 'freeradius2', 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
+
+Stop service freeradius from status - services
+
+Enable transparent Squid for HTTP and activate logging
+
+Enable Lightsquid (Proxy report) reporting
 
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection:
 pkg
@@ -115,17 +125,10 @@ pkg install bash
 pkg install wget
 pkg install curl
 pkg install ssmtp
-#pkg install p5-Net-SMTP-TLS
 rehash
 ln -s /usr/local/bin/bash /bin/bash
 
-Install pfSense packages 'freeradius2', 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
-
-Stop service freeradius from status - services
-
-Enable transparent Squid for HTTP and activate logging
-
-Enable Lightsquid reporting
+Note: It seems that the freeRADIUS package includes an invalid/non-working bash on its own. If the freeRADIUS package is installed after the 'pkg install bash' command, then scripts may not work anymore. Make sure that the bash package is reinstalled, e.g. with 'pkg delete bash; pkg install bash' after (!) the installation of the freeRADIUS package.
 
 
 Optional: Automatic pfSense mails
