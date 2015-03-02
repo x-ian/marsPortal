@@ -19,7 +19,7 @@ To: $RECEIVER
 Subject: $SUBJECT
 MIME-Version: 1.0
 Content-type: multipart/mixed;
-	boundary=\"frontier"
+	boundary=\"frontier\"
 
 --frontier
 Content-type: text/plain

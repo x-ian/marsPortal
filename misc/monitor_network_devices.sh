@@ -40,5 +40,5 @@ if [ -e $LOG ]; then
   echo "(list of monitored devices under pfSense://home/marsPortal/misc/monitor_network_devices.txt)" >> $LOG
   SUBJECT="`echo "pfSense: Internal network devices check : "` `date +%Y%m%d-%H%M`"
 
-  $BASEDIR/misc/send_mail.sh "$SUBJECT" "`cat $LOG`"
+  $BASEDIR/send_mail.sh "$SUBJECT" "`cat $LOG`"
 fi
