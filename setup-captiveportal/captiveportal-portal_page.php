@@ -5,6 +5,8 @@
 	</table>
 </span> 
 
+<hr/><br/>
+
 <div align="center">
 	<?php
 		$ip=$_SERVER['REMOTE_ADDR'];
@@ -16,7 +18,8 @@
 				break;
 			case 1:
 				// not yet registered
-				echo "<b>Unknown device. Please consult the IT team.</b>";
+				exec("/home/marsPortal/daloradius-integration/echo-add-user-link.sh " . $ip . " $PORTAL_REDIRURL$", $out, $exit);
+				echo "<b>Unknown device. Please consult the IT team" . implode(" ", $out) . ".</b>";
 				echo "<p>Once the IT team has given access, please try again: <a href=$PORTAL_REDIRURL$>$PORTAL_REDIRURL$</a></p>";
 				echo "<br/><br/><p>Exit code: $exitCode</p>";
 				echo "<p>   (Reason: " . implode(" ", $output) . ")</p>";

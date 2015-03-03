@@ -93,6 +93,10 @@ Generic blocking of all (most) Adult content sites for all is best done through 
 Todo: How to configure local and OpenDNS settings.
 
 
+Block access to any domain, like facebook
+-----------------------------------------
+
+
 Maintenance
 ===========
 
