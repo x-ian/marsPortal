@@ -18,7 +18,9 @@
 				break;
 			case 1:
 				// not yet registered
-				exec("/home/marsPortal/daloradius-integration/echo-add-user-link.sh " . $ip . " $PORTAL_REDIRURL$", $out, $exit);
+//				$redir = "$PORTAL_REDIRURL$";
+				$redir = $_GET['redirurl']; 
+				exec("/home/marsPortal/daloradius-integration/echo-add-user-link.sh " . $ip . " $redir", $out, $exit);
 				echo "<b>Unknown device. Please consult the IT team" . implode(" ", $out) . ".</b>";
 				echo "<p>Once the IT team has given access, please try again: <a href=$PORTAL_REDIRURL$>$PORTAL_REDIRURL$</a></p>";
 				echo "<br/><br/><p>Exit code: $exitCode</p>";

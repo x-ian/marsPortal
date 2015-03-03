@@ -60,7 +60,12 @@
 					<select name="group">
 						<?php
 							while ($row = mysql_fetch_assoc($all_groups)) {
-								echo "<option value=" . $row['groupname'] . ">" . $row['groupname'] . "</option>";
+								$groupname = $row['groupname'];
+								if ($groupname == "Users") {
+									echo "<option value=" . $groupname . " selected>" . $groupname . "</option>";
+								} else {
+									echo "<option value=" . $groupname . ">" . $groupname . "</option>";
+								}
 							}
 						?>						
 					</select>
