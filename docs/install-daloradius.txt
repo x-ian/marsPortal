@@ -84,6 +84,8 @@ Manual configs
 Execute the following block in a SSH shell:
 
 ln -s /var/www/daloradius/.htaccess /var/www/mars/restricted/.htaccess
+ln -s /var/www/daloradius/.htaccess /var/www/mars/admin/.htaccess
+
 rm /etc/cron.d/cron-apt # avoids system load while checking for updates
 ln -s /home/marsPortal/setup-daloradius/www/mars /var/www/mars
 ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /etc/freeradius/modules/captiveportal-disconnect-user

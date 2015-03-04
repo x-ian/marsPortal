@@ -5,7 +5,8 @@
 		SELECT 
 	distinct(radacct.UserName) as username, 
 	radusergroup.groupname as groupname, 
-	userinfo.lastname as name, 
+	CONCAT_WS(' ', userinfo.firstname, userinfo.lastname) as name, 
+	userinfo.department as department, 
 	userinfo.email as email, 
 	userinfo.company as company, 
 	userinfo.address as address, 

@@ -4,7 +4,7 @@ BASEDIR=/home/marsPortal
 source $BASEDIR/config.txt
 
 FILE=/tmp/statistics-`date +%Y%m%d`.html
-/usr/local/bin/curl --retry 2 -s -o $FILE `echo $DR_SERVER`/mars/statistics.php
+/usr/local/bin/curl --retry 2 -s -o $FILE `echo $DR_SERVER`/mars/admin/statistics.php
 echo $? > $FILE.exitcode
 
 SUBJECT="`echo "pfSense $ZONE: Users statistics: "` `date +%Y%m%d-%H%M`"

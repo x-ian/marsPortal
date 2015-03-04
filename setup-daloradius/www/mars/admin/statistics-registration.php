@@ -3,7 +3,7 @@
   
 
 <?php
-	echo "<table><tr><th></th><th>Today ($today)</th><th>Yesterday ($yesterday)</th><th>Last 7 days (from $daysago7)</th><th>Last 30 days (from $daysago30)</th></tr>";
+	echo "<table><tr><th></th><th>Today ($today)</th><th>Yesterday ($yesterday)</th><th>Last 7 days (from/at $daysago7)</th><th>Last 30 days (from/at $daysago30)</th></tr>";
 	
   // active
   function active($startday, $endday) {
@@ -51,7 +51,12 @@ mysql_free_result($active_30daysago);
 
   // newly registered
   function registered($startday, $endday) {
-	return 'SELECT radusergroup.groupname as groupname, count(distinct(radcheck.username)) as count FROM radcheck LEFT JOIN radusergroup ON radcheck.username=radusergroup.username LEFT JOIN userinfo ON radcheck.username=userinfo.username where creationdate > "' . $startday . '" and creationdate <  date(date_add("' . $endday . '", INTERVAL +1 DAY)) GROUP by groupname;';
+	return '
+		SELECT radusergroup.groupname as groupname, count(distinct(radcheck.username)) as count 
+		FROM radcheck LEFT JOIN radusergroup ON radcheck.username=radusergroup.username 
+			LEFT JOIN userinfo ON radcheck.username=userinfo.username 
+				WHERE creationdate > "' . $startday . '" and creationdate <  date(date_add("' . $endday . '", INTERVAL +1 DAY)) 
+		GROUP by groupname;';
   }
 echo "<tr>";
 echo "<td>Registered</td>";

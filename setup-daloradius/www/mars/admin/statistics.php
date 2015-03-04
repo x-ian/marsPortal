@@ -27,7 +27,7 @@ function uservolumelink($mac, $linktext) {
 }
 
 function deviceinfo($row, $upordown) {
-    echo uservolumelink($row['username'], $row[$upordown]) . " (" . userdetailslink($row['username'], $row['name']). " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";	
+    echo uservolumelink($row['username'], $row[$upordown]) . " (" . userdetailslink($row['username'], $row['name']). " " . $row['department']. " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";	
 }
 
 ?>

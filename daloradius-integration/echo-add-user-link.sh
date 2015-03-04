@@ -8,4 +8,4 @@ REDIRURL=$2
 
 MAC=$($BASEDIR/daloradius-integration/resolve_mac_address.sh $IP)
 
-echo "<a href=`echo $DR_SERVER`mars/admin/add-user.php?mac=`echo $MAC`&redirurl=`echo $REDIRURL`>+</a>"
+echo "<a href=`echo $DR_SERVER`mars/add-user/add-user.php?mac=`echo $MAC`&redirurl=`echo $REDIRURL`>+</a>"

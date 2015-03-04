@@ -24,7 +24,7 @@ Each RADIUS group can have these following attributes
 - WISPr-Bandwidth-Max-Down: Max download bandwidth (bits per second)
 - WISPr-Bandwidth-Max-Up: Max upload bandwith (bits per second)
 
-- Session Timeout: Time after which a Captive Portal sessions expires (in seconds, needs to be smaller than DHCP lease time)
+- Session Timeout: Time after which a Captive Portal sessions expires (in seconds, needs to be smaller than DHCP lease time; 43200 for 12 hours is a reasonable value)
 
 - mars-Max-Concurrent-Devices: Number of concurrent connected devices (session) per group
 
@@ -44,7 +44,7 @@ Work and lunch hours times need to be changed through the crontab of the daloRAD
 
 For each period (work and lunch times) there is one matching entry for the beginning of the period, typically at 08:00 am and 12:30. The relevant lines contain the invocation of the script daily_accounting with the parameter 'work_offset' and 'lunch_offset'.
 
-Throughout these periods there are the lines with the call of daily_accounting with the parameter 'work_total' and 'lunch_total'. These calls need to be made throughout the whole period beginning with '_offset' up to the end. If work and lunch periods do not start and/or end full hours, then the '_total' calls might be split across two lines.
+Throughout these periods there are the lines containing the calls of daily_accounting with the parameters 'work_total' and 'lunch_total'. These calls need to be made throughout the whole period beginning with '_offset' up to the end. If work and lunch periods do not start and/or end full hours, then the '_total' calls might be split across two lines.
 
 
 Device management
@@ -54,6 +54,8 @@ Registering new device
 ----------------------
 
 Management - Users - New user - MAC Address Authentication - Add additional attributes as required and typically choose a defult group.
+
+If enabled in the captive-portal_page.php, devices can also be added directly from the page of the devices indicating that it is an unknown device.
 
 
 Changing group of a device
@@ -70,31 +72,23 @@ Opening blocked device for the rest of today
 Management - Users - Edit one user - Groups - Assign new group -open-for-today is available.
 
 
-Reporting
-=========
-
-Top 10 devices
-
-All registered devices
-
-All devices with total data volume for last 7 days
-
-Data volume of one device for last 7 days
-
-
 Misc
 ====
 
 Blocking Adult content
 ----------------------
 
-Generic blocking of all (most) Adult content sites for all is best done through EasyTomato. Check 'Block Adult Content' from Universal Blocking Rule at the Easy Tomato Groups page.
+Generic blocking of all (most) Adult content sites for all is best done through EasyTomato. Check 'Block Adult Content' from Universal Blocking Rule at the Easy Tomato Groups page. This feature uses (parts of) the OpenDNS Family shield (a commercial DNS server), thus an error message coming from OpenDNS is displayed when accessing such pages.
 
-Todo: How to configure local and OpenDNS settings.
+Notes: Ensure, that all client devices are using the EasyTomato as a DNS server. Most often done by having the DHCP server giving out the IP address of EasyTomato. If a client does not use the EasyTomato DNS server, then access will not be blocked. To tighten up the system, all DNS traffic to other DNS servers could be blocked, e.g. via a pfSense Firewall rule.
 
 
 Block access to any domain, like facebook
 -----------------------------------------
+
+If access to specific sites should be blocked during specific times of the day, create new rule(s) for the unclassified devices group within EasyTomato. Besides selecting days and times multiple domain names (or parts of it) can be added, e.g. facebook, twitter, ... (each in one line)
+
+The same notes as above for the blocking of adult content regarding DNS servers apply. Due to the implementation details of this feature, access to these sites will often (especially for HTTPS) time out without a proper notice to the client device that access to these pages are blocked.
 
 
 Maintenance
@@ -137,19 +131,22 @@ Backup & Restore
 Changing IP addresses
 ---------------------
 
-There are a couple of places where IP addresses of the pfSense and daloRADIUS configuration are relevant. When changing subnets they should all be changed together (typically in the following order):
-- IP address of NAS within daloRADIUS: Via daloRADIUS web admin - Management - NAS - change NAS IP/Host
+There are a couple of places where IP addresses of the pfSense and daloRADIUS configuration are relevant. When changing IP addresses and/or subnets they should all be changed together (typically in the following order):
+- IP address of NAS configuration within daloRADIUS: Via daloRADIUS web admin - Management - NAS - change NAS IP/Host
 - Network config of daloRADIUS guest: Go to Virtual Box console of host system and select: Advanced - Networking - Static IP address
 - Network config of daloRADIUS host system: Depending on the host operating system
 - If required, all Access Points within the LAN
+- RADIUS server IP within pfSense Captive Portal setting.
 - IP address of LAN interface from pfSense: pfSense Admin GUI - Interfaces - LAN - IP 
 - Check and verify the DHCP server settings to see if they still match. Note that most likely previous static DHCP mappings will be automatically removed.
+- Make sure that the files /home/marsPortal/config.txt om both the daloRADIUS and pfSense system contain the recent values.
+- Reboots of the systems are usually not required, but won't hurt either.
 
 
 Reset accounting data
 ---------------------
 
-If accounting data needs to be removed (most for a fresh start), these statements from a daloRADIUS shell can be invoked:
+If accounting data needs to be removed (e.g. for a fresh start), these statements from a daloRADIUS shell can be invoked:
 
 /home/marsPortal/misc/captiveportal-disconnect-all-users.sh
 mysql -u radius -pradius radius <<EOF
@@ -158,6 +155,7 @@ truncate daily_accounting_v2;
 truncate radacct;
 EOF
 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
+/home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_offset
 
 
 Troubleshooting
@@ -169,6 +167,24 @@ Validating RADIUS connectivity
 If there is a problem in the configuration between pfSense and daloRADIUS no outside network access is granted. To check if with the RADIUS config itself everything is fine, run this command from a pfSense shell. Make sure at least one device is registered within daloRADIUS with its MAC address and change the MAC and IP addresses of the following command as needed:
 
 radtest 00:25:00:48:60:10 radius 192.168.1.2 0 radius
+
+
+Problems trying to connect to DHCP
+----------------------------------
+
+When (Windows) devices have problems picking up changed DHCP servers, it is worthwhile to try a 'ipconfig /release' followed by a 'ipconfig /renew' from the command prompt.
+
+
+Reporting
+=========
+
+Top 10 devices
+
+All registered devices
+
+All devices with total data volume for last 7 days
+
+Data volume of one device for last 7 days
 
 
 Customizing PHP reports
