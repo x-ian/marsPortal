@@ -1,3 +1,12 @@
+<span style="font-variant:small-caps; font-size:200%">
+	<table align="center">
+		<tr><td><img src="/captiveportal-mars.jpg" /></td><td>Portal</td></tr>
+	</table>
+</span> 
+
+<hr/><br/>
+
+
 <?php $username = $_GET['username']; ?>
 
 <span style="font-variant:small-caps; font-size:200%">
