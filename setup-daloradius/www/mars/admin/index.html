@@ -1,9 +1,13 @@
 <span style="font-variant:small-caps; font-size:200%">
-	<p align="center">
-		mars portal links
-	</p>
-	<br/>
+	<table align="center">
+		<tr><td><img src="../captiveportal-mars.jpg" /></td><td>Portal</td></tr>
+	</table>
 </span>
+
+<hr/>
+
+<div align="center">
+	
 <table>
 	<tr>
 	<tr>
@@ -11,12 +15,15 @@
 			<b>pfSense</b>
 		</td>
 		<td>
-			<a href="http://pfsense.mars:3000/sortDataThpt.html?showH=1&showL=2&col=1">Network throughput - Local hosts download</a> (slow! don't leave page open!)<br/>
-			<a href="http://pfsense.mars:3000/sortDataThpt.html?col=1&showH=1&showL=1">Network throughput - Local hosts upload</a> (slow! don't leave page open!)<br/>
-			<a href="https://pfsense.mars/">pfSense Dashboard </a> (slow! don't leave page open!)<br/>
-			<a href="https://pfsense.mars/lightsquid/index.cgi">Squid user access report</a> (only HTTP traffic)<br/>
-			<a href="https://pfsense.mars/status_rrd_graph.php?cat=captiveportal">pfSense Captive Portal History </a><br/>
-			<a href="https://pfsense.mars/status_rrd_graph.php?cat=traffic">pfSense Traffic History </a><br/><br/>
+			<a href="https://192.168.0.1/">Dashboard</a> (slow, limit # of concurrent accesses)<br/>
+			<a href="https://192.168.0.1/status_graph.php?if=wan">WAN Throughput</a><br/>
+			<a href="https://192.168.0.1/status_captiveportal.php">Captive Portal Current Sessions</a><br/>
+			<a href="https://192.168.0.1/status_rrd_graph.php?cat=captiveportal">Captive Portal History (RRD) </a><br/>
+			<a href="https://192.168.0.1/status_rrd_graph.php?cat=traffic">Traffic History (RRD)</a><br/>
+			<a href="https://192.168.0.1/status_rrd_graph.php">Other Graphs (RRD)</a><br/>
+			<a href="https://192.168.0.1/lightsquid/index.cgi">Squid user access report</a> (only HTTP traffic)<br/>
+			<a href="http://192.168.0.1:3000/">nTop<br/>
+			<br/>
 		<td>
 	</tr>
 	<tr>
@@ -24,7 +31,7 @@
 			<b>Easy Tomato</b> 
 		</td>
 		<td>
-			<a href="http://172.16.1.1/bandwidth.html">Easy Tomato Bandwidth</a><br/><br/>
+			<a href="http://192.168.3.1/bandwidth.html">Bandwidth Graph</a><br/><br/>
 		</td>
 	</tr>
 	<tr>
@@ -33,7 +40,7 @@
 		</td>
 		<td>
 			<a href="/daloradius/mng-list-all.php">Device management</a><br/>
-			<a href="/daloradius/mng-rad-profiles.php">Profile/Group management</a><br/>
+			<a href="/daloradius/http://192.168.0.2/daloradius/mng-rad-profiles-list.php">Profile/Group management</a><br/>
 			<a href="/daloradius/rep-main.php">Generic Reporting</a><br/>
 			<a href="/daloradius/graph-main.php">Generic Graphs</a><br/><br/>
 		</td>
@@ -43,9 +50,10 @@
 			<b>mars portal</b>
 		</td>
 		<td>
-			<a href="/mars/statistics.php">Usage statistics</a> (slow! don't run too often!)<br/>
-			<a href="/mars/users.php">All users</a><br/>
-			<a href="/mars/users_with_volume.php">All users with volume of last 7 days</a><br/>
+			<a href="/mars/admin/statistics.php">Usage statistics</a> (slow! don't run too often!)<br/>
+			<a href="/mars/admin/users.php">All users</a><br/>
+			<a href="/mars/admin/users_with_volume.php">All users with volume of last 7 days</a><br/>
 		</td>
 	</tr>
 </table>
+</div>

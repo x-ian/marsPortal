@@ -166,7 +166,7 @@ Validating RADIUS connectivity
 
 If there is a problem in the configuration between pfSense and daloRADIUS no outside network access is granted. To check if with the RADIUS config itself everything is fine, run this command from a pfSense shell. Make sure at least one device is registered within daloRADIUS with its MAC address and change the MAC and IP addresses of the following command as needed:
 
-radtest 00:25:00:48:60:10 radius 192.168.1.2 0 radius
+radtest 00:25:00:48:60:10 radius 192.168.0.2 0 radius
 
 
 Problems trying to connect to DHCP

@@ -18,7 +18,6 @@
 				break;
 			case 1:
 				// not yet registered
-//				$redir = "$PORTAL_REDIRURL$";
 				$redir = $_GET['redirurl']; 
 				exec("/home/marsPortal/daloradius-integration/echo-add-user-link.sh " . $ip . " $redir", $out, $exit);
 				echo "<b>Unknown device. Please consult the IT team" . implode(" ", $out) . ".</b>";
@@ -46,7 +45,7 @@
 				break;
 			case 5:
 				// data bundle during business hours exceeded
-				echo "<p><b>Your device has reached the maximum daily data bundle during working hours (Monday to Friday from 7 am to 6 pm). Please try again tomorrow.</b></p>";
+				echo "<p><b>Your device has reached the maximum daily data bundle during working hours (Monday to Friday from 8 am to 4:30 pm). Please try again tomorrow.</b></p>";
 				echo "<p>Exit code: $exitCode - (Reason: " . implode(" ", $output) . ")</p>";
 				exec("/home/marsPortal/daloradius-integration/echo-user-data-statistics-link.sh " . $ip, $out, $exit);
 				echo "<p>In doubt, check your data usage of the last 7 days: " . implode(" ", $out) . "</p>";

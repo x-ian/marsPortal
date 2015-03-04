@@ -64,7 +64,7 @@ select * from (
 			group by UserName
 	) 
 	union 
-	(select ui.username, "", "", "", "", "", "", "0" as download, "0" as upload from userinfo ui) 
+	(select ui.username, "", "", "", "", "", "", "", "0" as download, "0" as upload from userinfo ui) 
 ) as t1 group by username;
 ';  
   }
