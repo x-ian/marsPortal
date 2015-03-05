@@ -81,9 +81,10 @@ Run command and make sure the line 'Starting FreeRADIUS' ends with an OK: /etc/i
 Manual configs
 --------------
 
+Manually edit /etc/freeradius/sql.conf and change entry of num_sql_socks to 'num_sql_socks = 15'.
+
 Execute the following block in a SSH shell:
 
-ln -s /var/www/daloradius/.htaccess /var/www/mars/restricted/.htaccess
 ln -s /var/www/daloradius/.htaccess /var/www/mars/admin/.htaccess
 
 rm /etc/cron.d/cron-apt # avoids system load while checking for updates

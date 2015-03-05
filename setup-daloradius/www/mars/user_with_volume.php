@@ -77,3 +77,5 @@ while ($row = mysql_fetch_assoc($all_traffic)) {
 mysql_free_result($all_traffic);
 ?>
 </table>
+<br/>
+(Numbers updated every 10 minutes)

@@ -23,7 +23,7 @@ function userdetailslink($mac, $name) {
 }
 
 function uservolumelink($mac, $linktext) {
-  return '<a href="/mars/user_with_volume?username=' . $mac . '">' . $linktext . '</a>';
+  return '<a href="/mars/user_with_volume-v1?username=' . $mac . '">' . $linktext . '</a>';
 }
 
 function deviceinfo($row, $upordown) {
