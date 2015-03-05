@@ -3,7 +3,7 @@
   function top_upordown_work($startday, $endday, $topX, $upordown) {
 	return "
 	SELECT 
-		daily_accounting_v2.username, 
+		daily_accounting.username, 
 		radusergroup.groupname as groupname, 
 		CONCAT_WS(' ', userinfo.firstname, userinfo.lastname) as name, 
 		userinfo.department as department, 
@@ -11,25 +11,25 @@
 		userinfo.company as company, 
 		userinfo.address as address, 
 		userinfo.city as city, 
-		ROUND((SUM(work_total_input) - SUM(work_offset_input) - SUM(lunch_total_input) + SUM(lunch_offset_input)) / 1000000) as Upload, 
-		ROUND((SUM(work_total_output) - SUM(work_offset_output) - SUM(lunch_total_output) + SUM(lunch_offset_output)) / 1000000) as Download 
-	FROM daily_accounting_v2
-		LEFT JOIN radusergroup ON daily_accounting_v2.username=radusergroup.username 
-		LEFT JOIN userinfo ON daily_accounting_v2.username=userinfo.username 
-	WHERE daily_accounting_v2.day >= \"" . $startday . "\" AND daily_accounting_v2.day <= \"" . $endday . "\" 
-	GROUP BY daily_accounting_v2.username ORDER BY " . $upordown . " DESC LIMIT " . $topX . ";";  
+		ROUND((SUM(inputoctets_work_end) - SUM(inputoctets_work_beg)) / 1000000) as Upload, 
+		ROUND((SUM(outputoctets_work_end) - SUM(outputoctets_work_beg)) / 1000000) as Download 
+	FROM daily_accounting 
+		LEFT JOIN radusergroup ON daily_accounting.username=radusergroup.username 
+		LEFT JOIN userinfo ON daily_accounting.username=userinfo.username 
+	WHERE daily_accounting.day >= \"" . $startday . "\" AND daily_accounting.day <= \"" . $endday . "\" 
+	GROUP BY daily_accounting.username ORDER BY " . $upordown . " DESC LIMIT " . $topX . ";";  
   }
   
   // total up or download work
   function total_upordown_work($startday, $endday, $upordown) {
 	  return "SELECT 
-		  ROUND((SUM(work_total_input) - SUM(work_offset_input) - SUM(lunch_total_input) + SUM(lunch_offset_input)) / 1000000) as Upload,
-		  ROUND((SUM(work_total_output) - SUM(work_offset_output) - SUM(lunch_total_output) + SUM(lunch_offset_output)) / 1000000) as Download
-	   FROM daily_accounting_v2 WHERE day >= \"" . $startday . "\" AND day <= \"" . $endday . "\";";  
+		  ROUND((SUM(inputoctets_work_end) - SUM(inputoctets_work_beg)) / 1000000) as Upload,
+		  ROUND((SUM(outputoctets_work_end) - SUM(outputoctets_work_beg)) / 1000000) as Download
+	   FROM daily_accounting WHERE day >= \"" . $startday . "\" AND day <= \"" . $endday . "\";";  
   }
 
 	function generateworktraffic($upordown, $today, $yesterday, $daysago7, $daysago30) {
-		echo "<hr/><p>Top " . $upordown . "s during working hours (Mo-Fr 8:00-12:30 and 13:30-16:30)</p>";
+		echo "<hr/><p>Top " . $upordown . "s during working hours (Mo-Fr 8:00 to 16:30)</p>";
 		
 		$upordown_work_today = query(top_upordown_work($today, $today, 10, $upordown));
 		$upordown_work_yesterday = query(top_upordown_work($yesterday, $yesterday, 10, $upordown));

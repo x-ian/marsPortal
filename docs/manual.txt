@@ -186,6 +186,8 @@ All devices with total data volume for last 7 days
 
 Data volume of one device for last 7 days
 
+Balance of current device: http://192.168.10.1:8002/captiveportal-device-balance-redirect.php
+
 
 Customizing PHP reports
 =======================

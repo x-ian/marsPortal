@@ -23,7 +23,7 @@ function userdetailslink($mac, $name) {
 }
 
 function uservolumelink($mac, $linktext) {
-  return '<a href="/mars/user_with_volume-v2.php?username=' . $mac . '">' . $linktext . '</a>';
+  return '<a href="/mars/user_with_volume?username=' . $mac . '">' . $linktext . '</a>';
 }
 
 function deviceinfo($row, $upordown) {
@@ -42,12 +42,12 @@ function deviceinfo($row, $upordown) {
 <?php
 require dirname(__FILE__)."/statistics-registration.php";
 
-require dirname(__FILE__)."/statistics-work.php";
+require dirname(__FILE__)."/statistics-work-v1.php";
 
 generateworktraffic('Download', $today, $yesterday, $daysago7, $daysago30);
 generateworktraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
  
-require dirname(__FILE__)."/statistics-daily.php";
+require dirname(__FILE__)."/statistics-daily-v1.php";
 	
 generatedailytraffic('Download', $today, $yesterday, $daysago7, $daysago30);
 generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);

@@ -98,7 +98,7 @@ mysql_free_result($registered_30daysago);
   
   
 echo "<tr>";
-echo "<td>Ever reg. (cumulative)</td>";
+echo "<td>Ever reg. (cumul.)</td>";
 echo "<td>";
 $ever_today = query(ever($today));
 while ($row = mysql_fetch_assoc($ever_today)) {

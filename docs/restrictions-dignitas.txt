@@ -1,0 +1,13 @@
+Current restrictions within Dignitas network
+============================================
+
+As of 05 March 2015 (implemented on both EasyTomato and pfSense/RADIUS)
+- One group for all devices (Users)
+- Work hours from Mo-Fr 8:00 - 12:30 and 13:30 - 17:00
+- Rest are non-work hours (before and after work hours, weekends)
+- 200 MB download and 100 MB upload bundle during work hours
+- Bandwith limition during work with 400 Kbits/s downlink and 200 Kbits/s uplink rate
+- No restrictions during non-work hours (neither bundle nor bandwidth limitation)
+- Social and streaming sites like facebook, twitter, and youtube blocked from Mo-Fr 8:00 - 16:30
+- Blocking of adult content at all times
+- Daily reporing with Top 10 up- and download devices
