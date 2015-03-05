@@ -24,7 +24,7 @@
                 }
         }
 
-        # accounting for full day excluding lunch hour, preventing re-connect
+        # accounting for full day, preventing re-connect
         update control {
                 # based on content in table daily_accounting, which is updated by cronjobs
                 My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
