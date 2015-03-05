@@ -30,7 +30,7 @@ if [ $? -eq 0 ]; then
   exit 2
 fi
 
-echo $RADTEST | grep "usage time has been reached" >/dev/null
+echo $RADTEST | grep "Daily data bundle exceeded" >/dev/null
 if [ $? -eq 0 ]; then
   echo "Data volume reached"
   echo "$MAC - $IP - 3 - Data volume reached - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
