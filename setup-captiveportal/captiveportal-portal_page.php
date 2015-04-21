@@ -10,7 +10,7 @@
 <div align="center">
 	<?php
 		$ip=$_SERVER['REMOTE_ADDR'];
-		exec("/home/marsPortal/daloradius-integration/captive-portal-check_device_status.sh " . $ip, $output, $exitCode);				
+		exec("/home/marsPortal/freeradius-integration/captive-portal-check_device_status.sh " . $ip, $output, $exitCode);				
 		
 		switch ($exitCode) {
 			case 0:
