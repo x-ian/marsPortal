@@ -3,11 +3,12 @@
 IP=$1
 
 BASEDIR=`dirname $0`
-source $BASEDIR/../config.txt
+PORTALDIR=/home/marsPortal
+source $PORTALDIR/config.txt
 
 STATUS_LOG=/home/client_activities_log/status-`date +%Y%m%d`.log
 
-MAC=$($BASEDIR/resolve_mac_address.sh $IP)
+MAC=$($PORTALDIR/misc/resolve_mac_address.sh $IP)
 
 RADTEST=$(radtest $MAC radius localhost 0 testing123) >/dev/null
 
