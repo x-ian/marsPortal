@@ -53,7 +53,7 @@ if [ $? -eq 0 ]; then
 	GROUP=Users
 fi
 
-$BASEDIR/freeradius-new-user-with-mac-auth.sh $MAC "" "$NAME" "$EMAIL" "$OWNER" "$GROUP" "$IP" "$DHCPHOSTNAME" "$MAC_VENDOR" "$PRIMARY_DEVICE"
+$BASEDIR/new-user-with-mac-auth.sh $MAC "" "$NAME" "$EMAIL" "$OWNER" "$GROUP" "$IP" "$DHCPHOSTNAME" "$MAC_VENDOR" "$PRIMARY_DEVICE"
 
 echo "$MAC - $IP - x - newly registered - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
 
