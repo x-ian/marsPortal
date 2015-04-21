@@ -46,7 +46,7 @@ After starting the VM and (re-) configure the network interface (typically a sta
 
 SSH into the system (root/daloradius as default username/password) and run 'dpkg-reconfigure tzdata' from command line as root and set correct timezone
 
-Set timezone for PHP to date.timezone = 'Africa/Blantyre' (or 'Europe/Berlin') in /etc/php5/apache2/php.ini
+Set timezone for PHP to date.timezone = 'Africa/Blantyre' (or 'Europe/Berlin') in /etc/php5/apache2/php.ini and /etc/php/cli/php.ini
 
 Copy and extract marsPortal.tgz to /home/marsPortal
 
