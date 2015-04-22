@@ -1,5 +1,5 @@
 <? 
-include '/mars/menu.php'; 
+include '../menu.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->
@@ -8,7 +8,7 @@ include '/mars/menu.php';
 <? 
 // generated with http://www.phpscaffold.com/
 
-include '/mars/config.php'; 
+include '../config.php'; 
 
 echo "<table>"; 
 echo "<tr>"; 
@@ -40,7 +40,7 @@ echo "<td>" . nl2br( $row['registration_date']) . "</td>";
 echo "<td>" . nl2br( $row['initial_ip']) . "</td>";  
 echo "<td>" . nl2br( $row['hostname']) . "</td>";  
 echo "<td>" . nl2br( $row['notes']) . "</td>";  
-echo "<td><a href=edit.php?id={$row['id']}>Edit</a></td><td><a href=../user_with_volume.php.php?username={$row['username']}>Transfer History</a></td><td><a href=delete.php?id={$row['id']}>Delete</a></td> "; 
+echo "<td><a href=edit.php?id={$row['id']}>Edit</a></td><td><a href=../user_with_volume.php?username={$row['username']}>Transfer History</a></td><td><a href=delete.php?id={$row['id']}>Delete</a></td> "; 
 echo "</tr>"; 
 } 
 echo "</table>"; 
