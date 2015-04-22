@@ -1,0 +1,4 @@
+AuthName "Authentication Base"
+AuthType Basic
+AuthUserFile /var/www/mars/add-user/.htpasswd
+Require valid-user
