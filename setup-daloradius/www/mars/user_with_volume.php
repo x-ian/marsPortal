@@ -17,7 +17,7 @@
 </span>
 
 <?php
-  mysql_connect('localhost','radius','radius') or die('Could not connect to mysql server.');
+  mysql_connect('localhost','radius','radpass') or die('Could not connect to mysql server.');
   mysql_select_db('radius');
 
   function query($query) {

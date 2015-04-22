@@ -38,7 +38,7 @@ echo "<table><tr><th>Username</th><th>Group</th><th>Name</th><th>Department</th>
 		userinfo.address as hostname, 
 		userinfo.city as vendor, 
 		userinfo.notes as notes, 
-		userinfo.creationdate as creationdate 
+		userinfo.registrationdate as creationdate 
 	FROM radcheck 
 		LEFT JOIN radusergroup ON radcheck.username=radusergroup.username 
 		LEFT JOIN userinfo ON radcheck.username=userinfo.username 

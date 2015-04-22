@@ -1,6 +1,15 @@
 NOTES ON INSTALLATION OF PFSENSE
 ================================
 
+Prearing memstick installation
+------------------------------
+
+MacOS
+diskutil list
+diskutil umount /dev/diskX
+gzcat ~/Downloads/pfSense-memstick-2.2.2-RELEASE-amd64.img.gz | sudo dd of=/dev/diskX bs=16k
+
+
 Installation
 ------------
 
@@ -129,6 +138,15 @@ rehash
 ln -s /usr/local/bin/bash /bin/bash
 
 Note: It seems that the freeRADIUS package includes an invalid/non-working bash on its own. If the freeRADIUS package is installed after the 'pkg install bash' command, then scripts may not work anymore. Make sure that the bash package is reinstalled, e.g. with 'pkg delete bash; pkg install bash' after (!) the installation of the freeRADIUS package.
+
+
+Install marsPortal PHP
+----------------------
+
+touch /etc/php_dynamodules/mysql
+/etc/rc.php_ini_setup
+
+ln -s /home/marsPortal/setup-daloradius/www/mars/ /usr/local/www/mars
 
 
 Optional: Automatic pfSense mails

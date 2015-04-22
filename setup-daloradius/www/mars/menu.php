@@ -18,12 +18,13 @@
     <div id="side">
       <ul id="ul1">
         <li><a href="/mars/userinfo/list.php">Manage users/devices</a></li>
-        <li><a href="mars/group/list.php">Manage groups<a></li>
+        <li><a href="/mars/group/list.php">Manage groups<a></li>
         <li>Reports</li>
       	<ul id="ul2">
-       		<li><a href="marsportal-features.html">Users with volume</a></li>
-       		<li><a href="marsportal-optional.html">Statistics</a></li>
+       		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
+       		<li><a href="/mars/reports/users_with_volume.php">Users with daily total volume</a></li>
 		</ul>
+        <li><a href="mars/admin.php">Admin<a></li>
         <li>Additional links</li>
       	<ul id="ul2">
        		<li><a href="/index.php">pfSense Dashboard</a></li>

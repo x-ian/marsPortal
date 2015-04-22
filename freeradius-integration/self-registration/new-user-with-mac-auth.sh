@@ -17,11 +17,9 @@ HOSTNAME=$8
 MAC_VENDOR=$9
 PRIMARY_DEVICE=${10}
 
-#INSERT INTO radcheck (id,Username,Attribute,op,Value) VALUES (0, '111', 'Auth-Type', ':=', 'Accept') 
-#INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('111', 'Users',0) 
-#INSERT INTO userinfo (id, username, firstname, lastname, email, department, company, workphone, homephone, mobilephone, address, city, state, country, zip, notes, changeuserinfo, portalloginpassword, enableportallogin, creationdate, creationby, updatedate, updateby) VALUES (0, '111', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', '', '0', '2015-04-21 02:27:14', 'administrator', NULL, NULL) 
-
 /usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius <<EOF
-	INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ("$MAC", "Auth-Type", ":=", "Accept");
-	INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ("$MAC", "$GROUP",0);
+	-- TODO ensure uniqueness
+	INSERT INTO radcheck (Username, Attribute, op, Value) VALUES ("$MAC", "Auth-Type", ":=", "Accept");
+	INSERT INTO radusergroup (UserName, GroupName, priority) VALUES ("$MAC", "$GROUP",0);
+	INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ("$MAC", $FIRSTNAME, "$LASTNAME", "$EMAIL", "", "$ORGANISATION", "$IP", "$HOSTNAME", "$MAC_VENDOR", "$NOTES");
 EOF

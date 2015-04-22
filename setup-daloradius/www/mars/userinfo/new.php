@@ -1,5 +1,9 @@
 <? 
-include('config.php'); 
+include '/mars/menu.php'; 
+?>
+
+<? 
+include('/mars/config.php'); 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
 $sql = "INSERT INTO `userinfo` ( `username` ,  `firstname` ,  `lastname` ,  `email` ,  `department` ,  `organisation` ,  `initial_ip` ,  `hostname` ,  `registration_date` ,  `mac_vendor` ,  `notes`  ) VALUES(  '{$_POST['username']}' ,  '{$_POST['firstname']}' ,  '{$_POST['lastname']}' ,  '{$_POST['email']}' ,  '{$_POST['department']}' ,  '{$_POST['organisation']}' ,  '{$_POST['initial_ip']}' ,  '{$_POST['hostname']}' ,  '{$_POST['registration_date']}' ,  '{$_POST['mac_vendor']}' ,  '{$_POST['notes']}'  ) "; 

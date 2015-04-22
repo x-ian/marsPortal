@@ -1,5 +1,9 @@
 <? 
-include('config.php'); 
+include '/mars/menu.php'; 
+?>
+
+<? 
+include('/mars/config.php'); 
 if (isset($_GET['id']) ) { 
 $id = (int) $_GET['id']; 
 if (isset($_POST['submitted'])) { 

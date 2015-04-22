@@ -4,7 +4,7 @@ BASEDIR=/home/marsPortal
 
 source $BASEDIR/config.txt
 
-PUBLIC_IP="1.2.3.4" #"wget http://www.marsmonitoring.com/whatismyip"
+PUBLIC_IP="`wget http://www.marsmonitoring.com/whatismyip`"
 FIRST_MAC=" `/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
