@@ -2,6 +2,9 @@
 include '../menu.php'; 
 ?>
 
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+
 <? 
 include('../config.php'); 
 if (isset($_GET['id']) ) { 
@@ -31,3 +34,5 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `group` WHERE `id` = '$id'
 <p><input type='submit' value='Edit Row' /><input type='hidden' value='1' name='submitted' /> 
 </form> 
 <? } ?> 
+</div>
+</body>

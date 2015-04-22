@@ -2,6 +2,9 @@
 include '../menu.php'; 
 ?>
 
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+
 <? 
 include('../config.php'); 
 echo "<table>"; 
@@ -39,3 +42,5 @@ echo "</tr>";
 echo "</table>"; 
 echo "<a href=new.php>New Group</a>"; 
 ?>
+</div>
+</body>

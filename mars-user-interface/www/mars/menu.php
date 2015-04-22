@@ -24,7 +24,7 @@
        		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
        		<li><a href="/mars/reports/users_with_volume.php">Users with daily total volume</a></li>
 		</ul>
-        <li><a href="mars/admin.php">Admin<a></li>
+        <li><a href="/mars/admin.php">Admin<a></li>
         <li>Additional links</li>
       	<ul id="ul2">
        		<li><a href="/index.php">pfSense Dashboard</a></li>

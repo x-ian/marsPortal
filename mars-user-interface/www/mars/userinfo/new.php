@@ -2,6 +2,9 @@
 include '../menu.php'; 
 ?>
 
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+
 <? 
 include('../config.php'); 
 if (isset($_POST['submitted'])) { 
@@ -28,3 +31,5 @@ echo "<a href='list.php'>Back To Listing</a>";
 <p><input type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> 
 </form> 
 
+</div>
+</body>
