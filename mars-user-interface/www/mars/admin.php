@@ -1,5 +1,5 @@
 <? 
-include '/mars/menu.php'; 
+include 'menu.php'; 
 ?>
 
 <p><a href="">Temporarily block/slow down groups</a></p> <br/>

@@ -1,9 +1,9 @@
 <? 
-include '/mars/menu.php'; 
+include '../menu.php'; 
 ?>
 
 <? 
-include('/mars/config.php'); 
+include('../config.php'); 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
 $sql = "INSERT INTO `group` ( `groupname` ,  `work_total_input` ,  `work_total_output` ,  `day_total_input` ,  `day_total_output` ,  `bandwidth_up` ,  `bandwidth_down` ,  `session_timeout` ,  `concurrent_user` ,  `auth_type` ,  `reply_message`  ) VALUES(  '{$_POST['groupname']}' ,  '{$_POST['work_total_input']}' ,  '{$_POST['work_total_output']}' ,  '{$_POST['day_total_input']}' ,  '{$_POST['day_total_output']}' ,  '{$_POST['bandwidth_up']}' ,  '{$_POST['bandwidth_down']}' ,  '{$_POST['session_timeout']}' ,  '{$_POST['concurrent_user']}' ,  '{$_POST['auth_type']}' ,  '{$_POST['reply_message']}'  ) "; 

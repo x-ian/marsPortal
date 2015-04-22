@@ -146,7 +146,7 @@ Install marsPortal PHP
 touch /etc/php_dynamodules/mysql
 /etc/rc.php_ini_setup
 
-ln -s /home/marsPortal/setup-daloradius/www/mars/ /usr/local/www/mars
+ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 
 
 Optional: Automatic pfSense mails

@@ -1,9 +1,9 @@
 <? 
-include '/mars/menu.php'; 
+include '../menu.php'; 
 ?>
 
 <? 
-include('/mars/config.php'); 
+include('../config.php'); 
 $id = (int) $_GET['id']; 
 mysql_query("DELETE FROM `group` WHERE `id` = '$id' ") ; 
 echo (mysql_affected_rows()) ? "Row deleted.<br /> " : "Nothing deleted.<br /> "; 

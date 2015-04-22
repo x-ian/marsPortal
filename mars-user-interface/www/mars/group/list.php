@@ -1,9 +1,9 @@
 <? 
-include '/mars/menu.php'; 
+include '../menu.php'; 
 ?>
 
 <? 
-include('/mars/config.php'); 
+include('../config.php'); 
 echo "<table>"; 
 echo "<tr>"; 
 echo "<td><b>Groupname</b></td>"; 
