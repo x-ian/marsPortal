@@ -6,6 +6,8 @@
   <title>mars portal</title>
 </head>
 
+<? include 'config.php'; ?>
+
 <body>
 
   <div id="banner" style="text-align: center;">
@@ -22,7 +24,7 @@
         <li>Reports</li>
       	<ul id="ul2">
        		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
-       		<li><a href="/mars/reports/users_with_volume.php">Users with daily total volume</a></li>
+       		<li><a href="/mars/reports/users_with_volume.php">Users (7d history)</a></li>
 		</ul>
         <li><a href="/mars/admin.php">Admin<a></li>
         <li>Additional links</li>
@@ -30,7 +32,7 @@
        		<li><a href="/index.php">pfSense Dashboard</a></li>
        		<li><a href="/status_captiveportal.php">Captive portal sessions</a></li>
        		<li><a href="/status_graph.php?if=wan">Traffic graphs</a></li>
-       		<li><a href="">nTop</a></li>
+       		<li><?php echo '<a href=http://' . $PF_IP . ':3000>nTop</a>'; ?></li>
        		<li><a href="">Squid Proxy report</a></li>
 		</ul>
   	  </ul>
