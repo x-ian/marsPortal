@@ -7,8 +7,8 @@ include '../menu.php';
 
 <? 
 include('../config.php'); 
-$id = (int) $_GET['id']; 
-mysql_query("DELETE FROM `userinfo` WHERE `id` = '$id' ") ; 
+$username = (int) $_GET['username']; 
+mysql_query("DELETE FROM `userinfo` WHERE `username` = '$username' ") ; 
 echo (mysql_affected_rows()) ? "Row deleted.<br /> " : "Nothing deleted.<br /> "; 
 ?> 
 

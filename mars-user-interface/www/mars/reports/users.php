@@ -20,7 +20,7 @@
   }
   
   function userdetailslink($mac) {
-	  return '<a href="/daloradius/mng-edit.php?username=' . $mac . '">' . $mac . '</a>';
+	  return '<a href="/mars/userinfo/edit.php?username=' . $mac . '">' . $mac . '</a>';
   }
   
 echo "<table><tr><th>Username</th><th>Group</th><th>Name</th><th>Department</th><th>Email</th><th>Primary device</th><th>Organization</th><th>Computername</th><th>Vendor</th><th>Notes</th><th>Creation date</th></tr>";

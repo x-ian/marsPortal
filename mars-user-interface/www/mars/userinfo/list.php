@@ -40,7 +40,7 @@ echo "<td>" . nl2br( $row['organisation']) . "</td>";
 echo "<td>" . nl2br( $row['registration_date']) . "</td>";  
 echo "<td>" . nl2br( $row['initial_ip']) . "</td>";  
 echo "<td>" . nl2br( $row['notes']) . "</td>";  
-echo "<td><a href=edit.php?id={$row['id']}>Edit</a> <a href=../user_with_volume.php?username={$row['username']}>Transfer&nbsp;History</a> <a href=delete.php?id={$row['id']}>Delete</a></td> "; 
+echo "<td><a href=edit.php?username={$row['username']}>Edit</a> <a href=../user_with_volume.php?username={$row['username']}>Transfer&nbsp;History</a> <a href=delete.php?username={$row['username']}>Delete</a></td> "; 
 echo "</tr>"; 
 } 
 echo "</table>"; 

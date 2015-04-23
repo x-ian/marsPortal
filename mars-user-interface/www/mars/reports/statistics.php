@@ -24,7 +24,7 @@ function query($query) {
 }
 
 function userdetailslink($mac, $name) {
-  return '<a href="/daloradius/mng-edit.php?username=' . $mac . '">' . $name . '</a>';
+  return '<a href="/mars/userinfo/edit.php?username=' . $mac . '">' . $name . '</a>';
 }
 
 function uservolumelink($mac, $linktext) {
