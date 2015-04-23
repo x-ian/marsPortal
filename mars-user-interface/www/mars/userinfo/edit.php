@@ -2,8 +2,6 @@
 include '../menu.php'; 
 ?>
 
-<script language="javascript" type="text/javascript" src="/mars/datetimepick/datetimepicker.js"/>
-
 <!-- begin page-specific content ########################################### -->
     <div id="main">
 

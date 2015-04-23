@@ -17,7 +17,7 @@ echo "<td><b>Day Total Output</b></td>";
 echo "<td><b>Bandwidth Up</b></td>"; 
 echo "<td><b>Bandwidth Down</b></td>"; 
 echo "<td><b>Session Timeout</b></td>"; 
-echo "<td><b>Concurrent User</b></td>"; 
+echo "<td><b>Concurrent Users</b></td>"; 
 echo "<td><b>Auth Type</b></td>"; 
 echo "<td><b>Reply Message</b></td>"; 
 echo "</tr>"; 

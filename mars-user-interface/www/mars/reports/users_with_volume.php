@@ -1,3 +1,13 @@
+<? 
+include '../menu.php'; 
+?>
+
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+
+<? 
+include('../config.php'); 
+?>
 <span style="font-variant:small-caps; font-size:200%">
 	<p align="center">
 		Data volume for all registered devices <?php echo date('Y-m-d H:i:s'); ?>
@@ -6,9 +16,6 @@
 </span>
 
 <?php
-  mysql_connect('localhost','radius','radius') or die('Could not connect to mysql server.');
-  mysql_select_db('radius');
-
   function query($query) {
     $result = mysql_query($query);
 	if (!$result) {
