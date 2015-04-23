@@ -1,1 +1,0 @@
-taken from http://www.javascriptkit.com/script/script2/tengcalendar.shtml
