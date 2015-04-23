@@ -1,12 +1,17 @@
-<?php
+<? 
+include '../menu.php'; 
+?>
+
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+
+<? 
+include('../config.php'); 
 
 $today = date('Y-m-d', strtotime('-0 day'));
 $yesterday = date('Y-m-d', strtotime('-1 day'));
 $daysago7 = date('Y-m-d', strtotime('-6 days'));
 $daysago30 = date('Y-m-d', strtotime('-29 days'));	
-
-mysql_connect('localhost','radius','radius') or die('Could not connect to mysql server.');
-mysql_select_db('radius');
 
 function query($query) {
   $result = mysql_query($query);

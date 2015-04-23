@@ -8,9 +8,9 @@
 			CONCAT_WS(' ', userinfo.firstname, userinfo.lastname) as name, 
 			userinfo.department as department, 
 			userinfo.email as email, 
-			userinfo.company as company, 
-			userinfo.address as address, 
-			userinfo.city as city, 
+			userinfo.organisation as company, 
+			userinfo.hostname as address, 
+			userinfo.mac_vendor as city, 
 			ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) as Upload, 
 			ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) as Download 
 		FROM daily_accounting_v2

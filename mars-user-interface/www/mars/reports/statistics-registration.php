@@ -55,7 +55,7 @@ mysql_free_result($active_30daysago);
 		SELECT radusergroup.groupname as groupname, count(distinct(radcheck.username)) as count 
 		FROM radcheck LEFT JOIN radusergroup ON radcheck.username=radusergroup.username 
 			LEFT JOIN userinfo ON radcheck.username=userinfo.username 
-				WHERE creationdate > "' . $startday . '" and creationdate <  date(date_add("' . $endday . '", INTERVAL +1 DAY)) 
+				WHERE registration_date > "' . $startday . '" and registration_date <  date(date_add("' . $endday . '", INTERVAL +1 DAY)) 
 		GROUP by groupname;';
   }
 echo "<tr>";
@@ -93,7 +93,7 @@ mysql_free_result($registered_30daysago);
 
 // ever registered as of ...
   function ever($endday) {
-	return 'SELECT radusergroup.groupname as groupname, count(distinct(radcheck.username)) as count FROM radcheck LEFT JOIN radusergroup ON radcheck.username=radusergroup.username LEFT JOIN userinfo ON radcheck.username=userinfo.username where creationdate < date_add("' . $endday . '", INTERVAL +1 DAY) GROUP by radusergroup.groupname order by groupname;';
+	return 'SELECT radusergroup.groupname as groupname, count(distinct(radcheck.username)) as count FROM radcheck LEFT JOIN radusergroup ON radcheck.username=radusergroup.username LEFT JOIN userinfo ON radcheck.username=userinfo.username where registration_date < date_add("' . $endday . '", INTERVAL +1 DAY) GROUP by radusergroup.groupname order by groupname;';
   }
   
   

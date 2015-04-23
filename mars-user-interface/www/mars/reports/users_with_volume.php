@@ -26,8 +26,8 @@ include('../config.php');
 	return $result;
   }
   
-  function userdetailslink($mac) {
-	  return '<a href="/daloradius/mng-edit.php?username=' . $mac . '">' . $mac . '</a>';
+  function userdetailslink($mac, $id) {
+	  return '<a href="/mars/userinfo/edit.php?id=' . $id . '">' . $mac . '</a>';
   }
   
   $today = date('Y-m-d', strtotime('-0 day'));
@@ -54,13 +54,14 @@ echo "
 return '
 select * from ( 
 	(SELECT distinct(radacct.UserName) as username, 
+		userinfo.id as id,
 		radusergroup.groupname as groupname, 
 		CONCAT_WS(" ", userinfo.firstname, userinfo.lastname) as name, 
 		userinfo.department as department, 
 		userinfo.email as email, 
-		userinfo.company as company, 
-		userinfo.address as address, 
-		userinfo.city as city, 
+		userinfo.organisation as company, 
+		userinfo.hostname as address, 
+		userinfo.mac_vendor as city, 
 		ROUND((sum(radacct.AcctOutputOctets)/1000000)) as download, 
 		ROUND((sum(radacct.AcctInputOctets)/1000000)) as upload 
 	FROM radacct 
@@ -71,7 +72,7 @@ select * from (
 			group by UserName
 	) 
 	union 
-	(select ui.username, "", "", "", "", "", "", "", "0" as download, "0" as upload from userinfo ui) 
+	(select ui.username, "-1", "", "", "", "", "", "", "", "0" as download, "0" as upload from userinfo ui) 
 ) as t1 group by username;
 ';  
   }
@@ -79,7 +80,7 @@ select * from (
 $all_users = query(users($daysago7, $today));
 while ($row = mysql_fetch_assoc($all_users)) {
 	echo "<tr>";
-    echo '<td>' . userdetailslink($row['username']) . '</a></td>';
+    echo '<td>' . userdetailslink($row['username'], $row['id']) . '</a></td>';
     echo '<td>' . $row['groupname'] . '</td>';
     echo '<td>' . $row['name'] . '</td>';
     echo '<td>' . $row['department'] . '</td>';
