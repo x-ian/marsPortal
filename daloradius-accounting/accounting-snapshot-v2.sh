@@ -2,41 +2,14 @@
 
 BASEDIR=`dirname $0`
 source /home/marsPortal/config.txt
-# all times in hoursminutes, hours without leading zero, minutes with leading zero
-DAY_START=5
-WORK_START=730
-LUNCH_START=1200
-LUNCH_END=1330
-WORK_END=1700
-DAY_END=2355
-# day in week, mo=1, su=7
-WORK_DAYS=1,2,3,4,5
 
 # current time and day in week
 NOW=`date +%-H%M`
 NOW_DAY=`date +%u`
 
 DAY_OFFSET_ALREADY_SET=$(/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -se 'select id from daily_accounting_v2 where day_offset is not null and day=current_date();' | wc -l)
-
-if [ "$DAY_START" -le "$NOW" ] && [ "$DAY_OFFSET_ALREADY_SET" -eq "0" ]; then
-	update_accounting "day_offset", "day_offset_input", "day_offset_output"
-fi
-if [[ $WORK_DAYS == *"$NOW_DAY"* ]] && [ "$WORK_START" -le "$NOW" ] && work_offset not set
-	update_accounting "work_offset", "work_offset_input", "work_offset_output"
-fi
-if [[ $WORK_DAYS == *"$NOW_DAY"* ]] && [ "$LUNCH_START" -le "$NOW" ] && lunch_offset not set
-	update_accounting "lunch_offset", "lunch_offset_input", "lunch_offset_output"
-fi
-
-if day_offset set
-	update_accounting "day_total", "day_total_input", "day_total_output"
-fi
-if is workday && work_offset set && work_end > now (&& not lunchtime?)
-	update_accounting "work_total", "work_total_input", "work_total_output"
-fi
-if is workday && lunch_offset set && lunch_end > now
-	update_accounting "lunch_total", "lunch_total_input", "lunch_total_output"
-fi
+WORK_OFFSET_ALREADY_SET=$(/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -se 'select id from daily_accounting_v2 where work_offset is not null and day=current_date();' | wc -l)
+LUNCH_OFFSET_ALREADY_SET=$(/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -se 'select id from daily_accounting_v2 where lunch_offset is not null and day=current_date();' | wc -l)
 
 update_accounting() {
 	TIME_COL=$1
@@ -53,3 +26,23 @@ SELECT DISTINCT(radacct.username), date_format(now(), '%Y-%m-%d'), now(), SUM(ra
   ON DUPLICATE KEY UPDATE username=VALUES(username), day=VALUES(day), $TIME_COL=now(), $INPUT_COL=VALUES($INPUT_COL), $OUTPUT_COL=VALUES($OUTPUT_COL);
 EOF
 }
+
+if [ "$DAY_START" -le "$NOW" ] && [ "$DAY_OFFSET_ALREADY_SET" -eq "0" ]; then
+	update_accounting "day_offset" "day_offset_input" "day_offset_output"
+fi
+if [[ $WORK_DAYS == *"$NOW_DAY"* ]] && [ "$WORK_START" -le "$NOW" ] && [ "$WORK_OFFSET_ALREADY_SET" -eq "0" ]; then
+	update_accounting "work_offset" "work_offset_input" "work_offset_output"
+fi
+if [[ $WORK_DAYS == *"$NOW_DAY"* ]] && [ "$LUNCH_START" -le "$NOW" ] && [ "$LUNCH_OFFSET_ALREADY_SET" -eq "0" ]; then
+	update_accounting "lunch_offset" "lunch_offset_input" "lunch_offset_output"
+fi
+if [ "$DAY_OFFSET_ALREADY_SET" -ne "0" ]; then
+	update_accounting "day_total" "day_total_input" "day_total_output"
+fi
+if [[ $WORK_DAYS == *"$NOW_DAY"* ]] && [ "$WORK_OFFSET_ALREADY_SET" -ne "0" ] && [ "$WORK_END" -ge "$NOW" ]; then # (&& not lunchtime?)
+	update_accounting "work_total" "work_total_input" "work_total_output"
+fi
+if [[ $WORK_DAYS == *"$NOW_DAY"* ]] && [ "$LUNCH_OFFSET_ALREADY_SET" -ne "0" ] && [ "$LUNCH_END" -ge "$NOW" ]; then
+	update_accounting "lunch_total" "lunch_total_input" "lunch_total_output"
+fi
+
