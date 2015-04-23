@@ -21,5 +21,5 @@ PRIMARY_DEVICE=${10}
 	-- TODO ensure uniqueness
 	INSERT INTO radcheck (Username, Attribute, op, Value) VALUES ("$MAC", "Auth-Type", ":=", "Accept");
 	INSERT INTO radusergroup (UserName, GroupName, priority) VALUES ("$MAC", "$GROUP",0);
-	INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ("$MAC", $FIRSTNAME, "$LASTNAME", "$EMAIL", "", "$ORGANISATION", "$IP", "$HOSTNAME", "$MAC_VENDOR", "$NOTES");
+	INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ("$MAC", "$FIRSTNAME", "$LASTNAME", "$EMAIL", current_timestamp(), "$ORGANISATION", "$IP", "$HOSTNAME", NULL, "$MAC_VENDOR", "$NOTES");
 EOF
