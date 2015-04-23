@@ -2,10 +2,11 @@
 include '../menu.php'; 
 ?>
 
+
 <!-- begin page-specific content ########################################### -->
     <div id="main">
 
-<? 
+<?
 include('../config.php'); 
 if (isset($_GET['username']) ) { 
 $username = (int) $_GET['username']; 
@@ -16,7 +17,7 @@ mysql_query($sql) or die(mysql_error());
 echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='list.php'>Back To Listing</a>"; 
 } 
-$row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
+$row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username` = $username ")); 
 ?>
 
 <form action='' method='POST'> 
