@@ -33,7 +33,7 @@
        		<li><a href="/status_captiveportal.php">Captive portal sessions</a></li>
        		<li><a href="/status_graph.php?if=wan">Traffic graphs</a></li>
        		<li><?php echo '<a href=http://' . $PF_IP . ':3000>nTop</a>'; ?></li>
-       		<li><a href="">Squid Proxy report</a></li>
+       		<li><a href="/lightsquid/index.cgi">Squid Proxy report</a></li>
 		</ul>
   	  </ul>
 	</div>
