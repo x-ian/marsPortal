@@ -2,8 +2,6 @@
 include '../menu.php'; 
 ?>
 
-<script language="javascript" type="text/javascript" src="/mars/datetimepick/datetimepicker.js"/>
-
 <!-- begin page-specific content ########################################### -->
     <div id="main">
 
@@ -30,12 +28,7 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `id` = '$
 <p><b>Organisation:</b><br /><input type='text' name='organisation' value='<?= stripslashes($row['organisation']) ?>' /> 
 <p><b>Initial Ip:</b><br /><input type='text' name='initial_ip' value='<?= stripslashes($row['initial_ip']) ?>' /> 
 <p><b>Hostname:</b><br /><input type='text' name='hostname' value='<?= stripslashes($row['hostname']) ?>' /> 
-<p><b>Registration Date:</b><br />
-	
-	<input id="registration_date" type="text" name="registration_date" size="25" value='<?= stripslashes($row['registration_date']) ?>'><a href="javascript:NewCal('registration_date','ddmmmyyyy',true,24)"><img src="/mars/datetimepick//cal.gif" width="16" height="16" border="0" alt="Pick a date"></a>
-	
-	<input type='text' name='registration_date' value='<?= stripslashes($row['registration_date']) ?>' /> 
-	
+<p><b>Registration Date (YYYY-MM-DD HH:mm:ss):</b><br /><input type='text' name='registration_date' value='<?= stripslashes($row['registration_date']) ?>' /> 
 <p><b>Mac Vendor:</b><br /><input type='text' name='mac_vendor' value='<?= stripslashes($row['mac_vendor']) ?>' /> 
 <p><b>Notes:</b><br /><input type='text' name='notes' value='<?= stripslashes($row['notes']) ?>' /> 
 <p><input type='submit' value='Edit Row' /><input type='hidden' value='1' name='submitted' /> 

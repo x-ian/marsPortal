@@ -25,7 +25,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 <p><b>Organisation:</b><br /><input type='text' name='organisation'/> 
 <p><b>Initial Ip:</b><br /><input type='text' name='initial_ip'/> 
 <p><b>Hostname:</b><br /><input type='text' name='hostname'/> 
-<p><b>Registration Date:</b><br /><input type='text' name='registration_date'/> 
+<p><b>Registration Date (YYYY-MM-DD HH:mm:ss):</b><br /><input type='text' name='registration_date'/> 
 <p><b>Mac Vendor:</b><br /><input type='text' name='mac_vendor'/> 
 <p><b>Notes:</b><br /><input type='text' name='notes'/> 
 <p><input type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> 
