@@ -1,0 +1,26 @@
+# update sites
+appldnld.apple.com
+phobos.apple.com
+appldnld.apple.com
+swcdn.apple.com
+devimages.apple.com
+geo.kaspersky.com
+download.avg.com
+definitionupdates.microsoft.com
+liveupdate.symantecliveupdate.com
+personal.avira-update.com
+download.mcafee.com
+download.windowsupdate.com
+armdl.adobe.com
+download.cdn.mozilla.net
+download.skype.com
+fpdownload2.macromedia.com
+download.lenovo.com
+amzdigitaldownloads.edgesuite.net
+download.cdn.mozilla.net 
+
+# streaming/media sites
+youtube
+myvideo
+streaming.djdownloadz.com
+facebook
