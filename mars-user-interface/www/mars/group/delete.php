@@ -7,9 +7,11 @@ include '../menu.php';
 
 <? 
 include('../config.php'); 
-$id = (int) $_GET['id']; 
-mysql_query("DELETE FROM `group` WHERE `id` = '$id' ") ; 
-echo (mysql_affected_rows()) ? "Row deleted.<br /> " : "Nothing deleted.<br /> "; 
+$groupname = $_GET['groupname']; 
+mysql_query("DELETE FROM `radgroupcheck` WHERE `groupname` = '$groupname' ") ; 
+mysql_query("DELETE FROM `radgroupreply` WHERE `groupname` = '$groupname' ") ; 
+mysql_query("DELETE FROM `radusergroup` WHERE `groupname` = '$groupname' ") ; 
+echo (mysql_affected_rows()) ? "Group deleted.<br /> " : "Nothing deleted.<br /> "; 
 ?> 
 
 <a href='list.php'>Back To Listing</a>
