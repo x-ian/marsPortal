@@ -13,7 +13,7 @@ CONTENTTYPE=$5
 SENDER=$AuthUser
 
 
-TEMP_MAIL=`mktemp /tmp/ssmtp.mail.XXXXXX`
+TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
 echo "From: $SENDER
 To: $RECEIVER
 Subject: $SUBJECT
@@ -34,8 +34,15 @@ Content-Disposition: attachment; filename=\"$FILENAME\"
 `cat $FILE`
 
 --frontier--
+" > $TEMP_MAIL.mail
+
+# place mail job in backlog of mails
+echo "#!/usr/local/bin/bash
+/usr/local/sbin/ssmtp -C $SSMTP_CONFIG $RECEIVER < $TEMP_MAIL.mail
+if [ $? -eq 0 ]; then
+	rm -f $TEMP_MAIL*
+fi
 " > $TEMP_MAIL
 
-/usr/local/sbin/ssmtp -C $SSMTP_CONFIG $RECEIVER < $TEMP_MAIL
-
-rm -f $TEMP_MAIL $TEMP_CONFIG
+# try to send it once right away
+/usr/local/bin/bash -x $TEMP_MAIL

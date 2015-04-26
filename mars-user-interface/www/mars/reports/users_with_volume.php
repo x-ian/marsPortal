@@ -27,7 +27,7 @@ include('../config.php');
   }
   
   function userdetailslink($mac, $id) {
-	  return '<a href="/mars/userinfo/edit.php?id=' . $id . '">' . $mac . '</a>';
+	  return '<a href="/mars/userinfo/edit.php?username=' . $mac . '">' . $mac . '</a>';
   }
   
   $today = date('Y-m-d', strtotime('-0 day'));

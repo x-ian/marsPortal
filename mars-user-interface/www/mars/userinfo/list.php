@@ -25,13 +25,13 @@ echo "<td><b>Initial Ip</b></td>";
 echo "<td><b>Notes</b></td>"; 
 echo "</tr>"; 
 
-$result = mysql_query("SELECT * FROM `userinfo`") or trigger_error(mysql_error()); 
+$result = mysql_query("SELECT u.username AS username, u.firstname AS firstname, u.lastname AS lastname, u.mac_vendor AS mav_vendor, u.hostname AS hostname, u.email AS email, u.department AS department, u.organisation AS organisation, u.registration_date AS registration_date, u.initial_ip AS initial_ip, u.notes AS notes, radusergroup.groupname AS groupname FROM userinfo AS u LEFT JOIN radusergroup on u.username = radusergroup.username") or trigger_error(mysql_error()); 
 while($row = mysql_fetch_array($result)){ 
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 echo "<tr>";  
 echo "<td>" . nl2br( $row['username']) . "</td>";  
 echo "<td>" . nl2br( $row['firstname']) . " " . nl2br( $row['lastname']) . "</td>";  
-echo "<td>TODO</td>";  
+echo "<td>" . nl2br( $row['groupname']) . "</td>";  
 echo "<td>" . nl2br( $row['mac_vendor']) . "</td>";  
 echo "<td>" . nl2br( $row['hostname']) . "</td>";  
 echo "<td>" . nl2br( $row['email']) . "</td>";  

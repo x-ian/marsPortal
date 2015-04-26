@@ -1,3 +1,16 @@
+<? 
+include '../menu.php'; 
+?>
+
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+
+<? 
+
+include '../config.php'; 
+
+?>
+
 <span style="font-variant:small-caps; font-size:200%">
 	<table align="center">
 		<tr><td><img src="captiveportal-mars.jpg" /></td><td>Portal</td></tr>
@@ -17,9 +30,6 @@
 </span>
 
 <?php
-  mysql_connect('localhost','radius','radpass') or die('Could not connect to mysql server.');
-  mysql_select_db('radius');
-
   function query($query) {
     $result = mysql_query($query);
 	if (!$result) {
