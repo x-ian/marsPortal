@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 BASEDIR=`dirname $0`
 source $BASEDIR/../config.txt
 
-/usr/bin/mysql -u `echo $DR_MYSQL_USER` -p`echo $DR_MYSQL_PASSWD` radius <<EOF
+/usr/local/bin/mysql -u `echo $MYSQL_USER` -p`echo $MYSQL_PASSWD` radius <<EOF
 set @open_groups_postfix = '-open-for-today';
 
 UPDATE radusergroup 
