@@ -8,4 +8,4 @@ REDIRURL=$2
 
 MAC=$($BASEDIR/freeradius-integration/resolve_mac_address.sh $IP)
 
-echo "<a href=http://localhost/mars/add-user/add-user.php?mac=`echo $MAC`&redirurl=`echo $REDIRURL`>+</a>"
+echo "<a href=http://$PF_IP/mars/add-user/add-user.php?mac=`echo $MAC`&redirurl=`echo $REDIRURL`>+</a>"

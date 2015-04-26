@@ -7,4 +7,4 @@ IP=$1
 
 MAC=$($BASEDIR/daloradius-integration/resolve_mac_address.sh $IP)
 
-echo "http://localhost/mars/user_with_volume.php?username=`echo $MAC`"
+echo "http://$PF_IP/mars/user_with_volume.php?username=`echo $MAC`"
