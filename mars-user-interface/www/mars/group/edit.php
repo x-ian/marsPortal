@@ -35,4 +35,5 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `group` WHERE `id` = '$id'
 </form> 
 <? } ?> 
 </div>
+<b>TODO: When changing a group, ask to disconnect all users to activate new settings</b>
 </body>

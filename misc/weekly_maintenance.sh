@@ -28,6 +28,9 @@ source $BASEDIR/config.txt
 /bin/rm -f /var/dhcpd/var/db/dhcpd.leases~
 
 # TODO
+# figure out if and when to clean mail backlog
+
+# TODO
 # update MAC vendor list
 /home/marsPortal/misc/heartbeat.sh
 

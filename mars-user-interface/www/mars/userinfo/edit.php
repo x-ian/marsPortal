@@ -36,5 +36,6 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
 </form> 
 <? } ?> 
 </div>
+<b>TODO: When changing the group, ask to disconnect user to activate new settings</b>
 </body>
 
