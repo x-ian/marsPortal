@@ -47,6 +47,8 @@ function deviceinfo($row, $upordown) {
 <?php
 require dirname(__FILE__)."/statistics-registration.php";
 
+require dirname(__FILE__)."/statistics-blocked.php";
+
 require dirname(__FILE__)."/statistics-work.php";
 
 generateworktraffic('Download', $today, $yesterday, $daysago7, $daysago30);
