@@ -10,11 +10,29 @@ include('../config.php');
 if (isset($_GET['groupname']) ) { 
 $groupname = $_GET['groupname']; 
 if (isset($_POST['submitted'])) { 
-foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "UPDATE `group` SET  `groupname` =  '{$_POST['groupname']}' ,  `work_total_input` =  '{$_POST['work_total_input']}' ,  `work_total_output` =  '{$_POST['work_total_output']}' ,  `day_total_input` =  '{$_POST['day_total_input']}' ,  `day_total_output` =  '{$_POST['day_total_output']}' ,  `bandwidth_up` =  '{$_POST['bandwidth_up']}' ,  `bandwidth_down` =  '{$_POST['bandwidth_down']}' ,  `session_timeout` =  '{$_POST['session_timeout']}' ,  `concurrent_user` =  '{$_POST['concurrent_user']}' ,  `auth_type` =  '{$_POST['auth_type']}' ,  `reply_message` =  '{$_POST['reply_message']}'   WHERE `groupname` = '$groupname' "; 
-mysql_query($sql) or die(mysql_error()); 
-echo (mysql_affected_rows()) ? "Edited group.<br />" : "Nothing changed. <br />"; 
-echo "<a href='list.php'>Back To Listing</a>"; 
+	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+
+	// re-create all radgroupcheck entries
+	mysql_query("DELETE FROM radgroupcheck WHERE groupname='$groupname'") or die(mysql_error());
+	mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Max-Concurrent-Devices', '$groupname', ':=', '{$_POST['concurrent_user']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['day_total_output']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['day_total_input']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['work_total_output']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['work_total_input']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('Auth-Type', '$groupname', ':=', '{$_POST['auth_type']}')") or die(mysql_error());
+
+	// re-create all radgroupreply entries
+	mysql_query("DELETE FROM radgroupreply WHERE groupname='$groupname'") or die(mysql_error());
+	mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Session-Timeout', '$groupname', ':=', '{$_POST['session_timeout']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Up', '$groupname', ':=', '{$_POST['bandwidth_up']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Down', '$groupname', ':=', '{$_POST['bandwidth_down']}')") or die(mysql_error());
+	mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Reply-Message', '$groupname', ':=', '{$_POST['reply_message']}')") or die(mysql_error());
+
+	// cleanup
+	mysql_query("delete from radgroupcheck where value =''") or die(mysql_error());
+	mysql_query("delete from radgroupreply where value =''") or die(mysql_error());
+	
+	echo "<a href='list.php'>Back To Listing</a>"; 
 } 
 $row = mysql_fetch_array ( mysql_query('
 	
@@ -45,15 +63,16 @@ $row = mysql_fetch_array ( mysql_query('
 <tr><td><b>Bandwidth Down:</b></td><td><input type='text' name='bandwidth_down' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Down']) ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= stripslashes($row['Session Timeout']) ?>' /> (*) (in seconds)</td></tr>
 <tr><td><b>Concurrent Users:</b></td><td><input type='text' name='concurrent_user' value='<?= stripslashes($row['Max Concurrent Users']) ?>' /> (*) (maximum number of concurrent connected users)</td></tr>
-<tr><td><b>Auth Type:</b></td><td><input type='text' name='auth_type' value='<?= stripslashes($row['auth_type']) ?>' /> (*) (empty by default, 'Reject' -without the quotes- to block users)</td></tr>
+<tr><td><b>Auth Type:</b></td><td><input type='text' name='auth_type' value='<?= stripslashes($row['Auth Type']) ?>' /> (*) (empty by default, 'Reject' -without the quotes- to block users)</td></tr>
 <tr><td><b>Reply Message:</b></td><td><input size="40" type='text' name='reply_message' value='<?= stripslashes($row['Reply Message']) ?>' /> (*) (empty by default, only used when Auth Type == Reject)</td></tr>
 <tr><td><input type='submit' value='Edit Row' /><input type='hidden' value='1' name='submitted' /></td></tr>
 </form> 
 </table>
 <p>Notes:</p>
+<b>Be careful when renaming a group; device entries with the old name with NOT be updated and point then to an invalid group.</b>
 <p>Use postfixes -non-work-hours and -open-for-today to name of group to define policies after work hours and when temporarily unblocked for the rest of the day after hitting the volume limits.</p>
 <p>(*) Changing these settings will only be activated once a new session is created for a device (maximum amount of Session Timeout).</p>
+<b>TODO: When changing a group, ask to disconnect all users to activate new settings</b>
 <? } ?> 
 </div>
-<b>TODO: When changing a group, ask to disconnect all users to activate new settings</b>
 </body>
