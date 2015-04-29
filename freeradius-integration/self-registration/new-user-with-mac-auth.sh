@@ -2,7 +2,7 @@
 
 # Add new user with MAC Auth to DR
 
-BASEDIR=dirname $0
+BASEDIR=`dirname $0`
 PORTALDIR=/home/marsPortal
 source $PORTALDIR/config.txt
 
