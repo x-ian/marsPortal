@@ -25,7 +25,25 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
 <tr><td><b>Username:</b></td><td><input type='text' name='username' value='<?= stripslashes($row['username']) ?>' /> </td></tr>
 <td><b>Firstname:</b></td><td><input type='text' name='firstname' value='<?= stripslashes($row['firstname']) ?>' /> </td></tr>
 <td><b>Lastname:</b></td><td><input type='text' name='lastname' value='<?= stripslashes($row['lastname']) ?>' /> </td></tr>
+
+
+<? 
+$query = "select distinct(groupname) from radgroupreply where attribute='Session-Timeout' ORDER by groupname";
+
+$res = mysql_query($query);
+echo "<select name = 'groupname'>";
+while (($row = mysql_fetch_row($res)) != null)
+{
+    echo "<option value = '{$row['groupname']}'";
+    if ($selected_venue_id == $row['groupname'])
+        echo "selected = 'selected'";
+    echo ">{$row['groupname']}</option>";
+}
+echo "</select>";
+?>
 <tr><td><b>Group:</b></td><td><input type='text' name='groupname' value='TODO' /> </td></tr>
+
+
 <tr><td><b>Email:</b></td><td><input type='text' name='email' value='<?= stripslashes($row['email']) ?>' /> </td></tr>
 <tr><td><b>Department:</b></td><td><input type='text' name='department' value='<?= stripslashes($row['department']) ?>' /> </td></tr>
 <tr><td><b>Organisation:</b></td><td><input type='text' name='organisation' value='<?= stripslashes($row['organisation']) ?>' /> </td></tr>

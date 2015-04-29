@@ -30,6 +30,10 @@ source $BASEDIR/config.txt
 # TODO
 # figure out if and when to clean mail backlog
 
+# RADIUS ACCOUNTING
+# delete from radpostauth where authdate < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
+# delete from radacct where acctstarttime < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
+
 # TODO
 # update MAC vendor list
 /home/marsPortal/misc/heartbeat.sh
