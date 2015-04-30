@@ -9,7 +9,10 @@ NOW_DAY=`date +%u`
 
 # figure out if offsets for periods have been already set once for the day
 DAY_OFFSET_ALREADY_SET=$(/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -se 'select id from daily_accounting_v2 where day_offset is not null and day=current_date();' | wc -l)
+
+# TODO: make work hours optional
 WORK_OFFSET_ALREADY_SET=$(/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -se 'select id from daily_accounting_v2 where work_offset is not null and day=current_date();' | wc -l)
+# TODO: make lunch hours optional
 LUNCH_OFFSET_ALREADY_SET=$(/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -se 'select id from daily_accounting_v2 where lunch_offset is not null and day=current_date();' | wc -l)
 
 update_accounting() {
