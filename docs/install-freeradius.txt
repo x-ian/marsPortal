@@ -36,9 +36,11 @@ To start the server in normal (daemon) mode, run:
 /usr/local/etc/rc.d/radiusd [ start | stop | debug ]
 
 uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
-uncomment relevant sql lines in sites-enabled/default
+uncomment relevant sql lines in/usr/local/etc/raddb/sites-enabled/default
 
 'steal' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
+cd / && tar xzf root/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+
 
 Testing freeRADIUS install with local file-based users list
 -----------------------------------------------------------
@@ -47,7 +49,8 @@ radtest testingUsers password localhost 0 testing123
 
 Testing freeRADIUS install with MySQL-based users list
 ------------------------------------------------------
-mysql -r root -pradius <<EOF
+# TODO: Doesn't work!
+mysql -u root -pradius radius <<EOF
 	INSERT INTO radcheck set username='testingSQL', value='password', op=':=';
 EOF
 radtest testingSQL password localhost 0 testing123
@@ -85,6 +88,7 @@ XXX
 # open up network outside of work hours and at weekends
 (crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/daloradius-accounting/activate-groups-non-work-hours.sh") | crontab -
 (crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/daloradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+
 # run daily accounting for full day and work hours not excluding lunch
 (crontab -l ; echo "5 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh") | crontab -
 (crontab -l ; echo "0 7 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-work.sh") | crontab -
@@ -154,6 +158,15 @@ INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('No-Internet-Access', 'Reply-Message', ':=', 'Your device is permanently disabled.');
 
+INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
+('Users', 'mars-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
+('Users', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '100');
+INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
+('Users', 'Session-Timeout', ':=', '43200'),
+('Users', 'WISPr-Bandwidth-Max-Up', ':=', '400000'),
+('Users', 'WISPr-Bandwidth-Max-Down', ':=', '150000');
+
+
 DROP TABLE IF EXISTS daily_accounting_v2;
 CREATE TABLE daily_accounting_v2 (
   id int(32) NOT NULL AUTO_INCREMENT,
@@ -187,6 +200,8 @@ CREATE TABLE daily_accounting_v2 (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE daily_accounting_v2 ADD UNIQUE INDEX (username, day);
+ALTER TABLE daily_accounting_v2 ADD INDEX (username);
+ALTER TABLE daily_accounting_v2 ADD INDEX (day);
 
 DROP TABLE IF EXISTS userinfo;
 CREATE TABLE userinfo (

@@ -103,6 +103,7 @@ mkdir /home/client_activities_log
 mkdir /home/local_backups
 mkdir /home/mail_backlog
 cd /home
+# git clone https://github.com/x-ian/marsPortal.git
 tar xzf marsPortal.tgz
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
@@ -134,6 +135,7 @@ echo y | pkg install bash
 echo y | pkg install wget
 echo y | pkg install curl
 echo y | pkg install ssmtp
+echo y | pkg install git
 rehash
 ln -s /usr/local/bin/bash /bin/bash
 
@@ -143,6 +145,7 @@ Install marsPortal PHP
 
 touch /etc/php_dynamodules/mysql
 /etc/rc.php_ini_setup
+# And restart  Restart PHP-FPM through pfSense welcome script or restart the box
 
 ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 
