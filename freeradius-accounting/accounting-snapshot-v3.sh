@@ -1,7 +1,5 @@
 #!/usr/local/bin/bash
 
-`date` >> /tmp/da.txt
-
 BASEDIR=`dirname $0`
 source /home/marsPortal/config.txt
 
