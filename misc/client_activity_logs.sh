@@ -2,6 +2,8 @@
 
 # summary of client connectivity based on client_activity_log 
 
+cd /home/client_activities_log
+
 collect_stats() {
 	PATTERN=$1
 	FILES=$2
@@ -32,7 +34,6 @@ print_stats_line() {
 EOF
 }
 
-echo "<table>"
 print_stats_line "\- x \-" "Registered"
 print_stats_line "\- 2 \-" "Too many users per group"
 print_stats_line "\- 3 \-" "Data volume reached"
