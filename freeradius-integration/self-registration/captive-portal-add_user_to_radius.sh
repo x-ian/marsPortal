@@ -15,7 +15,7 @@ source $PORTALDIR/config.txt
 STATUS_LOG=/home/client_activities_log/status-`date +%Y%m%d`.log
 
 MAC=$($PORTALDIR/misc/resolve_mac_address.sh $IP)
-MAC_FIRST_DIGITS=$(echo $MAC | cut -c 1-6 | awk '{print toupper($0)}')
+MAC_FIRST_DIGITS=$(echo $MAC | tr -d ":" | cut -c 1-6 | awk '{print toupper($0)}')
 # check in the local copy of the IEEE OUI database
 # once in a while get an update from http://standards.ieee.org/develop/regauth/oui/public.html
 MAC_VENDOR=$(grep "(base 16)" $BASEDIR/ieee_oui.txt | grep $MAC_FIRST_DIGITS | awk -F"\t" '{ print $3 }' | sed -e 's/ /_/g')

@@ -26,17 +26,23 @@ source $BASEDIR/config.txt
 # clean up DHCP leases as they seem to be never removed. ideally this should maybe be done monthly or quarterly
 /bin/rm -f /var/dhcpd/var/db/dhcpd.leases
 /bin/rm -f /var/dhcpd/var/db/dhcpd.leases~
+/bin/rm -f /var/dhcpd/var/db/dhcpd6.leases
+/bin/rm -f /var/dhcpd/var/db/dhcpd6.leases~
 
-# TODO
-# figure out if and when to clean mail backlog
+# delete outstanding mails older than 14 days
+/usr/bin/find /home/mail_backlog -mtime +14 -delete
 
 # RADIUS ACCOUNTING
-# delete from radpostauth where authdate < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
-# delete from radacct where acctstarttime < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
-
-# TODO
-# update MAC vendor list
-/home/marsPortal/misc/heartbeat.sh
+/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius <<EOF
+	delete from radpostauth where authdate < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
+	delete from radacct where acctstarttime < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
+EOF
+	
+# update MAC vendor list, http://standards.ieee.org/develop/regauth/oui/public.html
+/usr/local/bin/wget http://standards.ieee.org/develop/regauth/oui/oui.txt -O /tmp/ieee_oui.txt
+if [ $? -eq 0 ]; then
+	mv /tmp/ieee_oui.txt $BASEDIR/freeradius-integration/self-registration
+fi
 
 # just in case, restart once in a while
 /sbin/reboot
