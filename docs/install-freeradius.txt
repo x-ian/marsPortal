@@ -89,51 +89,9 @@ XXX
 (crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/daloradius-accounting/activate-groups-non-work-hours.sh") | crontab -
 (crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/daloradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
 
-# run daily accounting for full day and work hours not excluding lunch
-(crontab -l ; echo "5 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh") | crontab -
-(crontab -l ; echo "0 7 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-work.sh") | crontab -
-(crontab -l ; echo "9,19,29,39,49,59 7-17 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-work.sh") | crontab -
-(crontab -l ; echo "5,15,25,35,45,55 1-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-end-of-day.sh") | crontab -
-
-# daily accounting with respecting lunch hours during work days
-# daily accounting starts at 00:15
-(crontab -l ; echo "15 0 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_offset") | crontab 
-# work day starts mo-fr 08:00
-(crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh work_offset") | crontab 
-# lunch starts mo-fr 12:30
-(crontab -l ; echo "30 12 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh lunch_offset") | crontab 
-# lunch goes up to 13:30 mo-fr
-(crontab -l ; echo "40,50 12 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh lunch_total") | crontab 
-(crontab -l ; echo "0,10,20,30 13 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh lunch_total") | crontab 
-# work goes up to 16:31 mo-fr
-(crontab -l ; echo "1,11,21,31,41,51 8-15 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh work_total") | crontab 
-(crontab -l ; echo "1,11,21,31 16 * * 1-5 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh work_total") | crontab 
-# daily accounting ends at 23:52
-(crontab -l ; echo "2,12,22,32,42,52 1-23 * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_total") | crontab 
+(crontab -l ; echo "*/5 * * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh") | crontab
 
 mysql -u radius -pradius radius <<EOF
-
-DROP TABLE IF EXISTS daily_accounting;
-CREATE TABLE daily_accounting (
-  id int(32) NOT NULL AUTO_INCREMENT,
-  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  day date NOT NULL,
-  day_beg datetime,
-  inputoctets_day_beg bigint(20) DEFAULT 0,
-  outputoctets_day_beg bigint(20) DEFAULT 0,
-  work_beg datetime,
-  inputoctets_work_beg bigint(20) DEFAULT 0,
-  outputoctets_work_beg bigint(20) DEFAULT 0,
-  work_end datetime,
-  inputoctets_work_end bigint(20) DEFAULT 0,
-  outputoctets_work_end bigint(20) DEFAULT 0,
-  day_end datetime,
-  inputoctets_day_end bigint(20) DEFAULT 0,
-  outputoctets_day_end bigint(20) DEFAULT 0,
-  PRIMARY KEY (id)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-ALTER TABLE daily_accounting ADD UNIQUE INDEX (username, day);
-
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('marsPortal-Template', 'mars-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
 ('marsPortal-Template', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '250'),
