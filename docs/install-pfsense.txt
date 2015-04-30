@@ -44,6 +44,8 @@ Connect with a cable to the LAN port (e.g. em1), wait until your computer receiv
 
 Finish the installation wizard by following the instructions on the screen.
 
+Disable IPv6 (System -> Advanced -> Uncheck Allow IPv6)
+
 
 Configuration
 -------------

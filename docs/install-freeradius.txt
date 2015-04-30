@@ -36,7 +36,7 @@ To start the server in normal (daemon) mode, run:
 /usr/local/etc/rc.d/radiusd [ start | stop | debug ]
 
 uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
-uncomment relevant sql lines in/usr/local/etc/raddb/sites-enabled/default
+uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
 
 'steal' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 cd / && tar xzf root/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
@@ -84,12 +84,12 @@ XXX Manually edit /etc/freeradius/sql.conf and change entry of num_sql_socks to 
 ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
 
 XXX
-(crontab -l ; echo "#59 23 * * * /home/marsPortal/daloradius-accounting/reset-groups-open-for-today.sh") | crontab -
+(crontab -l ; echo "#59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
 # open up network outside of work hours and at weekends
-(crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/daloradius-accounting/activate-groups-non-work-hours.sh") | crontab -
-(crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/daloradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
 
-(crontab -l ; echo "*/5 * * * * /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh") | crontab
+(crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
 
 mysql -u radius -pradius radius <<EOF
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
