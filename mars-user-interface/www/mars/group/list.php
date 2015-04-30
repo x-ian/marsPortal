@@ -50,7 +50,7 @@ echo "<td>" . nl2br( $row['Max Daily Up']) . "</td>";
 echo "<td>" . nl2br( $row['Max Daily Down']) . "</td>";
 echo "<td>" . nl2br( $row['Auth Type']) . "</td>";  
 echo "<td>" . nl2br( $row['Reply Message']) . "</td>";  
-echo "<td><a href=edit.php?groupname={$row['groupname']}>Edit</a> <a href=duplicate.php?groupname={$row['groupname']}>Duplicate</a> <a href=delete.php?goupname={$row['groupname']}>Delete</a></td> "; 
+echo "<td><a href=edit.php?groupname={$row['groupname']}>Edit</a> <a href=duplicate.php?groupname={$row['groupname']}>Duplicate</a> <a href=delete.php?groupname={$row['groupname']}>Delete</a></td> "; 
 echo "</tr>"; 
 } 
 echo "</table>"; 

@@ -1,5 +1,5 @@
 <? 
-include 'menu.php'; 
+include './menu.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->
