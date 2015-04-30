@@ -38,8 +38,9 @@ To start the server in normal (daemon) mode, run:
 uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
 uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
 
-'steal' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
-cd / && tar xzf root/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
+make sure you use the matching version for AMG64 or i386 !!!
+cd / && tar xzf home/marsPortal/binaries/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
 
 
 Testing freeRADIUS install with local file-based users list
@@ -178,6 +179,16 @@ CREATE TABLE userinfo (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE userinfo ADD UNIQUE INDEX (username);
+
+DROP TABLE IF EXISTS accounting_snapshot;
+CREATE TABLE accounting_snapshot (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  datetime timestamp NOT NULL,
+  output bigint(20) NOT NULL DEFAULT 0,
+  input bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 EOF
 

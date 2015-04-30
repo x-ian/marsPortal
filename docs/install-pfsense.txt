@@ -60,6 +60,8 @@ Configure/activate DHCP server for every inside network/VLAN interface as requir
 
 Set DHCP server lease time to 43200 (note that this must be greater than any Captive portal and RADIUS session timeouts)
 
+Deactive 'block bogon networks' and 'block private networks' if the WAN IP is not a public IP
+
 
 Captive Portal
 --------------
@@ -109,6 +111,7 @@ cd /home
 tar xzf marsPortal.tgz
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
+(crontab -l ; echo "@reboot /home/marsPortal/misc/marsPortalStart.sh") | crontab -
 (crontab -l ; echo "@reboot /home/marsPortal/misc/mail_after_startup.sh") | crontab -
 (crontab -l ; echo "59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
 (crontab -l ; echo "5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh") | crontab -
