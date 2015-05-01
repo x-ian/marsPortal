@@ -10,17 +10,17 @@ include('../config.php');
 $order = $_GET['order']; 
 ?>
 
-<a href="recent_top_X.php?order=input">Sort by Download</a> <a href="recent_top_X.php?order=output">Sort by Upload</a>
+<a href="recent_top_X.php?order=output">Sort by Download</a> <a href="recent_top_X.php?order=input">Sort by Upload</a>
 
 <br/><br/>
 
 <table>
 	<tr>
 		<th>Username</th>
-		<th>Data In (download)</th>
-		<th>Average rate (download)</th>
-		<th>Data Out (upload)</th>
-		<th>Average rate upload)</th>
+		<th>Upload (in MB)</th>
+		<th>Average rate (in bps)</th>
+		<th>Download (in MB)</th>
+		<th>Average rate (in bps)</th>
 	</tr>
 
 <?
@@ -37,7 +37,7 @@ function throughput_upordown($topX, $order) {
 	ORDER BY " . $order . " DESC LIMIT " . $topX;
 }
 
-$result = mysql_query(throughput_upordown(10, $order))  or trigger_error(mysql_error()); 
+$result = mysql_query(throughput_upordown(20, $order))  or trigger_error(mysql_error()); 
 
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
@@ -58,7 +58,7 @@ while($row = mysql_fetch_array($result)){
 $result = mysql_query("select datetime from accounting_snapshot limit 1") or trigger_error(mysql_error()); 
 if($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
-	echo "Transfer volumes since " . $row[0];  
+	echo "Transfer volumes since " . $row[0] . "; measurements updated every 5 minutes";
 }
 ?>
 
