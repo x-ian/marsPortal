@@ -92,6 +92,8 @@ XXX
 
 (crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
 
+(crontab -l ; echo "*/30 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh") | crontab -
+
 mysql -u radius -pradius radius <<EOF
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('marsPortal-Template', 'mars-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
