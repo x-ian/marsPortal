@@ -68,6 +68,6 @@ fi
 # e.g. "Failed to find IP address for pfsense.apzunet"
 echo "RADIUS server offline or unknown response. Please contact the IT team."
 echo $RADTEST
-echo "$MAC - $IP - 9 - RADIUS offline or unknown response - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
+echo "$MAC - $IP - 9 - RADIUS offline or unknown response - `date +%Y%m%d-%H%M%S` - $RADTEST" >> $STATUS_LOG
 exit 9
 
