@@ -18,13 +18,21 @@ $order = $_GET['order'];
 	<tr>
 		<th>Username</th>
 		<th>Data In (download)</th>
+		<th>Average rate (download)</th>
 		<th>Data Out (upload)</th>
+		<th>Average rate upload)</th>
 	</tr>
 
 <?
 function throughput_upordown($topX, $order) {
-	return "select da.username, ROUND((da.day_total_input - snap.input) / 1000000) as input, ROUND((da.day_total_output - snap.output) / 1000000) as output
-	from accounting_snapshot snap, daily_accounting_v2 da
+	return "
+	select da.username, 
+		snap.datetime, 
+		ROUND((da.day_total_input - snap.input) / 1000000) as input, 
+		ROUND((da.day_total_output - snap.output) / 1000000) as output, 
+		ROUND((da.day_total_input - snap.input) / timestampdiff(SECOND, snap.datetime, now())) as input_rate,
+		ROUND((da.day_total_output - snap.output) / timestampdiff(SECOND, snap.datetime, now())) as output_rate
+	from accounting_snapshot snap, daily_accounting_v2 da 
 	where da.username = snap.username and da.day = date_format(now(), '%Y-%m-%d') and date_format(snap.datetime, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
 	ORDER BY " . $order . " DESC LIMIT " . $topX;
 }
@@ -36,7 +44,9 @@ while($row = mysql_fetch_array($result)){
 	echo "<tr>";  
 	echo "<td>" . nl2br( $row[0]) . "</td>";
 	echo "<td>" . nl2br( $row[1]) . "</td>";
+	echo "<td>" . nl2br( $row[3]) . "</td>";
 	echo "<td>" . nl2br( $row[2]) . "</td>";
+	echo "<td>" . nl2br( $row[4]) . "</td>";
 	echo "</tr>";  
 }
 ?>

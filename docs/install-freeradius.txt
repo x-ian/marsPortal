@@ -124,8 +124,8 @@ INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('Users', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '100');
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('Users', 'Session-Timeout', ':=', '43200'),
-('Users', 'WISPr-Bandwidth-Max-Up', ':=', '400000'),
-('Users', 'WISPr-Bandwidth-Max-Down', ':=', '150000');
+('Users', 'WISPr-Bandwidth-Max-Up', ':=', '150000'),
+('Users', 'WISPr-Bandwidth-Max-Down', ':=', '400000');
 
 
 DROP TABLE IF EXISTS daily_accounting_v2;

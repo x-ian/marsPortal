@@ -1,0 +1,32 @@
+migrate daloradius to freeradius
+
+DROP TABLE IF EXISTS userinfo_new;
+CREATE TABLE userinfo_new (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  firstname varchar(64),
+  lastname varchar(64),
+  email varchar(64),
+  department varchar(64),
+  organisation varchar(64),
+  initial_ip varchar(64),
+  hostname varchar(64),
+  registration_date datetime,
+  mac_vendor varchar(64),
+  notes varchar(64),
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE userinfo_new ADD UNIQUE INDEX (username);
+INSERT INTO userinfo_new (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes)
+SELECT concat(substring(username, 1, 2), ":", substring(username, 3,2), ":", substring(username, 5,2), ":", substring(username, 7,2), ":", substring(username, 9,2), ":", substring(username, 11,2)), firstname, lastname, email, department, company, state, address, creationdate, city, CONCAT(mobilephone, “ “, notes) FROM userinfo;
+mysqldump -u radius -pradius radius userinfo_new > userinfo_new.sql
+search & replace userinfo_new with userinfo
+mysql -u radius -pradpass radius </root/userinfo_new.sql
+
+mysqldump -u radius -pradius radius radusergroup > radusergroup.sql
+mysql -u radius -pradpass radius </root/radusergroup.sql
+update radusergroup set username = concat(substring(username, 1, 2), ":", substring(username, 3,2), ":", substring(username, 5,2), ":", substring(username, 7,2), ":", substring(username, 9,2), ":", substring(username, 11,2));
+
+mysqldump -u radius -pradius radius radcheck > radcheck.sql
+mysql -u radius -pradpass radius </root/radcheck.sql
+update radcheck set username = concat(substring(username, 1, 2), ":", substring(username, 3,2), ":", substring(username, 5,2), ":", substring(username, 7,2), ":", substring(username, 9,2), ":", substring(username, 11,2));

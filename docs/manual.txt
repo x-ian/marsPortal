@@ -156,6 +156,7 @@ mysql -u radius -pradius radius <<EOF
 truncate daily_accounting;
 truncate daily_accounting_v2;
 truncate radacct;
+truncate accounting_snapshot;
 EOF
 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_offset

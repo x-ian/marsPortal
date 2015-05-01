@@ -14,6 +14,7 @@ mysql_query("DELETE FROM `radacct` WHERE `username` = '$username' ") ;
 mysql_query("DELETE FROM `radreply` WHERE `username` = '$username' ") ; 
 mysql_query("DELETE FROM `radpostauth` WHERE `username` = '$username' ") ; 
 mysql_query("DELETE FROM `daily_accounting_v2` WHERE `username` = '$username' ") ; 
+mysql_query("DELETE FROM `accounting_snapshot` WHERE `username` = '$username' ") ; 
 mysql_query("DELETE FROM `userinfo` WHERE `username` = '$username' ") ; 
 echo (mysql_affected_rows()) ? "User/device including accounting history deleted.<br /> " : "Nothing deleted.<br /> "; 
 ?> 
