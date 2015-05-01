@@ -8,29 +8,28 @@ include '../menu.php';
 <? 
 include('../config.php'); 
 $order = $_GET['order']; 
-
 ?>
 
-<a href="recent_top_X.php?order=input">Sort by Input</a> <a href="recent_top_X.php?order=input">Sort by Output</a>
+<a href="recent_top_X.php?order=input">Sort by Download</a> <a href="recent_top_X.php?order=output">Sort by Upload</a>
 
-<br/>
+<br/><br/>
 
 <table>
 	<tr>
 		<th>Username</th>
-		<th>Throughput In</th>
-		<th>Throughput Out</th>
+		<th>Data In (download)</th>
+		<th>Data Out (upload)</th>
 	</tr>
 
 <?
 function throughput_upordown($topX, $order) {
-	return "select da.username, (da.day_total_input - snap.input) / 1000000 as input, (da.day_total_output - snap.output) / 1000000 as output
+	return "select da.username, ROUND((da.day_total_input - snap.input) / 1000000) as input, ROUND((da.day_total_output - snap.output) / 1000000) as output
 	from accounting_snapshot snap, daily_accounting_v2 da
 	where da.username = snap.username and da.day = date_format(now(), '%Y-%m-%d') and date_format(snap.datetime, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
-	ORDER BY " . $order . " LIMIT " . $topX;
+	ORDER BY " . $order . " DESC LIMIT " . $topX;
 }
 
-$result = mysql_query(throughput_upordown(10, "input"))  or trigger_error(mysql_error()); 
+$result = mysql_query(throughput_upordown(10, $order))  or trigger_error(mysql_error()); 
 
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
@@ -46,7 +45,7 @@ while($row = mysql_fetch_array($result)){
 <br/>
 
 <?
-$result = mysql_query("select datetime	from accounting_snapshot limit 1") or trigger_error(mysql_error()); 
+$result = mysql_query("select datetime from accounting_snapshot limit 1") or trigger_error(mysql_error()); 
 if($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 	echo "Transfer volumes since " . $row[0];  
