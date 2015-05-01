@@ -43,10 +43,10 @@ while($row = mysql_fetch_array($result)){
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 	echo "<tr>";  
 	echo "<td>" . nl2br( $row[0]) . "</td>";
-	echo "<td>" . nl2br( $row[1]) . "</td>";
-	echo "<td>" . nl2br( $row[3]) . "</td>";
 	echo "<td>" . nl2br( $row[2]) . "</td>";
 	echo "<td>" . nl2br( $row[4]) . "</td>";
+	echo "<td>" . nl2br( $row[3]) . "</td>";
+	echo "<td>" . nl2br( $row[5]) . "</td>";
 	echo "</tr>";  
 }
 ?>
