@@ -32,7 +32,7 @@ function throughput_upordown($topX, $order) {
 		ROUND((da.day_total_output - snap.output) / 1000000) as output, 
 		ROUND((da.day_total_input - snap.input) / timestampdiff(SECOND, snap.datetime, now())) as input_rate,
 		ROUND((da.day_total_output - snap.output) / timestampdiff(SECOND, snap.datetime, now())) as output_rate,
-		CONCAT(ui.firstname, " ", ui.lastname),
+		CONCAT(ui.firstname, ' ', ui.lastname),
 		ui.hostname,
 		g.groupname
 	from accounting_snapshot snap, daily_accounting_v2 da, userinfo ui, radusergroup g
@@ -45,7 +45,7 @@ $result = mysql_query(throughput_upordown(20, $order))  or trigger_error(mysql_e
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 	echo "<tr>";  
-	echo "<td>" . nl2br( $row[6] . " (" . $row[8] . " " . $row[7] . " " . $row[1] . " " . ")") . "</td>";
+	echo "<td>" .  $row[6] . " (" . $row[8] . " " . $row[7] . " <a href=/mars/userinfo/edit.php?username=$row[0]>$row[0]</a>)" . "</td>";
 	echo "<td>" . nl2br( $row[2]) . "</td>";
 	echo "<td>" . nl2br( $row[4]) . "</td>";
 	echo "<td>" . nl2br( $row[3]) . "</td>";
