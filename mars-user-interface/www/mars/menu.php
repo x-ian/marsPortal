@@ -28,7 +28,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
         <li><a href="/mars/group/list.php">Manage groups<a></li>
         <li>Reports</li>
       	<ul id="ul2">
-       		<li><a href="/mars/reports/recent_top_X.php?order=input">Recent Top 10</a></li>
+       		<li><a href="/mars/reports/recent_top_X.php?order=output">Recent Top 10</a></li>
        		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
        		<li><a href="/mars/reports/users_with_volume.php">Users (7d history)</a></li>
 		</ul>
@@ -38,9 +38,8 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
        		<li><a href="/index.php">pfSense Dashboard</a></li>
        		<li><a href="/status_captiveportal.php">Captive portal sessions</a></li>
        		<li><a href="/status_graph.php?if=wan">Traffic graphs</a></li>
-       		<li><?php echo '<a href=http://' . $PF_IP . ':3000>nTop</a>'; ?></li>
+       		<li><?php echo '<a href=http://' . $PF_IP . ':3000/sortDataThpt.html?showH=1&showL=2&col=1>nTop</a>'; ?></li>
        		<li><a href="/lightsquid/index.cgi">Squid Proxy report</a></li>
 		</ul>
   	  </ul>
 	</div>
-
