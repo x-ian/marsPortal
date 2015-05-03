@@ -10,17 +10,18 @@ include('../config.php');
 $order = $_GET['order']; 
 ?>
 
-<a href="recent_top_X.php?order=output">Sort by Download</a> <a href="recent_top_X.php?order=input">Sort by Upload</a>
-
-<br/><br/>
 
 <table>
 	<tr>
-		<th>User</th>
-		<th>Upload (in MB)</th>
-		<th>Average rate (in bps)</th>
-		<th>Download (in MB)</th>
-		<th>Average rate (in bps)</th>
+		<th rowspan="2">User</th>
+		<th colspan="2"><a href="recent_top_X.php?order=input_rate">Upload</a></th>
+		<th colspan="2"><a href="recent_top_X.php?order=output_rate">Download</a></th>
+	</tr>
+	<tr>
+		<td><b>MB</b></td>
+		<td><b>bits/s</b></th>
+		<td><b>MB</b></td>
+		<th><b>bits/s</b></th>
 	</tr>
 
 <?
