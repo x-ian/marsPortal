@@ -92,7 +92,9 @@ XXX
 
 (crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
 
-(crontab -l ; echo "*/30 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh") | crontab -
+(crontab -l ; echo "*/30 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_1") | crontab -
+(crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
+(crontab -l ; echo "0 */8 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snaphost_3") | crontab -
 
 mysql -u radius -pradius radius <<EOF
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
@@ -182,8 +184,28 @@ CREATE TABLE userinfo (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE userinfo ADD UNIQUE INDEX (username);
 
-DROP TABLE IF EXISTS accounting_snapshot;
-CREATE TABLE accounting_snapshot (
+DROP TABLE IF EXISTS accounting_snapshot_1;
+CREATE TABLE accounting_snapshot_1 (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  datetime timestamp NOT NULL,
+  output bigint(20) NOT NULL DEFAULT 0,
+  input bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS accounting_snapshot_2;
+CREATE TABLE accounting_snapshot_2 (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  datetime timestamp NOT NULL,
+  output bigint(20) NOT NULL DEFAULT 0,
+  input bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS accounting_snapshot_3;
+CREATE TABLE accounting_snapshot_3 (
   id int(32) NOT NULL AUTO_INCREMENT,
   username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   datetime timestamp NOT NULL,
