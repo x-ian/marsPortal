@@ -142,10 +142,68 @@ ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
 (crontab -l ; echo "55 23 * * * /home/marsPortal/misc/daloradius-mail-statistics.sh") | crontab -
 (crontab -l ; echo "*/30 * * * * /home/marsPortal/misc/process-mail-backlog.sh") | crontab -
+(crontab -l ; echo "#59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
+(crontab -l ; echo "#0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "#0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
+(crontab -l ; echo "15,45 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_1") | crontab -
+(crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
+(crontab -l ; echo "0 */8 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snaphost_3") | crontab -
+
+echo 'radiusd_enable="YES"' >> /etc/rc.conf
+mkdir /var/run/radiusd/
+
+ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
+
+cd / && tar xzf home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+
+Background: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
+make sure you use the matching version for AMG64 or i386 !!!
 
 Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
 
 Open /home/marsPortal/ssmtp.config and adjust the config values as needed, e.g. with vi /home/marsPortal/ssmtp.config
+
+
+Database preparation
+--------------------
+
+cd /usr/local && ./bin/mysql_install_db
+chown -R mysql /usr/local/data
+echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
+/usr/local/bin/mysqld_safe &
+/usr/local/bin/mysql_secure_installation
+
+mysql -u root -pradius <<EOF
+   CREATE DATABASE radius;
+   GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "radpass";
+   exit
+EOF
+mysql -u root -p radius < /usr/local/etc/raddb/sql/mysql/schema.sql
+mysql -u radius -pradius radius < /home/marsPortal/setup-marsPortal.marsPortal.sql
+
+
+Configuration of freeRADIUS
+---------------------------
+
+Modify /usr/local/etc/raddb/sites-enabled/default as follows:
+
+	# add to authorize section
+	$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.authorize
+		
+	# add to preacct section
+	$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.preacct
+		
+	# add to accounting section
+	$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.accounting
+
+Add to /usr/local/etc/raddb/dictionary
+$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.dictionary
+
+uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
+uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
+
+Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
 
 
 Optional: Automatic pfSense mails
@@ -173,8 +231,59 @@ weekly, on Sunday at 23:00 with RRD Graphs captive portal :: concurrent and a we
 Depending on the gmail account configuration you might need to enable 'less secure apps' for this gmail account 
 
 
-Additional notes
-----------------
+Create user groups
+------------------
+
+Create new user groups as required, e.g. Users, Guests, Leadership. Easiest to duplicate the group marsPortal-Template.
+
+For each of these groups the following attributes can be added to determine the characteristics of the group. Possible RADIUS attributes for each group are: 
+- WISPr-Bandwidth-Max-Down, WISPr-Bandwidth-Max-Up
+- Session-Timeout
+- mars-Output-Megabytes-Daily-Work-Hours and mars-Input-Megabytes-Daily-Work-Hours
+- mars-Output-Megabytes-Daily-Total and mars-Input-Megabytes-Daily-Total
+- mars-Max-Concurrent-Devices
+- Accept-Method: reject, optionally with Reply-Message
+
+Optional: For every user group, create a matching XYZ-open-for-today group (these names are part of some automated scripts, so do not change this postfix). 
+
+
+Finalizing
+----------
+
+Reboot pfSense
+
+Connect a client to LAN subnet of pfSense and daloRADIUS server and try to access any HTTP (not HTTPS) page. E.g. http://www.marsgeneral.com
+
+Catch the MAC address from resulting error page and create new freeradius user with MAC authentication in the Web UI.
+
+Try again to connect to a HTTP (!) page.
+
+If everything worked out, you should be able to access this web page now. In that case a session on the pfSense is also created and visible from the menu Status - Captive Portal.
+
+In case no Internet access is granted and no session is created on the captive portal, use the command line to troubleshoot the RADIUS communication. E.g. from the pfSense shell, invoke this command (change settings as needed):
+radtest <mac address> radius localhost 0 radius
+
+Receiving an Access-Reject packet indicates that something with the radius user entry or configuration doesn't match; receiving an Access-Accept packet while still not being able to access the Internet points towards a Captive Portal problem.
+
+
+Additional notes/troubleshooting
+--------------------------------
+
+Not needed for installation, but could be helpful in case something doesn't work
+
+To start the server in normal (daemon) mode, run:
+/usr/local/etc/rc.d/radiusd [ start | stop | debug ]
+
+Testing freeRADIUS install with local file-based users list:
+add 'testingUsers Cleartext-Password := "password"' to top of /usr/local/etc/raddb/users
+radtest testingUsers password localhost 0 testing123
+
+Testing freeRADIUS install with MySQL-based users list:
+# TODO: Doesn't work!
+mysql -u root -pradius radius <<EOF
+	INSERT INTO radcheck set username='testingSQL', value='password', op=':=';
+EOF
+radtest testingSQL password localhost 0 testing123
 
 On some installations the local console is not shown - it stops with the 'bootup complete' message, unclear how to solve this: https://forum.pfsense.org/index.php?topic=34814.0. In my case the file /etc/ttys was corrupt and was replaced with a working file from another system. This file is available under docs/install - ttys.example.
 
