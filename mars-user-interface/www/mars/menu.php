@@ -31,6 +31,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
        		<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active users</a></li>
        		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
        		<li><a href="/mars/reports/users_with_volume.php">Users (7d history)</a></li>
+       		<li><a href="/mars/reports/groups.php">Groups</a></li>
 		</ul>
         <li><a href="/mars/admin.php">Admin<a></li>
         <li>Additional links</li>
