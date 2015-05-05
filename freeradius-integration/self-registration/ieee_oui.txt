@@ -1,4 +1,4 @@
-  Generated: Wed, 29 Apr 2015 05:00:03 -0400
+  Generated: Sun, 03 May 2015 05:00:03 -0400
 
   OUI/MA-L			Organization
   company_id			Organization
@@ -85653,6 +85653,13 @@
 				Clermont Florida 34711
 				UNITED STATES
 
+  18-5E-0F   (hex)		Intel Corporate
+  185E0F     (base 16)		Intel Corporate
+  				Lot 8, Jalan Hi-Tech 2/3
+				Kulim Hi-Tech Park
+				Kulim Kedah 09000
+				MALAYSIA
+
   18-62-2C   (hex)		SAGEMCOM SAS
   18622C     (base 16)		SAGEMCOM SAS
   				250 ROUTE DE L'EMPEREUR
@@ -87877,6 +87884,12 @@
 				Detroit MI 48226
 				UNITED STATES
 
+  24-5B-F0   (hex)		Liteon, Inc.
+  245BF0     (base 16)		Liteon, Inc.
+  				3001 Summit Avenue, Suite 400
+				Plano Tx 75074
+				UNITED STATES
+
   24-5F-DF   (hex)		KYOCERA Corporation
   245FDF     (base 16)		KYOCERA Corporation
   				2-1-1,Kagahara,
@@ -87940,6 +87953,13 @@
   				12500 TI Blvd
 				Dallas Texas 75243
 				UNITED STATES
+
+  24-72-60   (hex)		IOTTECH Corp
+  247260     (base 16)		IOTTECH Corp
+  				4F.-1, No.55, Dongguang Rd., East Dist., Hsinchu City 300, TAIWAN ,REPUBLIC OF CHINA
+				No. 1 Jen Ai Road Hsinchu Industrial Park Hukou, Hsinchu 303 TAIWAN, REPUBLIC OF CHINA
+				Hsinchu TAIWAN 300
+				TAIWAN, PROVINCE OF CHINA
 
   24-76-56   (hex)		Shanghai Net Miles Fiber Optics Technology Co., LTD.
   247656     (base 16)		Shanghai Net Miles Fiber Optics Technology Co., LTD.
@@ -88844,6 +88864,12 @@
   28B3AB     (base 16)		Genmark Automation
   				1201 Cadillac Ct
 				Milpitas CA 95035
+				UNITED STATES
+
+  28-B9-D9   (hex)		Radisys Corporation
+  28B9D9     (base 16)		Radisys Corporation
+  				5435 NE Dawson Creek Drive
+				Hillsboro OR 97124
 				UNITED STATES
 
   28-BA-18   (hex)		NextNav, LLC
@@ -94484,6 +94510,12 @@
 				Cupertino CA 95014
 				UNITED STATES
 
+  44-FD-A3   (hex)		Everysight LTD.
+  44FDA3     (base 16)		Everysight LTD.
+  				Advanced Technology Center P.O.B 539
+				Haifa 31053
+				ISRAEL
+
   48-02-2A   (hex)		B-Link Electronic Limited
   48022A     (base 16)		B-Link Electronic Limited
   				NO 268,FuQian Rd, JuTang Community,GuanLan town BaoAn district,ShenZhen, 518110,China
@@ -95702,6 +95734,13 @@
   				31355 State Road 46
 				Sorrento Florida 32776
 				UNITED STATES
+
+  4C-C6-81   (hex)		Shenzhen Aisat Electronic Co., Ltd.
+  4CC681     (base 16)		Shenzhen Aisat Electronic Co., Ltd.
+  				Golden Building 419#, Design Park,
+				Nanshan Road
+				Shenzhen Guangdong 518056
+				CHINA
 
   4C-C9-4F   (hex)		Alcatel-Lucent
   4CC94F     (base 16)		Alcatel-Lucent
@@ -100957,6 +100996,13 @@
 				SJCM/2
 				San Jose CA 95134
 				UNITED STATES
+
+  68-9A-B7   (hex)		Atelier Vision Corporation
+  689AB7     (base 16)		Atelier Vision Corporation
+  				888-340 Nakagawa
+				Hosoe-cho, Kita-ku
+				Hamamatsu Shizuoka 431-1304
+				JAPAN
 
   68-9C-5E   (hex)		AcSiP Technology Corp.
   689C5E     (base 16)		AcSiP Technology Corp.
@@ -106246,6 +106292,12 @@
 				Cupertino CA 95014
 				UNITED STATES
 
+  80-EA-23   (hex)		Wistron Neweb Corp.
+  80EA23     (base 16)		Wistron Neweb Corp.
+  				20 Park Avenue II. Hsinchu Science Park
+				HsinChu Taiwan 308
+				TAIWAN, PROVINCE OF CHINA
+
   80-EA-96   (hex)		Apple
   80EA96     (base 16)		Apple
   				1 Infinite Loop
@@ -106968,6 +107020,12 @@
 				PO Box 1331
 				Piscataway  NJ 08855-1331
 				UNITED STATES
+
+  84-D4-C8   (hex)		Widex A/S
+  84D4C8     (base 16)		Widex A/S
+  				Nymoellevej 6
+				Lynge Alleroed DK3540
+				DENMARK
 
   84-D9-C8   (hex)		Unipattern Co.,
   84D9C8     (base 16)		Unipattern Co.,
@@ -111773,6 +111831,12 @@
 				Mountain View CA 94043
 				UNITED STATES
 
+  A0-39-F7   (hex)		LG Electronics (Mobile Communications)
+  A039F7     (base 16)		LG Electronics (Mobile Communications)
+  				60-39, Gasan-dong, Geumcheon-gu
+				Seoul Seoul 153-801
+				KOREA, REPUBLIC OF
+
   A0-3A-75   (hex)		PSS Belgium N.V.
   A03A75     (base 16)		PSS Belgium N.V.
   				Hoogveld 50
@@ -112888,7 +112952,7 @@
   A48CDB     (base 16)		Lenovo
   				1009 Think Place
 				Morrisvilee NC 27560
-				ALAND ISLANDS
+				UNITED STATES
 
   A4-8D-3B   (hex)		Vizio, Inc
   A48D3B     (base 16)		Vizio, Inc
@@ -115722,6 +115786,13 @@
   				4700 Falls of Neuse Rd.
 				Suite 340
 				Raleigh NC 27609
+				UNITED STATES
+
+  B4-37-D1   (hex)		IEEE REGISTRATION AUTHORITY  - Please see MAM public listing for more information.
+  B437D1     (base 16)		IEEE REGISTRATION AUTHORITY  - Please see MAM public listing for more information.
+  				
+				445 HOES LANE
+				PISCATAWAY NJ 08854
 				UNITED STATES
 
   B4-39-34   (hex)		Pen Generations, Inc.
@@ -123510,6 +123581,12 @@
 				Kingsport TN 37660
 				UNITED STATES
 
+  D8-EF-CD   (hex)		Nokia
+  D8EFCD     (base 16)		Nokia
+  				Karaportti 3
+				Espoo Finland 02610
+				FINLAND
+
   D8-F0-F2   (hex)		Zeebo Inc
   D8F0F2     (base 16)		Zeebo Inc
   				5405 Morehouse Drive
@@ -126469,6 +126546,12 @@
 				VANCOUVER BRITISH COLUMBIA V5Y 3E1
 				CANADA
 
+  E8-F2-E2   (hex)		LG Innotek
+  E8F2E2     (base 16)		LG Innotek
+  				26, Hanamsandan 5beon-ro
+				Gwangju Gwangsan-gu 506-731
+				KOREA, REPUBLIC OF
+
   E8-F2-E3   (hex)		Starcor Beijing Co.,Limited
   E8F2E3     (base 16)		Starcor Beijing Co.,Limited
   				NO.210 Block B, Building 2
@@ -126576,6 +126659,12 @@
   				240 Madison Ave
 				Garden City Park NEW YORK 11040
 				UNITED STATES
+
+  EC-21-E5   (hex)		Toshiba
+  EC21E5     (base 16)		Toshiba
+  				2-9,Suehiro-Cho
+				Ome Tokyo 1988710
+				JAPAN
 
   EC-22-57   (hex)		JiangSu NanJing University Electronic Information Technology Co.,Ltd
   EC2257     (base 16)		JiangSu NanJing University Electronic Information Technology Co.,Ltd
@@ -130425,6 +130514,13 @@
 				Ohita-machi
 				Tochigi-shi Tochigi-ken 329-4404
 				JAPAN
+
+  FC-FE-C2   (hex)		Invensys Controls UK Limited
+  FCFEC2     (base 16)		Invensys Controls UK Limited
+  				401 Southway Drive
+				Southway
+				Plymouth Devon Pl6 6QT
+				UNITED KINGDOM
 
   FC-FF-AA   (hex)		IEEE REGISTRATION AUTHORITY  - Please see MAL public listing for more information.
   FCFFAA     (base 16)		IEEE REGISTRATION AUTHORITY  - Please see MAL public listing for more information.
