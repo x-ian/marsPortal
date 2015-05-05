@@ -1,0 +1,290 @@
+NOTES ON INSTALLATION OF PFSENSE
+================================
+
+Preparing memstick installation
+-------------------------------
+
+pfsense can be installed from local CD drive or from an USB flash disk (if the BIOS supports it). To create a bootable flash drive, just these commands under Mac OS X; for other opering systems check https://doc.pfsense.org/index.php/Writing_Disk_Images:
+diskutil list
+diskutil umount /dev/diskX
+gzcat ~/Downloads/pfSense-memstick-2.2.2-RELEASE-amd64.img.gz | sudo dd of=/dev/diskX bs=16k
+
+
+Installation
+------------
+
+pfSense requires a system with at least 2 physical network interfaces.
+
+Booting the Live/Installer CD can be troublesome at times. Check the notes below if it doesn't automatically proceed. When performing an installation to the hard disk from a bootable CD, pay attention to the messages and input screens. You need to press I at the beginning of the boot process when asked for input to invoke the installation, otherwise it will start the LiveCD after 10 seconds. Alternatively the 'memstick' variant of pfSense can be used to install from a USB flash drive.
+
+Choose quick / default installation of pfSense
+
+Once the installation and the copying process is done, remove the Boot CD before restarting. Otherwise it might boot up again from the CD instead of the newly created installation on the hard disk.
+
+Installation notes:
+On the old Baobab servers the 64 Bit version AMD64 had some performance issues with PHP. Switching back to the i386 32 Bit version solved them.
+
+During boot it may or may not be necessary to disable ACPI via boot option (2) (https://doc.pfsense.org/index.php/Booting_Options#pfSense_2.0)
+
+When booting from LiveCD stops in the middle of the boot process (or stops with a mount error as described here https://doc.pfsense.org/index.php/Boot_Troubleshooting), attach an external USB CD drive and coose 'Boot from USB drive' (option 3) at the first pfSense selection screen.
+
+
+Initial configuration
+---------------------
+
+After rebooting the basic network configs need to be configured.
+
+Skip VLAN configuration for now; they can be configured later on.
+
+Configure first network interface (e.g. em0) as WAN (e.g. with 172.16.1.X/24) and em1 as LAN (e.g. with 192.168.1.1/24) and enable DHCP services per devices as needed.
+
+Connect with a cable to the LAN port (e.g. em1), wait until your computer receives an IP address from the pfSense and open the web browser pointing to above http://192.168.1.1. Use admin/pfsense as username and password.
+
+Finish the installation wizard by following the instructions on the screen.
+
+
+Configuration
+-------------
+
+Enable remote access on WAN interface for SSH and web management through System - Admin Access - Advanced - Activate HTTPS for WebConfigurator and Enable SSH (Secure Shell)
+
+Adjust timezone if needed
+
+Change and add network interfaces as needed, e.g. add vlan interfaces to em1 starting from 192.168.11.x upwards, don't forget to disable the parent interface for these VLANs (e.g. em1)
+
+Configure/activate DHCP server for every inside network/VLAN interface as required
+
+Set DHCP server lease time to 43200 (note that this must be greater than any Captive portal and RADIUS session timeouts)
+
+Deactive 'block bogon networks' and 'block private networks' if the WAN IP is not a public IP
+
+Disable IPv6 (System -> Advanced -> Uncheck Allow IPv6)
+
+Add pfsense.localdomain to DNS Forwarder/Resolver as host overwrites with the IP of the WAN interface. Services - DNS forwarder - add new host override with host = pfsense, domain = localdomain, IP = 172.16.1.2 and description = to make pfsense.localdomain locally available (e.g. required for radcheck)
+
+Add firewall rule to allow TCP, UDP, and ICMP pings (easiest done through 'floating rules')
+
+Add firewall rules on wan interface to allow traffic on port 3000 (for ntop)
+
+
+Captive Portal
+--------------
+
+Create and enable new Captive portal zone labeled apzunet on the internal LAN interfaces
+
+Activate 'Disable concurrent logins'
+
+Configure RADIUS server with RADIUS authentication and RADIUS protocol PAP
+
+Set IP of primary RADIUS server to 127.0.0.1
+
+Use testing123 as the shared secret
+
+enable 'send RADIUS accounting packets' with 'interim updates'
+
+enable 'RADIUS MAC authentication'
+
+set 'MAC authentication secret' to radius
+
+enable 'Use RADIUS Session-Timeout attributes'
+
+Save settings
+
+Upload files marsPortal/setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
+
+Use File manager of Captive portal to upload all files from marsPortal/setup-captiveportal/filemanager/*
+
+optional: add all local IP addresses and external hostnames as allowed systems where access should be possible without passing through the Captive Portal (to bypass captive portal registration and traffic accounting for local servers, e.g. with 172.16.1.0/24)
+
+
+Installation of additional software/packages (requires Internet access)
+--------------------------------------------
+
+Install pfSense packages 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
+
+Enable transparent Squid for HTTP and activate logging
+
+Enable Lightsquid (Proxy report) reporting
+
+Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection:
+pkg
+pkg update
+echo y | pkg install bash
+echo y | pkg install wget
+echo y | pkg install curl
+echo y | pkg install ssmtp
+echo y | pkg install git
+echo y | pkg install mysql56-server
+echo y | pkg install freeradius
+rehash
+ln -s /usr/local/bin/bash /bin/bash
+
+
+marsPortal Customization
+------------------------
+
+Connect via SSH/Putty and execute these statements in the shell (press 8 to access the shell after initial login):
+mkdir /home/client_activities_log
+mkdir /home/local_backups
+mkdir /home/mail_backlog
+cd /home
+git clone https://github.com/x-ian/marsPortal.git
+git checkout apzunet
+cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
+cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
+touch /etc/php_dynamodules/mysql
+/etc/rc.php_ini_setup
+ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
+(crontab -l ; echo "@reboot /home/marsPortal/misc/marsPortalStart.sh") | crontab -
+(crontab -l ; echo "@reboot /home/marsPortal/misc/mail_after_startup.sh") | crontab -
+(crontab -l ; echo "59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
+(crontab -l ; echo "5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh") | crontab -
+(crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
+(crontab -l ; echo "55 23 * * * /home/marsPortal/misc/daloradius-mail-statistics.sh") | crontab -
+(crontab -l ; echo "*/30 * * * * /home/marsPortal/misc/process-mail-backlog.sh") | crontab -
+(crontab -l ; echo "#59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
+(crontab -l ; echo "#0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "#0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
+(crontab -l ; echo "15,45 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_1") | crontab -
+(crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
+(crontab -l ; echo "0 */8 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snaphost_3") | crontab -
+
+echo 'radiusd_enable="YES"' >> /etc/rc.conf
+mkdir /var/run/radiusd/
+
+ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
+
+cd / && tar xzf home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+
+Background: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
+make sure you use the matching version for AMG64 or i386 !!!
+
+Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
+
+Open /home/marsPortal/ssmtp.config and adjust the config values as needed, e.g. with vi /home/marsPortal/ssmtp.config
+
+
+Database preparation
+--------------------
+
+cd /usr/local && ./bin/mysql_install_db
+chown -R mysql /usr/local/data
+echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
+/usr/local/bin/mysqld_safe &
+/usr/local/bin/mysql_secure_installation
+
+mysql -u root -pradius <<EOF
+   CREATE DATABASE radius;
+   GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "radpass";
+   exit
+EOF
+mysql -u root -p radius < /usr/local/etc/raddb/sql/mysql/schema.sql
+mysql -u radius -pradius radius < /home/marsPortal/setup-marsPortal.marsPortal.sql
+
+
+Configuration of freeRADIUS
+---------------------------
+
+Modify /usr/local/etc/raddb/sites-enabled/default as follows:
+
+	# add to authorize section
+	$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.authorize
+		
+	# add to preacct section
+	$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.preacct
+		
+	# add to accounting section
+	$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.accounting
+
+Add to /usr/local/etc/raddb/dictionary
+$INCLUDE    /home/marsPortal/freeradius-config/marsPortal.dictionary
+
+uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
+uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
+
+Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
+
+
+Optional: Automatic pfSense mails
+---------------------------------
+
+Go to System - Advanced - Notifications and enter
+
+E-Mail server: smtp.gmail.com
+
+SMTP Port of E-Mail server: 465
+
+Secure SMTP Connection	Enable SMTP over SSL/TLS
+
+From e-mail address: <...>
+
+Notification E-Mail address: <...<>
+
+Notification E-Mail auth username (optional): <...>
+
+Notification E-Mail auth password: <specify password here>
+
+Add 'Weekly Network Utilization' under Status - Email Reports with settings
+weekly, on Sunday at 23:00 with RRD Graphs captive portal :: concurrent and a weekly time span and RRD Graph WAN :: Traffic
+
+Depending on the gmail account configuration you might need to enable 'less secure apps' for this gmail account 
+
+
+Create user groups
+------------------
+
+Create new user groups as required, e.g. Users, Guests, Leadership. Easiest to duplicate the group marsPortal-Template.
+
+For each of these groups the following attributes can be added to determine the characteristics of the group. Possible RADIUS attributes for each group are: 
+- WISPr-Bandwidth-Max-Down, WISPr-Bandwidth-Max-Up
+- Session-Timeout
+- mars-Output-Megabytes-Daily-Work-Hours and mars-Input-Megabytes-Daily-Work-Hours
+- mars-Output-Megabytes-Daily-Total and mars-Input-Megabytes-Daily-Total
+- mars-Max-Concurrent-Devices
+- Accept-Method: reject, optionally with Reply-Message
+
+Optional: For every user group, create a matching XYZ-open-for-today group (these names are part of some automated scripts, so do not change this postfix). 
+
+
+Finalizing
+----------
+
+Reboot pfSense
+
+Connect a client to LAN subnet of pfSense and daloRADIUS server and try to access any HTTP (not HTTPS) page. E.g. http://www.marsgeneral.com
+
+Catch the MAC address from resulting error page and create new freeradius user with MAC authentication in the Web UI.
+
+Try again to connect to a HTTP (!) page.
+
+If everything worked out, you should be able to access this web page now. In that case a session on the pfSense is also created and visible from the menu Status - Captive Portal.
+
+In case no Internet access is granted and no session is created on the captive portal, use the command line to troubleshoot the RADIUS communication. E.g. from the pfSense shell, invoke this command (change settings as needed):
+radtest <mac address> radius localhost 0 radius
+
+Receiving an Access-Reject packet indicates that something with the radius user entry or configuration doesn't match; receiving an Access-Accept packet while still not being able to access the Internet points towards a Captive Portal problem.
+
+
+Additional notes/troubleshooting
+--------------------------------
+
+Not needed for installation, but could be helpful in case something doesn't work
+
+To start the server in normal (daemon) mode, run:
+/usr/local/etc/rc.d/radiusd [ start | stop | debug ]
+
+Testing freeRADIUS install with local file-based users list:
+add 'testingUsers Cleartext-Password := "password"' to top of /usr/local/etc/raddb/users
+radtest testingUsers password localhost 0 testing123
+
+Testing freeRADIUS install with MySQL-based users list:
+# TODO: Doesn't work!
+mysql -u root -pradius radius <<EOF
+	INSERT INTO radcheck set username='testingSQL', value='password', op=':=';
+EOF
+radtest testingSQL password localhost 0 testing123
+
+On some installations the local console is not shown - it stops with the 'bootup complete' message, unclear how to solve this: https://forum.pfsense.org/index.php?topic=34814.0. In my case the file /etc/ttys was corrupt and was replaced with a working file from another system. This file is available under docs/install - ttys.example.
+
+When temporarily deactivating a network interface to shutdown a certain area of the network, pfSense needs to be rebooted

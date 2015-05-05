@@ -1,7 +1,7 @@
 freeRADIUS Installation
 =======================
 
-pfSense requires an external freeRADIUS server to authenticate users/connected devices and account for their traffic volumes. 
+pfSense requires a separate freeRADIUS server to authenticate users/connected devices and account for their traffic volumes. 
 
 
 MySQL installation
@@ -9,11 +9,11 @@ MySQL installation
 
 echo y | pkg install mysql56-server
 rehash
-cd /usr/local && ./bin/mysql_install_db # careful: creates mysql data dir under /usr/local
+cd /usr/local && ./bin/mysql_install_db
 chown -R mysql /usr/local/data
 echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
 /usr/local/bin/mysqld_safe &
-/usr/local/bin/mysql_secure_installation # follow instructions
+/usr/local/bin/mysql_secure_installation
 
 
 freeRADIUS installation
@@ -28,33 +28,12 @@ mysql -u root -pradius <<EOF
 EOF
 mysql -u root -p radius < /usr/local/etc/raddb/sql/mysql/schema.sql
 
-# done by start script, just here for reference 
 echo 'radiusd_enable="YES"' >> /etc/rc.conf
 mkdir /var/run/radiusd/
-
-To start the server in normal (daemon) mode, run:
-/usr/local/etc/rc.d/radiusd [ start | stop | debug ]
-
-uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
-uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
 
 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
 cd / && tar xzf home/marsPortal/binaries/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
-
-
-Testing freeRADIUS install with local file-based users list
------------------------------------------------------------
-add 'testingUsers Cleartext-Password := "password"' to top of /usr/local/etc/raddb/users
-radtest testingUsers password localhost 0 testing123
-
-Testing freeRADIUS install with MySQL-based users list
-------------------------------------------------------
-# TODO: Doesn't work!
-mysql -u root -pradius radius <<EOF
-	INSERT INTO radcheck set username='testingSQL', value='password', op=':=';
-EOF
-radtest testingSQL password localhost 0 testing123
 
 
 Configuration of freeRADIUS
@@ -74,25 +53,26 @@ Modify /usr/local/etc/raddb/sites-enabled/default as follows:
 Add to /usr/local/etc/raddb/dictionary
 $INCLUDE    /home/marsPortal/freeradius-config/marsPortal.dictionary
 
-Run command and make sure the line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
+uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
+uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
+
+Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
 
 
 Manual configs
 --------------
-
-XXX Manually edit /etc/freeradius/sql.conf and change entry of num_sql_socks to 'num_sql_socks = 15'.
 
 ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
 
 XXX
 (crontab -l ; echo "#59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
 # open up network outside of work hours and at weekends
-(crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
-(crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "#0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "#0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
 
 (crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
 
-(crontab -l ; echo "*/30 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_1") | crontab -
+(crontab -l ; echo "15,45 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_1") | crontab -
 (crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
 (crontab -l ; echo "0 */8 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snaphost_3") | crontab -
 
@@ -248,3 +228,25 @@ In case no Internet access is granted and no session is created on the captive p
 radtest <mac address> radius localhost 0 radius
 
 Receiving an Access-Reject packet indicates that something with the radius user entry or configuration doesn't match; receiving an Access-Accept packet while still not being able to access the Internet points towards a Captive Portal problem.
+
+
+Misc/Troubleshooting
+--------------------
+
+Not needed for installation, but could be helpful in case something doesn't work
+
+To start the server in normal (daemon) mode, run:
+/usr/local/etc/rc.d/radiusd [ start | stop | debug ]
+
+Testing freeRADIUS install with local file-based users list:
+add 'testingUsers Cleartext-Password := "password"' to top of /usr/local/etc/raddb/users
+radtest testingUsers password localhost 0 testing123
+
+Testing freeRADIUS install with MySQL-based users list:
+# TODO: Doesn't work!
+mysql -u root -pradius radius <<EOF
+	INSERT INTO radcheck set username='testingSQL', value='password', op=':=';
+EOF
+radtest testingSQL password localhost 0 testing123
+
+
