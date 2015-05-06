@@ -57,6 +57,11 @@
 				exec("/home/marsPortal/daloradius-integration/echo-user-data-statistics-link.sh " . $ip, $out, $exit);
 				echo "<p>In doubt, check your data usage of the last 7 days: " . implode(" ", $out) . "</p>";
 				break;
+			case 6:
+				// rejected with reply message
+				echo "<p><b>Network access was rejected with below error message</b></p>";
+				echo "<p>Exit code: $exitCode - (Reason: " . implode(" ", $output) . ")</p>";
+				break;
 			default:
 				// unknown response or server down
 				echo "<p><b>Network not available. Please see the IT team.</b></p>";
