@@ -18,6 +18,7 @@ collect_stats() {
 # 3 - Data volume reached
 # 4 - Device permanently disabled
 # 5 - Data bundle during business hours exceeded
+# 6 - Access rejected with message
 # 9 - RADIUS offline or unknown response
 
 # relevant files
