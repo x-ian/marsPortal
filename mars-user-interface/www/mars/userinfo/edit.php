@@ -8,6 +8,7 @@ include '../menu.php';
 
 <?
 include('../config.php'); 
+$ip=$_SERVER['REMOTE_ADDR'];
 if (isset($_GET['username']) ) { 
 $username = $_GET['username']; 
 if (isset($_POST['submitted'])) { 
@@ -15,11 +16,11 @@ foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($val
 mysql_query("DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysql_error()); 
 mysql_query("INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysql_error()); 
 
-
 $sql = "UPDATE `userinfo` SET  `username` =  '{$_POST['username']}' ,  `firstname` =  '{$_POST['firstname']}' ,  `lastname` =  '{$_POST['lastname']}' ,  `email` =  '{$_POST['email']}' ,  `department` =  '{$_POST['department']}' ,  `organisation` =  '{$_POST['organisation']}' ,  `initial_ip` =  '{$_POST['initial_ip']}' ,  `hostname` =  '{$_POST['hostname']}' ,  `registration_date` =  '{$_POST['registration_date']}' ,  `mac_vendor` =  '{$_POST['mac_vendor']}' ,  `notes` =  '{$_POST['notes']}'   WHERE `username` = '$username' "; 
 mysql_query($sql) or die(mysql_error()); 
 echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='list.php'>Back To Listing</a>"; 
+exec("/home/marsPortal/misc/captiveportal-disconnect-user-with-ip.sh " . $ip, $out, $exit);
 } 
 $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
 ?>
@@ -63,7 +64,7 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
 </form> 
 </table>
 <? } ?> 
-<b>Remember to disconnect session for this user from captive portal to activate changes in group assignment.</b>
+<b>Note: Saving changes will automatically close the session of this user on the Captive Portal.</b>
 </div>
 </body>
 
