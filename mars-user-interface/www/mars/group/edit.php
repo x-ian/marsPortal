@@ -61,7 +61,7 @@ $row = mysql_fetch_array ( mysql_query('
 <tr><td><b>Day Total Output:</b></td><td><input type='text' name='day_total_output' value='<?= stripslashes($row['Max Daily Down']) ?>' /> (in MB)</td></tr>
 <tr><td><b>Bandwidth Up:</b></td><td><input type='text' name='bandwidth_up' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Up']) ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Bandwidth Down:</b></td><td><input type='text' name='bandwidth_down' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Down']) ?>' /> (*) (in bits/per second)</td></tr>
-<tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= stripslashes($row['Session Timeout']) ?>' /> (*) (in seconds)</td></tr>
+<tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= stripslashes($row['Session Timeout']) ?>' /> (*) (in seconds; usually 43200)</td></tr>
 <tr><td><b>Concurrent Users:</b></td><td><input type='text' name='concurrent_user' value='<?= stripslashes($row['Max Concurrent Users']) ?>' /> (*) (maximum number of concurrent connected users)</td></tr>
 <tr><td><b>Auth Type:</b></td><td><input type='text' name='auth_type' value='<?= stripslashes($row['Auth Type']) ?>' /> (*) (empty by default, 'Reject' -without the quotes- to block users)</td></tr>
 <tr><td><b>Reply Message:</b></td><td><input size="40" type='text' name='reply_message' value='<?= stripslashes($row['Reply Message']) ?>' /> (*) (empty by default, only used when Auth Type == Reject)</td></tr>
@@ -71,8 +71,7 @@ $row = mysql_fetch_array ( mysql_query('
 <p>Notes:</p>
 <b>Be careful when renaming a group; device entries with the old name with NOT be updated and point then to an invalid group.</b>
 <p>Use postfixes -non-work-hours and -open-for-today to name of group to define policies after work hours and when temporarily unblocked for the rest of the day after hitting the volume limits.</p>
-<p>(*) Changing these settings will only be activated once a new session is created for a device (maximum amount of Session Timeout).</p>
-<b>TODO: When changing a group, ask to disconnect all users to activate new settings</b>
+<p>(*) Changing these settings will only be activated once a new session is created for a device (either through manually kicking out the session on the Captive Portal or by reaching the Session Timeout).</p>
 <? } ?> 
 </div>
 </body>
