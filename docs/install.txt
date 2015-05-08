@@ -90,6 +90,8 @@ enable 'Use RADIUS Session-Timeout attributes'
 
 Save settings
 
+Add 172.16.1.0 / 24 to allowed hostnames
+
 Upload files marsPortal/setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
 
 Use File manager of Captive portal to upload all files from marsPortal/setup-captiveportal/filemanager/*
@@ -115,7 +117,8 @@ echo y | pkg install curl
 echo y | pkg install ssmtp
 echo y | pkg install git
 echo y | pkg install mysql56-server
-echo y | pkg install freeradius
+#echo y | pkg install freeradius
+#pkg install /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
 rehash
 ln -s /usr/local/bin/bash /bin/bash
 
@@ -150,18 +153,6 @@ ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
 (crontab -l ; echo "1 */8 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_3") | crontab -
 
-echo 'radiusd_enable="YES"' >> /etc/rc.conf
-mkdir /var/run/radiusd/
-
-ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
-
-# CAREFUL: Use first command for 64 Nit version, second command for 32 Bit
-#cd / && tar xzf home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
-#cd / && tar xzf home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
-
-Background: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
-make sure you use the matching version for AMG64 or i386 !!!
-
 Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
 
 Open /home/marsPortal/ssmtp.config and adjust the config values as needed, e.g. with vi /home/marsPortal/ssmtp.config
@@ -188,6 +179,29 @@ mysql -u radius -pradius radius < /home/marsPortal/setup-marsPortal.marsPortal.s
 Configuration of freeRADIUS
 ---------------------------
 
+echo 'radiusd_enable="YES"' >> /etc/rc.conf
+mkdir /var/run/radiusd/
+
+ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
+
+# CAREFUL: Use first command for 64 Bit version, second command for 32 Bit
+#cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+#cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
+
+Background: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
+make sure you use the matching version for AMG64 or i386 !!!
+
+mv /usr/local/etc/raddb/sites-available/default /usr/local/etc/raddb/sites-available/default.original
+cp /home/marsPortal/setup-marsportal/config-files/default /usr/local/etc/raddb/sites-available/default
+mv /usr/local/etc/raddb/dictionary /usr/local/etc/raddb/dictionary.original
+cp /home/marsPortal/setup-marsportal/config-files/dictionary /usr/local/etc/raddb/dictionary
+mv /usr/local/etc/raddb/radiusd.conf /usr/local/etc/raddb/radiusd.conf.original
+cp /home/marsPortal/setup-marsportal/config-files/radiusd.conf /usr/local/etc/raddb/radiusd.conf
+
+Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
+
+The lines below are just there for historical reference, do NOT follow these instructions!
+
 Modify /usr/local/etc/raddb/sites-enabled/default as follows:
 
 	# add to authorize section
@@ -204,8 +218,6 @@ $INCLUDE    /home/marsPortal/freeradius-config/marsPortal.dictionary
 
 uncomment $INCLUDE sql.conf in /usr/local/etc/raddb/radiusd.conf
 uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
-
-Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
 
 
 Optional: Automatic pfSense mails
