@@ -8,7 +8,7 @@ set @open_groups_postfix = '-open-for-today';
 
 UPDATE radusergroup 
   SET groupname = SUBSTRING(groupname,1,LENGTH(groupname)-LENGTH(@open_groups_postfix)) 
-  WHERE groupname LIKE CONCAT('%', @open_groups_postfix) COLLATE utf8_unicode_ci;
+  WHERE groupname LIKE CONCAT('%', @open_groups_postfix);
 EOF
 
 $BASEDIR/../misc/captiveportal-disconnect-all-users.sh

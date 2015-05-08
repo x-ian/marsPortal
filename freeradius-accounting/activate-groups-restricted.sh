@@ -4,7 +4,7 @@ BASEDIR=`dirname $0`
 source $BASEDIR/../config.txt
 
 /usr/local/bin/mysql -u `echo $MYSQL_USER` -p`echo $MYSQL_PASSWD` radius <<EOF
-set @non_work_groups_postfix = '-non-work-hours';
+set @non_work_groups_postfix = '-restricted';
 
 UPDATE radusergroup
 SET groupname = CONCAT(groupname, @non_work_groups_postfix)

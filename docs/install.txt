@@ -155,7 +155,9 @@ mkdir /var/run/radiusd/
 
 ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
 
-cd / && tar xzf home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+# CAREFUL: Use first command for 64 Nit version, second command for 32 Bit
+#cd / && tar xzf home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+#cd / && tar xzf home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
 
 Background: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
@@ -244,7 +246,7 @@ For each of these groups the following attributes can be added to determine the 
 - mars-Max-Concurrent-Devices
 - Accept-Method: reject, optionally with Reply-Message
 
-Optional: For every user group, create a matching XYZ-open-for-today group (these names are part of some automated scripts, so do not change this postfix). 
+Optional: For every user group, create matching XYZ-open-for-today, XYZ-non-work-hours, and XYZ-restricted groups (these names are part of some automated scripts, so do not change this postfix). 
 
 
 Finalizing
