@@ -1,5 +1,5 @@
 <? 
-include 'menu.php'; 
+include '../menu.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->
@@ -13,7 +13,7 @@ if($_POST['Submit']){
 	fclose($open);
 	echo "File updated.<br />"; 
 	echo "File:<br />";
-	$file = file("textfile.txt");
+	$file = file("/home/marsPortal/monitor_network_devices.txt");
 	foreach($file as $text) {
 		echo $text."<br />";
 	}

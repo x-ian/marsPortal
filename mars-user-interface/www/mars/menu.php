@@ -34,7 +34,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
        		<li><a href="/mars/reports/groups.php">Groups</a></li>
        		<li><a href="">Users currently online</a></li>
 		</ul>
-        <li><a href="/mars/admin.php">Admin<a></li>
+        <li><a href="/mars/admin/admin.php">Admin<a></li>
         <li>Additional links</li>
       	<ul id="ul2">
        		<li><a href="/index.php">pfSense Dashboard</a></li>
