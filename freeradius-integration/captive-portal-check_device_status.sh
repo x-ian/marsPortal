@@ -33,7 +33,8 @@ fi
 
 echo $RADTEST | grep "Daily data bundle exceeded" >/dev/null
 if [ $? -eq 0 ]; then
-  echo "Data volume reached"
+  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
+  echo "$MSG"
   echo "$MAC - $IP - 3 - Data volume reached - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
   exit 3
 fi
