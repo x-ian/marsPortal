@@ -44,6 +44,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 	$session_timeout = $_GET['session_timeout'];
 	$auth_type = $_GET['auth_type'];
 	$reply_message = $_GET['reply_message'];
+	$concurrent_user = $_GET['concurrent_user'];
 }
 ?>
 
