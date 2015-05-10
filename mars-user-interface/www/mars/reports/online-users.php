@@ -36,7 +36,7 @@ function online() {
 		<th>Session Start</th>
 	</tr>
 <?php
-$result = mysql_query(total($today, $today)) or trigger_error(mysql_error()); 
+$result = mysql_query(online()) or trigger_error(mysql_error()); 
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 	echo "<tr><td>" . $row['username'] . "</td><td>" . $row['lastname'] . "</td><td>" . $row['mac_vendor'] . "</td></tr>";
