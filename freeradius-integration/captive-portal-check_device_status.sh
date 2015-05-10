@@ -50,7 +50,7 @@ fi
 echo $RADTEST | grep "Data bundle during business hours exceeded" >/dev/null
 if [ $? -eq 0 ]; then
   echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'
-  echo "Data bundle during business hours exceeded."
+  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
   echo "$MAC - $IP - 5 - Data bundle during business hours exceeded - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
   exit 5
 fi
