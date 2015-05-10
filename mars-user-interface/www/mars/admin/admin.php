@@ -1,5 +1,5 @@
 <? 
-include 'menu.php'; 
+include '../menu.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->
@@ -14,7 +14,7 @@ Admin:
 Config:
 
 <p><a href="">Reset all accounting data</a></p><hr/>
-<p><a href="./network-devices-to-monitor.php">Edit network devices to monitor</a></p><hr/>
+<p><a href="./monitor-network-devices.php">Edit network devices to monitor</a></p><hr/>
 
 </div>
 </body>
