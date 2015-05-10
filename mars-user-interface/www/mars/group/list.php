@@ -50,7 +50,7 @@ echo "<td>" . nl2br( $row['Max Daily Up']) . "</td>";
 echo "<td>" . nl2br( $row['Max Daily Down']) . "</td>";
 echo "<td>" . nl2br( $row['Auth Type']) . "</td>";  
 echo "<td>" . nl2br( $row['Reply Message']) . "</td>";  
-echo "<td><a href=edit.php?groupname={$row['groupname']}>Edit</a> <a href=duplicate.php?&work_total_input={$row['Max Work Hours Up']}&work_total_output={$row['Max Work Hours Down']}&day_total_input={$row['Max Daily Up']}&day_total_output={$row['Max Daily Down']}&bandwidth_up={$row['WISPr-Bandwidth-Max-Up']}&bandwidth_down={$row['WISPr-Bandwidth-Max-Down']}&session_timeout={$row['Session Timeout']}&reply_message=nl2br({$row['Reply Message']})&auth_type={$row['Auth Type']}&concurrent_user={$row['Max Concurrent Users']}>Duplicate</a> <a href=delete.php?groupname={$row['groupname']}>Delete</a></td> "; 
+echo "<td><a href=edit.php?groupname={$row['groupname']}>Edit</a> <a href=duplicate.php?&work_total_input={$row['Max Work Hours Up']}&work_total_output={$row['Max Work Hours Down']}&day_total_input={$row['Max Daily Up']}&day_total_output={$row['Max Daily Down']}&bandwidth_up={$row['WISPr-Bandwidth-Max-Up']}&bandwidth_down={$row['WISPr-Bandwidth-Max-Down']}&session_timeout={$row['Session Timeout']}&reply_message=" . urlencode($row['Reply Message']) . "&auth_type={$row['Auth Type']}&concurrent_user={$row['Max Concurrent Users']}>Duplicate</a> <a href=delete.php?groupname={$row['groupname']}>Delete</a></td> "; 
 echo "</tr>"; 
 } 
 echo "</table>"; 
