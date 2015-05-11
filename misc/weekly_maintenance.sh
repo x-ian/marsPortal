@@ -12,13 +12,13 @@ source $BASEDIR/config.txt
 /usr/local/bin/wget --user `echo $NTOP_USER` --password `echo $NTOP_PASSWD` http://`echo $PF_IP`:3000/resetStats.html
 
 # compacting squid cache (http://doc.pfsense.org/index.php/Squid_Package_Tuning)
-#/usr/local/sbin/squid -k rotate
+/usr/local/sbin/squid -k rotate
 
 # clearing out and recreating the whole squid cache dir
-#/usr/local/sbin/squid -k shutdown
-#/bin/sleep 10
-#/bin/rm -rf /var/squid/cache/*
-#/usr/local/sbin/squid -z
+/usr/local/sbin/squid -k shutdown
+/bin/sleep 10
+/bin/rm -rf /var/squid/cache/*
+/usr/local/sbin/squid -z
 
 # some internal backup
 #/home/marsPortal/misc/do-backup.sh
@@ -43,6 +43,9 @@ EOF
 if [ $? -eq 0 ]; then
 	mv /tmp/ieee_oui.txt $BASEDIR/freeradius-integration/self-registration
 fi
+
+# status notification
+/home/marsPortal/misc/heartbeat.sh
 
 # just in case, restart once in a while
 /sbin/reboot
