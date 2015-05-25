@@ -4,7 +4,7 @@ NOTES ON INSTALLATION OF PFSENSE
 Preparing memstick installation
 -------------------------------
 
-pfsense can be installed from local CD drive or from an USB flash disk (if the BIOS supports it). To create a bootable flash drive, just these commands under Mac OS X; for other opering systems check https://doc.pfsense.org/index.php/Writing_Disk_Images:
+pfsense can be installed from local CD drive or from an USB flash disk (if the BIOS supports it). Unlike with other Operating Systems, then 'ordinary' ISO image for Live-CDs doesn't work. For pfense the memstick variant needs to be chosen. To create a bootable flash drive, use these commands under Mac OS X; for other operating systems check https://doc.pfsense.org/index.php/Writing_Disk_Images:
 diskutil list
 diskutil umount /dev/diskX
 gzcat ~/Downloads/pfSense-memstick-2.2.2-RELEASE-amd64.img.gz | sudo dd of=/dev/diskX bs=16k
@@ -87,6 +87,7 @@ Enable Lightsquid (Proxy report) reporting
 
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection:
 pkg
+
 pkg update
 echo y | pkg install bash
 echo y | pkg install wget
@@ -107,6 +108,7 @@ mkdir /home/local_backups
 mkdir /home/mail_backlog
 cd /home
 git clone https://github.com/x-ian/marsPortal.git
+cd marsPortal
 git checkout apzunet
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
@@ -116,6 +118,7 @@ ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "@reboot /home/marsPortal/misc/marsPortalStart.sh") | crontab -
 (crontab -l ; echo "@reboot /home/marsPortal/misc/mail_after_startup.sh") | crontab -
 (crontab -l ; echo "59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
+(crontab -l ; echo "0 23 * * Sun /home/marsPortal/misc/heartbeat.sh") | crontab -
 (crontab -l ; echo "5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh") | crontab -
 (crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
 (crontab -l ; echo "55 23 * * * /home/marsPortal/misc/freeradius-mail-statistics.sh") | crontab -
@@ -131,9 +134,11 @@ ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 # echo y | pkg install freeradius
 # Use the next line for 64 Bit pfSense, or the line after next line for 32 Bit
 # 64 Bit
-#pkg install /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
+#pkg add -M /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
+#pkg lock freeradius
 # 32 Bit
-#pkg install /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
+#pkg add -M /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
+#pkg lock freeradius
 
 Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
 
@@ -147,6 +152,7 @@ cd /usr/local && ./bin/mysql_install_db
 chown -R mysql /usr/local/data
 echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
 /usr/local/bin/mysqld_safe &
+sleep 60
 /usr/local/bin/mysql_secure_installation
 
 mysql -u root -pradius <<EOF
@@ -163,8 +169,13 @@ Configuration of freeRADIUS
 
 echo 'radiusd_enable="YES"' >> /etc/rc.conf
 mkdir /var/run/radiusd/
-
 ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
+mv /usr/local/etc/raddb/sites-available/default /usr/local/etc/raddb/sites-available/default.original
+cp /home/marsPortal/setup-marsportal/config-files/default /usr/local/etc/raddb/sites-available/default
+mv /usr/local/etc/raddb/dictionary /usr/local/etc/raddb/dictionary.original
+cp /home/marsPortal/setup-marsportal/config-files/dictionary /usr/local/etc/raddb/dictionary
+mv /usr/local/etc/raddb/radiusd.conf /usr/local/etc/raddb/radiusd.conf.original
+cp /home/marsPortal/setup-marsportal/config-files/radiusd.conf /usr/local/etc/raddb/radiusd.conf
 
 # CAREFUL: Use first command for 64 Bit version, second command for 32 Bit; only execute one of them!
 #cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
@@ -172,13 +183,6 @@ ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/loc
 
 Background: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
-
-mv /usr/local/etc/raddb/sites-available/default /usr/local/etc/raddb/sites-available/default.original
-cp /home/marsPortal/setup-marsportal/config-files/default /usr/local/etc/raddb/sites-available/default
-mv /usr/local/etc/raddb/dictionary /usr/local/etc/raddb/dictionary.original
-cp /home/marsPortal/setup-marsportal/config-files/dictionary /usr/local/etc/raddb/dictionary
-mv /usr/local/etc/raddb/radiusd.conf /usr/local/etc/raddb/radiusd.conf.original
-cp /home/marsPortal/setup-marsportal/config-files/radiusd.conf /usr/local/etc/raddb/radiusd.conf
 
 Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
 
@@ -261,7 +265,7 @@ Depending on the gmail account configuration you might need to enable 'less secu
 
 Create user groups
 ------------------
-s
+
 Create new user groups as required, e.g. Users, Guests, Leadership. Easiest to duplicate the group marsPortal-Template.
 
 For each of these groups the following attributes can be added to determine the characteristics of the group. Possible RADIUS attributes for each group are: 
