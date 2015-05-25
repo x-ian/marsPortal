@@ -16,9 +16,9 @@ rm $LOG.tmp
 
 while read line           
 do
-	l=`echo $line | tr -d ' \t\n\r\f'`
-	if [[ ! $l =~ \# ]]; then
-#	  l=`echo $line | tr -d ' \t\n\r\f'`
+    l=`echo $line | tr -d ' \t\n\r\f'`
+    if [[ ! $l =~ \# ]]; then
+        if [ ! -z "$l" ]; then
   	  /bin/sleep 1
   	  /sbin/ping -t 4 $l  >> $LOG.tmp
 	  if [ $? -eq 0 ]; then
@@ -27,6 +27,7 @@ do
   	  else
   	    echo "$l" not reachable >> $LOG
   	  fi
+       fi
     fi
 done <$PORTALDIR/monitor_network_devices.txt          
 
