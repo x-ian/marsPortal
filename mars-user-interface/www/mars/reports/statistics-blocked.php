@@ -10,3 +10,4 @@
 	echo "$output_a";
 	echo "</table>";
 ?>
+<p>Same device can be counted mutliple times during 7 and 30 days periods.</p>
