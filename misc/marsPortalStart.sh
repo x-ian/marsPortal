@@ -1,3 +1,5 @@
+#!/usr/local/bin/bash
+
 # start script to bring back mysqld and radiusd after reboot
 # easiest to add as a @reboot cronjob for root
 
