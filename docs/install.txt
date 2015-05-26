@@ -93,6 +93,7 @@ echo y | pkg install bash
 echo y | pkg install wget
 echo y | pkg install curl
 echo y | pkg install ssmtp
+echo y | pkg install base64
 echo y | pkg install git
 echo y | pkg install mysql56-server
 rehash
@@ -123,7 +124,7 @@ ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
 (crontab -l ; echo "55 23 * * * /home/marsPortal/misc/freeradius-mail-statistics.sh") | crontab -
 (crontab -l ; echo "*/30 * * * * /home/marsPortal/misc/process_mail_backlog.sh") | crontab -
-(crontab -l ; echo "#59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
+(crontab -l ; echo "59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
 (crontab -l ; echo "#0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
 (crontab -l ; echo "#0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
 (crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
