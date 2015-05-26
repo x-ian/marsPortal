@@ -182,7 +182,7 @@ cp /home/marsPortal/setup-marsportal/config-files/radiusd.conf /usr/local/etc/ra
 #cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
 #cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
 
-Background: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
+Background (only for informational purpose: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
 
 Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
@@ -230,7 +230,7 @@ enable 'Use RADIUS Session-Timeout attributes'
 
 Save settings
 
-Add 172.16.1.0 / 24 to allowed hostnames
+Add 172.16.1.0 / 24 to allowed IP addresses
 
 Upload files marsPortal/setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
 
@@ -302,7 +302,7 @@ Receiving an Access-Reject packet indicates that something with the radius user 
 Additional notes/troubleshooting
 --------------------------------
 
-Not needed for installation, but could be helpful in case something doesn't work
+Not needed for installation, but could be helpful in case something doesn't work.
 
 To start the server in normal (daemon) mode, run:
 /usr/local/etc/rc.d/radiusd [ start | stop | debug ]
