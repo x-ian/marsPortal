@@ -39,7 +39,7 @@ function deviceinfo($row, $upordown) {
 
 <span style="font-variant:small-caps; font-size:200%">
 	<p align="center">
-		marsPortal Usage Statistics (<?php echo $today; ?>)
+		marsPortal Usage Statistics (<?php echo date('Y-m-d H:i:s')?>)
 	</p>
 </span>
 
