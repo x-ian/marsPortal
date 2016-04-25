@@ -3,8 +3,8 @@
         # needs to go in accounting section
         update control {
                 # based on content in table daily_accounting_v2, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_output) - SUM(work_offset_output) - SUM(lunch_total_output) + SUM(lunch_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_input) - SUM(work_offset_input) - SUM(lunch_total_input) + SUM(lunch_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_output) - SUM(work_offset_output) - SUM(lunch_total_output) + SUM(lunch_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_input) - SUM(work_offset_input) - SUM(lunch_total_input) + SUM(lunch_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
         }
 
         # check for daily volume restrictions during working hours
@@ -18,8 +18,8 @@
         # needs to go in accounting section, e.g. before exec block
         update control {
                 # based on content in table daily_accounting, which is updated by cronjobs
-                My-Local-Output = "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
-                My-Local-Input = "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
+                My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
         }
 
         # check for daily volume restrictions during working hours

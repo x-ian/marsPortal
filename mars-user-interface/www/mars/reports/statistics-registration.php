@@ -125,6 +125,7 @@ while ($row = mysql_fetch_assoc($ever_30daysago)) {
 echo "</td>";
 echo "</tr>";
 echo "</table>";
+echo "<p>Statistics for groups -open-for-today and -non-work-hours are only accurate for today. Additionally if a device changed groups, only the most recent group assignment is taken (and also used for the periods before).</p>";
 mysql_free_result($ever_today);
 mysql_free_result($ever_yesterday);
 mysql_free_result($ever_7daysago);

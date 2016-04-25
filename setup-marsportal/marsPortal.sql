@@ -18,6 +18,12 @@ INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('marsPortal-Template-non-work-hours', 'Session-Timeout', ':=', '43200');
 
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
+('marsPortal-Template-restricted', 'Auth-Type', ':=', 'Reject');
+INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
+('marsPortal-Template-restricted', 'Reply-Message', ':=', 'Network currently in maintenance mode. Please try again later.');
+
+
+INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('No-Internet-Access', 'Auth-Type', ':=', 'Reject');
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('No-Internet-Access', 'Reply-Message', ':=', 'Your device is permanently disabled.');

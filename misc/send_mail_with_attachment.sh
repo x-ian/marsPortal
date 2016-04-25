@@ -12,7 +12,6 @@ FILENAME=$4
 CONTENTTYPE=$5
 SENDER=$AuthUser
 
-
 TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
 echo "From: $SENDER
 To: $RECEIVER
@@ -30,8 +29,9 @@ $BODY
 --frontier
 Content-Type: $CONTENTTYPE; name=\"$FILENAME\"
 Content-Disposition: attachment; filename=\"$FILENAME\"
+Content-Transfer-Encoding: base64
 
-`cat $FILE`
+`cat $FILE | /usr/local/bin/base64 --encode`
 
 --frontier--
 " > $TEMP_MAIL.mail

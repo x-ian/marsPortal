@@ -43,6 +43,8 @@
 				echo "<p><b>Your device has used up your available data volume. Either check back tomorrow or next week.</b></p>";
 				echo "<br/><br/><p>Exit code: $exitCode</p>";
 				echo "<p>   (Reason: " . implode(" ", $output) . ")</p>";
+				exec("/home/marsPortal/freeradius-integration/echo-user-data-statistics-link.sh " . $ip, $out, $exit);
+				echo "<p>In doubt, check your data usage of the last 7 days: " . implode(" ", $out) . "</p>";
 				break;
 			case 4:
 				// device disabled
@@ -52,9 +54,9 @@
 				break;
 			case 5:
 				// data bundle during business hours exceeded
-				echo "<p><b>Your device has reached the maximum daily data bundle during working hours (Monday to Friday from 08:00-12:30 and 13:30-16:30). Please try again tomorrow.</b></p>";
+				echo "<p><b>Your device has reached the maximum daily data bundle during working hours (Monday to Friday from 07:30-12:00 and 13:30-17:00). Please try again tomorrow.</b></p>";
 				echo "<p>Exit code: $exitCode - (Reason: " . implode(" ", $output) . ")</p>";
-				exec("/home/marsPortal/daloradius-integration/echo-user-data-statistics-link.sh " . $ip, $out, $exit);
+				exec("/home/marsPortal/freeradius-integration/echo-user-data-statistics-link.sh " . $ip, $out, $exit);
 				echo "<p>In doubt, check your data usage of the last 7 days: " . implode(" ", $out) . "</p>";
 				break;
 			case 6:

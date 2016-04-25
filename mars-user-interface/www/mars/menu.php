@@ -32,16 +32,16 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
        		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
        		<li><a href="/mars/reports/users_with_volume.php">Users (7d history)</a></li>
        		<li><a href="/mars/reports/groups.php">Groups</a></li>
-       		<li><a href="">Users currently online</a></li>
+       		<li><a href="/mars/reports/online-users.php">Users currently online</a></li>
 		</ul>
-        <li><a href="/mars/admin.php">Admin<a></li>
+        <li><a href="/mars/admin/admin.php">Admin<a></li>
         <li>Additional links</li>
       	<ul id="ul2">
        		<li><a href="/index.php">pfSense Dashboard</a></li>
        		<li><a href="/status_captiveportal.php">Captive portal sessions</a></li>
        		<li><a href="/status_graph.php?if=wan">Traffic graphs</a></li>
        		<li><?php echo '<a href=http://' . $PF_IP . ':3000/sortDataThpt.html?showH=1&showL=2&col=1>nTop - Top Downloaders</a>'; ?></li>
-       		<li><?php echo '<a href=http://' . $PF_IP . ':3000/sortDataThpt.html?col=1&showH=1&showL=1>nTop Top Uploaders</a>'; ?></li>
+       		<li><?php echo '<a href=http://' . $PF_IP . ':3000/sortDataThpt.html?col=1&showH=1&showL=1>nTop - Top Uploaders</a>'; ?></li>
        		<li><a href="/lightsquid/index.cgi">Squid Proxy report</a></li>
 		</ul>
   	  </ul>

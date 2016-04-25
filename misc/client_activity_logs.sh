@@ -18,6 +18,7 @@ collect_stats() {
 # 3 - Data volume reached
 # 4 - Device permanently disabled
 # 5 - Data bundle during business hours exceeded
+# 6 - Access rejected with message
 # 9 - RADIUS offline or unknown response
 
 # relevant files
@@ -39,5 +40,6 @@ print_stats_line "\- 2 \-" "Too many users per group"
 print_stats_line "\- 3 \-" "Data volume reached"
 print_stats_line "\- 4 \-" "Disabled"
 print_stats_line "\- 5 \-" "Data volume during work reached"
+print_stats_line "\- 6 \-" "Generic network access rejected"
 print_stats_line "\- 9 \-" "RADIUS offline"
 echo "</table>"
