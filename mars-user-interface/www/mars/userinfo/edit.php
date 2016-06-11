@@ -57,7 +57,7 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
 <tr><td><b>Organisation:</b></td><td><input type='text' name='organisation' value='<?= stripslashes($row['organisation']) ?>' /> </td></tr>
 <tr><td><b>Initial Ip:</b></td><td><input type='text' name='initial_ip' value='<?= stripslashes($row['initial_ip']) ?>' /> </td></tr>
 <tr><td><b>Hostname:</b></td><td><input type='text' name='hostname' value='<?= stripslashes($row['hostname']) ?>' /> </td></tr>
-<tr><td><b>Registration Date:</b></td><td><input type='text' name='registration_date' value='<?= stripslashes($row['registration_date']) ?>' /> (format: YYYY-MM-DD HH:mm:ss)</td></tr>
+<tr><td><b>Registration Date:</b></td><td><input type='text' name='registration_date' value='<?= stripslashes($row['registration_date']) ?>' /> (mandatory; format: YYYY-MM-DD HH:mm:ss)</td></tr>
 <tr><td><b>Mac Vendor:</b></td><td><input type='text' name='mac_vendor' value='<?= stripslashes($row['mac_vendor']) ?>' /> </td></tr>
 <tr><td><b>Notes:</b></td><td><input type='text' name='notes' value='<?= stripslashes($row['notes']) ?>' /> </td></tr>
 <tr><td><input type='submit' value='Edit Row' /><input type='hidden' value='1' name='submitted' /> </td></tr>

@@ -50,7 +50,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 <tr><td><b>Organisation:</b></td><td><input type='text' name='organisation'/> </td></tr>
 <tr><td><b>Initial Ip:</b></td><td><input type='text' name='initial_ip'/> </td></tr>
 <tr><td><b>Hostname:</b></td><td><input type='text' name='hostname'/> </td></tr>
-<tr><td><b>Registration Date:</b></td><td><input type='text' name='registration_date'/> (format YYYY-MM-DD HH:mm:ss)</td></tr>
+<tr><td><b>Registration Date:</b></td><td><input type='text' name='registration_date'/> (mandatory; format YYYY-MM-DD HH:mm:ss)</td></tr>
 <tr><td><b>Mac Vendor:</b></td><td><input type='text' name='mac_vendor'/> </td></tr>
 <tr><td><b>Notes:</b></td><td><input type='text' name='notes'/> </td></tr>
 <tr><td><input type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> </td></tr>
