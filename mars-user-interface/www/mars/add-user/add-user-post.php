@@ -6,7 +6,8 @@
 	$group= $_POST['group']; 
 	$redirurl = $_POST['redirurl']; 
 	
-	mysql_connect('localhost','radius','radius') or die('Could not connect to mysql server.');
+        require '/home/marsPortal/config.php';
+        mysql_connect('localhost',$user,$pw) or die('Could not connect to mysql server.');
 	mysql_select_db('radius');
 
 	function query($query) {
@@ -19,9 +20,8 @@
 		return $result;
 	}
 
-	$insert_userinfo =" INSERT INTO userinfo (username, firstname, lastname, email, department, company, workphone, homephone, mobilephone, address, city, state, country, zip, notes, changeuserinfo, portalloginpassword, enableportallogin, creationdate, creationby, updatedate, updateby) VALUES ('$mac', '$firstname', '$lastname', '', '$department', '', '', '', '', '', '', '', '', '', '', '0', '', '0', now(), 'administrator', NULL, NULL)";	
+	$insert_userinfo =" INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ('$mac', '$firstname', '$lastname', '', '$department', '', '', '', now(), '', '')";	
 	$insert_radcheck = "INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('$mac', 'Auth-Type', ':=', 'Accept')";
-	$insert_billinfo = "INSERT INTO userbillinfo (username, contactperson, company, email, phone, address, city, state, country, zip, paymentmethod, cash, creditcardname, creditcardnumber, creditcardverification, creditcardtype, creditcardexp, notes, changeuserbillinfo, lead, coupon, ordertaker, billstatus, lastbill, nextbill, nextinvoicedue, billdue, postalinvoice, faxinvoice, emailinvoice, creationdate, creationby, updatedate, updateby) VALUES ('$mac', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', '', '', '', '', '', '', '', '', '', '', '', now(), 'administrator', NULL, NULL)";
 	$insert_group = " INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('$mac', '$group',0) ";
   
 ?>

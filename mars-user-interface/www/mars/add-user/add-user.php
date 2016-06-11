@@ -1,8 +1,10 @@
 <?php 
 	$mac = $_GET['mac']; 
 	$redirurl = $_GET['redirurl']; 
+
+	require '/home/marsPortal/config.php';
 	
-	mysql_connect('localhost','radius','radius') or die('Could not connect to mysql server.');
+	mysql_connect('localhost',$user,$pw) or die('Could not connect to mysql server.');
 	mysql_select_db('radius');
 
 	function query($query) {
