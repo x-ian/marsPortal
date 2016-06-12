@@ -1,5 +1,7 @@
 <?php 
 	$mac = $_POST['mac']; 
+	$mac_vendor = $_POST['mac_vendor']; 
+	$hostname = $_POST['hostname']; 
 	$firstname = $_POST['firstname']; 
 	$lastname = $_POST['lastname']; 
 	$department = $_POST['department']; 
@@ -20,7 +22,7 @@
 		return $result;
 	}
 
-	$insert_userinfo =" INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ('$mac', '$firstname', '$lastname', '', '$department', '', '', '', now(), '', '')";	
+	$insert_userinfo =" INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ('$mac', '$firstname', '$lastname', '', '$department', '', '', '$hostname', now(), '$mac_vendor', '')";	
 	$insert_radcheck = "INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('$mac', 'Auth-Type', ':=', 'Accept')";
 	$insert_group = " INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('$mac', '$group',0) ";
   

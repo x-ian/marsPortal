@@ -1,5 +1,8 @@
 <?php 
 	$mac = $_GET['mac']; 
+	$mac_vendor = $_GET['mac_vendor']; 
+	$hostname = $_GET['hostname']; 
+	
 	$redirurl = $_GET['redirurl']; 
 
 	require '/home/marsPortal/config.php';
@@ -43,6 +46,22 @@
 				<?php } else { ?>
 					<td><input name="mac" type="text"/></td>
 				<?php } ?>
+			</tr>
+			<tr>
+				<td>Hostname:</td>
+				<?php if (isset($hostname)) { ?>
+					<td><input name="hostname" value="<?php echo $hostname; ?>" type="text" readonly="true"/></td>
+				<?php } else { ?>
+					<td><input name="hostname" type="text"/></td>
+				<?php } ?>
+			</tr>
+			<tr>
+				<td>MAC Vendor:</td>
+				<?php if (isset($mac_vendor)) { ?>
+					<td><input name="mac_vendor" value="<?php echo $mac_vendor; ?>" type="text" readonly="true"/></td>
+				<?php } else { ?>
+					<td><input name="mac_vendor" type="text"/></td>
+				<?php } ?>				
 			</tr>
 			<tr>
 				<td>Firstname:</td>
