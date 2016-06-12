@@ -69,7 +69,7 @@ $row = mysql_fetch_array ( mysql_query('
 </form> 
 </table>
 <p>Notes:</p>
-<b>Be careful when renaming a group; device entries with the old name with NOT be updated and point then to an invalid group.</b>
+<b>Be careful when renaming a group; user/device entries refering to the old name will NOT be updated and point then to an invalid group.</b>
 <p>Use postfixes -non-work-hours and -open-for-today to name of group to define policies after work hours and when temporarily unblocked for the rest of the day after hitting the volume limits.</p>
 <p>(*) Changing these settings will only be activated once a new session is created for a device (either through manually kicking out the session on the Captive Portal or by reaching the Session Timeout).</p>
 <? } ?> 
