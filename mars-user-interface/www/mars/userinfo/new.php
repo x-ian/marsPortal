@@ -9,10 +9,16 @@ include '../menu.php';
 include('../config.php'); 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+
 mysql_query("DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysql_error()); 
 mysql_query("INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysql_error()); 
+
+mysql_query("DELETE FROM radcheck WHERE username = '{$_POST['username']}'") or die(mysql_error()); 
+mysql_query("INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('{$_POST['username']}', 'Auth-Type', ':=', 'Accept')") or die(mysql_error()); 
+
 $sql = "INSERT INTO `userinfo` ( `username` ,  `firstname` ,  `lastname` ,  `email` ,  `department` ,  `organisation` ,  `initial_ip` ,  `hostname` ,  `registration_date` ,  `mac_vendor` ,  `notes`  ) VALUES(  '{$_POST['username']}' ,  '{$_POST['firstname']}' ,  '{$_POST['lastname']}' ,  '{$_POST['email']}' ,  '{$_POST['department']}' ,  '{$_POST['organisation']}' ,  '{$_POST['initial_ip']}' ,  '{$_POST['hostname']}' ,  '{$_POST['registration_date']}' ,  '{$_POST['mac_vendor']}' ,  '{$_POST['notes']}'  ) "; 
 mysql_query($sql) or die(mysql_error()); 
+
 echo "Added row.</td><td>"; 
 echo "<a href='list.php'>Back To Listing</a>"; 
 } 
