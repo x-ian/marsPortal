@@ -6,7 +6,7 @@ source $BASEDIR/config.txt
 
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
  
-PUBLIC_IP="`wget http://www.marsmonitoring.com/whatismyip`"
+PUBLIC_IP="`curl https://wtfismyip.com/text`"
 FIRST_MAC=" `/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
