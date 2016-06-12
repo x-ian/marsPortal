@@ -10,7 +10,7 @@ PUBLIC_IP="`curl https://wtfismyip.com/text`"
 FIRST_MAC=" `/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
-INET=`ifconfig | grep "inet "`
+INET=`/sbin/ifconfig | grep "inet "`
 LOAD=`top | grep averages`
 MEM=`top | grep Mem`
 DISK=`df -H /`
@@ -30,7 +30,7 @@ uptime:
 	$UPTIME
 all macs: 
 $ALL_MACS
-ipconfig: 
+ifconfig: 
 $INET
 memory:
 	$MEM
