@@ -38,7 +38,6 @@
 
 	<?php $result = query($insert_userinfo); ?>
 	<?php $result = query($insert_radcheck); ?>
-	<?php $result = query($insert_billinfo); ?>
 	<?php $result = query($insert_group); ?>
 
 	<p><b>Device added. Try again to access <a href="<?php echo $redirurl; ?>"><?php echo $redirurl; ?></a></b></p>
