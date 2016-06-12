@@ -40,7 +40,7 @@ $result = mysql_query(online()) or trigger_error(mysql_error());
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 	echo "<tr>";
-	echo "<td><a href=edit.php?username=" . $row['username'] . ">" . $row['username'] . "</a></td>";
+	echo "<td><a href=/mars/userinfo/edit.php?username=" . $row['username'] . ">" . $row['username'] . "</a></td>";
 	echo "<td>" . $row['firstname'] . " " . $row['lastname'] . "</td>";
 	echo "<td>" . $row['email'] . "</td>";
 	echo "<td>" . $row['mac_vendor'] . "</td>";
