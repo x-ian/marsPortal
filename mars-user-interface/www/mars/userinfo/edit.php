@@ -20,7 +20,7 @@ $sql = "UPDATE `userinfo` SET  `username` =  '{$_POST['username']}' ,  `firstnam
 mysql_query($sql) or die(mysql_error()); 
 echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='list.php'>Back To Listing</a>"; 
-exec("/home/marsPortal/misc/captiveportal-disconnect-user-with-ip.sh " . $ip, $out, $exit);
+exec("/home/marsPortal/misc/captiveportal-disconnect-user.sh " . $_POST['username'], $out, $exit);
 } 
 $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
 ?>
