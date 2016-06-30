@@ -14,6 +14,8 @@ source /home/marsPortal/config.txt
 rm $LOG
 rm $LOG.tmp
 
+echo `date` > $LOG
+
 while read line           
 do
     l=`echo $line | tr -d ' \t\n\r\f'`
