@@ -129,5 +129,9 @@ while($row = mysql_fetch_array($result)){
 
 <br/>
 
+<p>(Transfer volume (MB) updated every 5 minutes)</p>
+
+<br/>
+
 </div>
 </body>
