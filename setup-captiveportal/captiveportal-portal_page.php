@@ -15,6 +15,7 @@
 		switch ($exitCode) {
 			case 0:
 				// device enabled and no restrictions apply. should not happen as the captive portal should have automattically logged it in before this check
+				echo "<p>Oops. Captive Portal device check with exit code 0. Shouldn't happen, but apparently did...</p>";
 				break;
 			case 1:
 				// not yet registered
