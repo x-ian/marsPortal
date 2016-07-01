@@ -27,7 +27,7 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
 
 <table>
 <form action='' method='POST'> 
-<tr><td><b>Username:</b></td><td><input type='text' name='username' value='<?= stripslashes($row['username']) ?>' /> (mandatory, format xx:xx:xx:xx:xx:xx)</td></tr>
+<tr><td><b>Username:</b></td><td><input readonly type='text' name='username' value='<?= stripslashes($row['username']) ?>' /> (mandatory, format xx:xx:xx:xx:xx:xx)</td></tr>
 <td><b>Firstname:</b></td><td><input type='text' name='firstname' value='<?= stripslashes($row['firstname']) ?>' /> </td></tr>
 <td><b>Lastname:</b></td><td><input type='text' name='lastname' value='<?= stripslashes($row['lastname']) ?>' /> </td></tr>
 <tr><td><b>Group:</b></td><td>
@@ -52,7 +52,7 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
 	echo "</select>";
 	?>
 	(mandatory)</td></tr>
-<tr><td><b>Email:</b></td><td><input readonly type='text' name='email' value='<?= stripslashes($row['email']) ?>' /> </td></tr>
+<tr><td><b>Email:</b></td><td><input type='text' name='email' value='<?= stripslashes($row['email']) ?>' /> </td></tr>
 <tr><td><b>Department:</b></td><td><input type='text' name='department' value='<?= stripslashes($row['department']) ?>' /> </td></tr>
 <tr><td><b>Organisation:</b></td><td><input type='text' name='organisation' value='<?= stripslashes($row['organisation']) ?>' /> </td></tr>
 <tr><td><b>Initial Ip:</b></td><td><input type='text' name='initial_ip' value='<?= stripslashes($row['initial_ip']) ?>' /> </td></tr>
