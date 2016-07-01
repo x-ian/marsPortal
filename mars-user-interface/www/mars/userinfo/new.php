@@ -59,7 +59,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 <tr><td><b>Registration Date:</b></td><td><input type='text' name='registration_date'/> (mandatory; format YYYY-MM-DD HH:mm:ss)</td></tr>
 <tr><td><b>Mac Vendor:</b></td><td><input type='text' name='mac_vendor'/> </td></tr>
 <tr><td><b>Notes:</b></td><td><input type='text' name='notes'/> </td></tr>
-<tr><td><input type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> </td></tr>
+<tr><td><input type='submit' value='Create' /><input type='hidden' value='1' name='submitted' /> </td></tr>
 </form> 
 </table>
 </div>
