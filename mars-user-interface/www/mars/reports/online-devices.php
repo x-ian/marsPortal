@@ -19,7 +19,7 @@ function online() {
 
 <span style="font-variant:small-caps; font-size:200%">
 	<p align="center">
-		marsPortal Users currently online (<?php echo date('Y-m-d H:i:s'); ?>)
+		marsPortal Devices currently online (<?php echo date('Y-m-d H:i:s'); ?>)
 	</p>
 </span>
 

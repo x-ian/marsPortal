@@ -13,7 +13,7 @@ $order = $_GET['order'];
 
 <table style='border-collapse: collapse;'>
 	<tr>
-		<th rowspan="3">User</th>
+		<th rowspan="3">Device</th>
 		<td colspan="4"><? echo snapshottime("accounting_snapshot_1"); ?></td>
 		<td colspan="4" style='border-left: 1px solid #000;'><? echo snapshottime("accounting_snapshot_2"); ?></td>
 		<td colspan="4" style='border-left: 1px solid #000;'><? echo snapshottime("accounting_snapshot_3"); ?></td>
