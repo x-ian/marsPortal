@@ -1,0 +1,4 @@
+<?php
+$user = 'radius';
+$pw = 'radpass';
+?>
