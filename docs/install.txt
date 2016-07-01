@@ -25,7 +25,7 @@ Choose following options during installation:
 Once the installation and the copying process is done, remove the Boot CD before restarting. Otherwise it might boot up again from the CD instead of the newly created installation on the hard disk.
 
 Installation notes:
-On the old Baobab servers the 64 Bit version AMD64 had some performance issues with PHP. Switching back to the i386 32 Bit version solved them.
+On the old Baobab servers the 64 Bit version AMD64 had some performance issues with PHP. Switching back to the i386 32 Bit version solved them. But this will require some changes in the installation process here and there. Read extra carefully all the instructions and comments below.
 
 During boot on the old Baobab servers it is most likely necessary to disable ACPI via boot option (2) (https://doc.pfsense.org/index.php/Booting_Options#pfSense_2.0). Otherwise the boot process might get stuck in the middle.
 
@@ -55,7 +55,7 @@ Enable remote access on WAN interface for SSH and web management through System 
 
 Adjust timezone if needed
 
-Change and add network interfaces as needed, e.g. add vlan interfaces to em1 starting from 192.168.11.x upwards, don't forget to disable the parent interface for these VLANs (e.g. em1)
+Change and add network interfaces as needed. Either by native/physical interfaces or by assigning VLAN interfaces to em1 starting from 192.168.11.x upwards, don't forget to disable the parent interface for these VLANs (e.g. em1)
 
 A DNS Server should be configuried, typically pointing towards the outside firewall, e.g. 172.16.1.1.
 
@@ -63,39 +63,59 @@ Configure/activate DHCP server for every inside network/VLAN interface as requir
 
 Set DHCP server lease time to 43200 (note that this must be greater than any Captive portal and RADIUS session timeouts)
 
-Deactive 'block bogon networks' and 'block private networks' if the WAN IP is not a public IP.
+Deactive 'block private networks' if the WAN IP is not a public IP (Interfaces - WAN).
 
 Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6).
 
 Deactivate DNS Resolver from menu Service - DNS Resolver and apply changes. Afterwards activate DNS Forwarder from the Services menu.
 
-Add pfsense.localdomain to DNS Forwarder/Resolver as host overwrites with the IP of the WAN interface. Services - DNS forwarder - add new host override with host = pfsense, domain = localdomain, IP = 172.16.1.2 and description = to make pfsense.localdomain locally available (e.g. required for radcheck).
+TODO: Add pfsense.localdomain to DNS Forwarder/Resolver as host overwrites with the IP of the WAN interface. Services - DNS forwarder - add new host override with host = pfsense, domain = localdomain, IP = 172.16.1.2 and description = to make pfsense.localdomain locally available (e.g. required for radcheck).
 
-Add firewall rule to allow TCP, UDP, and ICMP pings (easiest done through 'floating rules').
+TODO: Add firewall rule to allow TCP, UDP, and ICMP pings (easiest done through 'floating rules').
 
-Add firewall rules on wan interface to allow traffic on port 3000 (for ntop)
+TODO: Add firewall rules on wan interface to allow traffic on port 3000 (for ntop)
 
 
 Installation of additional software/packages (requires Internet access)
 --------------------------------------------
 
-Install pfSense packages 'ntop', 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
+Install pfSense packages 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
 
 Enable transparent Squid for HTTP and activate logging
+- Services - Squid Proxy Server
+  Local cache
+    Hard disk Cache Size: 1000
+    Save
+  General
+    Enable Squid Proxy
+    Keep Settings/Data
+    Allow Users in Interface
+    Transparent HTTP Proxy
+    Enable Access Logging
+  Save
 
 Enable Lightsquid (Proxy report) reporting
+- Status - Squid Proxy Reports
+  Refresh Scheduler: 60 min
+  Save
+  Manual Refresh: Refresh Full
 
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection:
 pkg
 
 pkg update
 echo y | pkg install bash
-echo y | pkg install wget
 echo y | pkg install curl
-echo y | pkg install ssmtp
-echo y | pkg install base64
 echo y | pkg install git
-echo y | pkg install mysql56-server
+echo y | pkg install php56-mysql
+
+pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/wget-1.16.3.txz
+pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/ssmtp-2.64_1.txz
+pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/base64-1.5_1.txz
+pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/mysql56-client-5.6.27.txz
+pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/mysql56-server-5.6.27.txz
+pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/autossh-1.4e.txz
+
 rehash
 ln -s /usr/local/bin/bash /bin/bash
 
@@ -109,12 +129,12 @@ mkdir /home/local_backups
 mkdir /home/mail_backlog
 cd /home
 git clone https://github.com/x-ian/marsPortal.git
-cd marsPortal
-git checkout apzunet
+cd /home/marsPortal
+#git checkout apzunet
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
-touch /etc/php_dynamodules/mysql
-/etc/rc.php_ini_setup
+# touch /etc/php_dynamodules/mysql
+# /etc/rc.php_ini_setup
 ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "@reboot /home/marsPortal/misc/marsPortalStart.sh") | crontab -
 (crontab -l ; echo "@reboot /home/marsPortal/misc/mail_after_startup.sh") | crontab -
@@ -125,21 +145,27 @@ ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "55 23 * * * /home/marsPortal/misc/freeradius-mail-statistics.sh") | crontab -
 (crontab -l ; echo "*/30 * * * * /home/marsPortal/misc/process_mail_backlog.sh") | crontab -
 (crontab -l ; echo "59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
-(crontab -l ; echo "#0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
-(crontab -l ; echo "#0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
 (crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
 (crontab -l ; echo "15,45 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_1") | crontab -
 (crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
 (crontab -l ; echo "1 1,8,17 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_3") | crontab -
 
+# this would be fine, but doesnt work  as the newer & default versions do not have SQL support included!
 # echo y | pkg install freeradius
-# Use the next line for 64 Bit pfSense, or the line after next line for 32 Bit
-# 64 Bit
-#pkg add -M /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
-#pkg lock freeradius
-# 32 Bit
-#pkg add -M /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
-#pkg lock freeradius
+pkg add -M /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
+# for 32 bit: pkg add -M /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
+pkg lock freeradius
+
+cat >/home/marsPortal/config.php <<'EOF' 
+<?php
+$user = 'radius';
+$pw = 'radpass';
+?>
+'EOF'
+
+Editing text config files. Use vi if familiar, or ee if vi is unknown (https://www.freebsd.org/doc/handbook/editors.html)
 
 Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
 
@@ -155,6 +181,14 @@ echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
 /usr/local/bin/mysqld_safe &
 sleep 60
 /usr/local/bin/mysql_secure_installation
+  <enter>
+  yes
+  radius
+  radius
+  yes
+  yes
+  yes
+  yes
 
 mysql -u root -pradius <<EOF
    CREATE DATABASE radius;
@@ -178,14 +212,15 @@ cp /home/marsPortal/setup-marsportal/config-files/dictionary /usr/local/etc/radd
 mv /usr/local/etc/raddb/radiusd.conf /usr/local/etc/raddb/radiusd.conf.original
 cp /home/marsPortal/setup-marsportal/config-files/radiusd.conf /usr/local/etc/raddb/radiusd.conf
 
-# CAREFUL: Use first command for 64 Bit version, second command for 32 Bit; only execute one of them!
-#cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
-#cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
+cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+#32 bit: cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
 
-Background (only for informational purpose: 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
+Background information; only for informational purpose. Continue with next section 'Captive portal':
+
+'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
 
-Run RADIUS server once and make sure the output messages end with line 'Starting FreeRADIUS' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
+Run RADIUS server once and make sure the output messages end with line 'Redy to process requests' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
 
 The lines below are just there for historical reference, do NOT follow these instructions!
 
@@ -210,7 +245,7 @@ uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
 Captive Portal
 --------------
 
-Create and enable new Captive portal zone labeled apzunet on the internal LAN interfaces
+Create and enable new Captive portal zone labeled mars on the internal LAN interfaces
 
 Activate 'Disable concurrent logins'
 
@@ -285,7 +320,7 @@ Finalizing
 
 Reboot pfSense
 
-Connect a client to LAN subnet of pfSense and daloRADIUS server and try to access any HTTP (not HTTPS) page. E.g. http://www.marsgeneral.com
+Connect a client to LAN subnet of pfSense and try to access any HTTP (not HTTPS) page. E.g. http://www.marsgeneral.com
 
 Catch the MAC address from resulting error page and create new freeradius user with MAC authentication in the Web UI.
 
@@ -312,9 +347,10 @@ add 'testingUsers Cleartext-Password := "password"' to top of /usr/local/etc/rad
 radtest testingUsers password localhost 0 testing123
 
 Testing freeRADIUS install with MySQL-based users list:
-# TODO: Doesn't work!
-mysql -u root -pradius radius <<EOF
-	INSERT INTO radcheck set username='testingSQL', value='password', op=':=';
+mysql -u radius -pradpass radius <<EOF
+  INSERT INTO radcheck set username='testingSQL', attribute='Auth-Type', op=':=', value='Accept';
+  INSERT INTO radusergroup set username='testingSQL', groupname='Users', priority=1;
+  INSERT INTO userinfo set username='testingSQL', firstname='test', lastname='test', registration_date='2016-06-12 23:55:32';
 EOF
 radtest testingSQL password localhost 0 testing123
 
