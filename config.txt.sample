@@ -17,7 +17,7 @@ MYSQL_PASSWD=radpass
 
 # all times in HoursMinutes, hours without leading zero, minutes with leading zero if single-digit
 DAY_START=0
-WORK_START=730
+WORK_START=800
 LUNCH_START=1200
 LUNCH_END=1330
 WORK_END=1700
