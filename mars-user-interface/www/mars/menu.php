@@ -24,7 +24,8 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
   <div id="columns">
     <div id="side">
       <ul id="ul1">
-        <li><a href="/mars/userinfo/list.php">Manage users/devices</a></li>
+        <li><a href="/mars/userinfo/list.php">Manage devices</a></li>
+        <li><a href="/mars/user/list.php">Manage users</a></li>
         <li><a href="/mars/group/list.php">Manage groups<a></li>
         <li>Reports</li>
       	<ul id="ul2">
