@@ -6,7 +6,6 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
 
 $today = date('Y-m-d', strtotime('-0 day'));
 $yesterday = date('Y-m-d', strtotime('-1 day'));
