@@ -50,7 +50,7 @@ if (isset($_POST['submitted'])) {
 </script>
 	
 <? 
-echo "<table>"; 
+echo "<table class='listtable'>"; 
 echo "<tr>"; 
 echo "<td><b>Name</b></td>"; 
 echo "<td><b>Group</b></td>"; 
@@ -70,7 +70,7 @@ $previous_name = "";
 while($row = mysql_fetch_array($result)){ 
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 echo "<tr>";  
-$name = nl2br( $row['firstname']) . " " . nl2br( $row['lastname']);
+$name = nl2br( $row['firstname']) . "&nbsp;" . nl2br( $row['lastname']);
 if ($previous_name == $name) {
 	echo "<td></td>";	
 	echo "<td></td>";	

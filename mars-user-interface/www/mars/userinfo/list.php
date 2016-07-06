@@ -8,7 +8,7 @@ include '../menu.php';
 <? 
 // generated with http://www.phpscaffold.com/
 
-echo "<table>"; 
+echo "<table class='listtable'>"; 
 echo "<tr>"; 
 echo "<td><b>Username (MAC)</b></td>"; 
 echo "<td><b>Name</b></td>"; 
@@ -28,7 +28,7 @@ while($row = mysql_fetch_array($result)){
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 echo "<tr>";  
 echo "<td>" . nl2br( $row['username']) . "</td>";  
-echo "<td>" . nl2br( $row['firstname']) . " " . nl2br( $row['lastname']) . "</td>";  
+echo "<td>" . nl2br( $row['firstname']) . "&nbsp;" . nl2br( $row['lastname']) . "</td>";  
 echo "<td>" . nl2br( $row['groupname']) . "</td>";  
 echo "<td>" . nl2br( $row['mac_vendor']) . "</td>";  
 echo "<td>" . nl2br( $row['hostname']) . "</td>";  

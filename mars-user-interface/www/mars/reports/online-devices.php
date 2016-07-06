@@ -23,7 +23,7 @@ function online() {
 </span>
 
 
-<table>
+<table class='listtable'>
 	<tr>
 		<th>MAC address</th>
 		<th>Name</th>
