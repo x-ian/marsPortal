@@ -25,6 +25,10 @@ DAY_END=2359
 # day in week, mo=1, su=7
 WORK_DAYS=1,2,3,4,5
 
+# marsPortal HTTP Auth
+HTTP_AUTH_USER=admin
+HTTP_AUTH_PASSWD=admin
+
 # mail notifications
 # also adjust values of this ssmtp config file
 SSMTP_CONFIG=/home/marsPortal/ssmtp.config
