@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Usage Statistics (' . date('Y-m-d H:i:s') . ')';
 include '../menu.php'; 
 ?>
 
@@ -35,12 +36,6 @@ function deviceinfo($row, $upordown) {
 
 ?>
 
-<span style="font-variant:small-caps; font-size:200%">
-	<p align="center">
-		marsPortal Usage Statistics (<?php echo date('Y-m-d H:i:s')?>)
-	</p>
-</span>
-
 
 <?php
 require dirname(__FILE__)."/statistics-registration.php";
@@ -59,3 +54,6 @@ generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
 
 require dirname(__FILE__)."/statistics-current-groups.php";
 ?>
+
+<hr/>
+<span class="headline"><p>Usage Statistics (<?php echo date('Y-m-d H:i:s')?>)</p></span>

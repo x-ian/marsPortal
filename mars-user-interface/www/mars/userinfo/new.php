@@ -1,4 +1,5 @@
-<? 
+<?
+$HEADLINE = 'New device'; 
 include '../menu.php'; 
 ?>
 

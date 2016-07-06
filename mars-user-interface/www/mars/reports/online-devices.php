@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Devices online'; 
 include '../menu.php'; 
 ?>
 
@@ -15,13 +16,6 @@ function online() {
 		ORDER BY radacctid asc;";
 }
 ?>
-
-<span style="font-variant:small-caps; font-size:200%">
-	<p align="center">
-		marsPortal Devices currently online (<?php echo date('Y-m-d H:i:s'); ?>)
-	</p>
-</span>
-
 
 <table class='listtable'>
 	<tr>
