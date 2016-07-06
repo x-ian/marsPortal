@@ -7,7 +7,6 @@ include '../menu.php';
     <div id="main">
 
 <?
-include('../config.php'); 
 $ip=$_SERVER['REMOTE_ADDR'];
 if (isset($_GET['username']) ) { 
 $username = $_GET['username']; 

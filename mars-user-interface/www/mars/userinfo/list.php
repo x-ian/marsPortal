@@ -8,8 +8,6 @@ include '../menu.php';
 <? 
 // generated with http://www.phpscaffold.com/
 
-include '../config.php'; 
-
 echo "<table>"; 
 echo "<tr>"; 
 echo "<td><b>Username (MAC)</b></td>"; 

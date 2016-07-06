@@ -6,7 +6,6 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
 $username = $_GET['username']; 
 $ip=$_SERVER['REMOTE_ADDR'];
 mysql_query("DELETE FROM `radusergroup` WHERE `username` = '$username' ") ; 

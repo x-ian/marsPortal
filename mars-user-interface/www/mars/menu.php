@@ -1,4 +1,25 @@
-<?php 
+<? 
+
+include('config.php'); 
+
+//if (false) {
+    if (!isset($_SERVER['PHP_AUTH_USER'])) {
+        header("WWW-Authenticate: Basic realm=\"marsPortal Admin\"");
+        header("HTTP/1.0 401 Unauthorized");
+        print "Sorry, browser doesn't seem to enforce authentication. Try again with another browser!\n";
+        exit;
+    } else {
+        if (($_SERVER['PHP_AUTH_USER'] == $HTTP_AUTH_USER) && ($_SERVER['PHP_AUTH_PW'] == $HTTP_AUTH_PASSWD)) {
+//            print "Welcome to the private area!";
+        } else {
+            header("WWW-Authenticate: Basic realm=\"marsPortal Admin\"");
+            header("HTTP/1.0 401 Unauthorized");
+            print "Sorry, invalid credentials. Access denied!\n";
+            exit;
+        }
+    }
+	//}
+
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 ?>
@@ -8,10 +29,8 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 <head>
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
   <link href="/mars/application.css" rel="stylesheet" type="text/css" />
-  <title>mars portal</title>
+  <title>marsPortal</title>
 </head>
-
-<? include 'config.php'; ?>
 
 <body>
 
