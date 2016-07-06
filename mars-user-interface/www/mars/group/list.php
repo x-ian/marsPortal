@@ -6,7 +6,6 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
 echo "<table>"; 
 echo "<tr>"; 
 echo "<td><b>Groupname</b></td>"; 

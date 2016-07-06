@@ -6,7 +6,6 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
 if (isset($_GET['groupname']) ) { 
 $groupname = $_GET['groupname']; 
 if (isset($_POST['submitted'])) { 
