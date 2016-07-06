@@ -27,7 +27,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
 <head>
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
   <link href="/mars/application.css" rel="stylesheet" type="text/css" />
-  <title>marsPortal</title>
+  <title>marsPortal <? echo $HEADLINE ?></title>
 </head>
 
 <body>
