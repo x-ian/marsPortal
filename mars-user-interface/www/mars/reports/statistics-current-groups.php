@@ -14,7 +14,7 @@ select rr1.groupname,
 from radgroupreply rr1 left join radgroupcheck r1 on rr1.groupname = r1.groupname 
 group by rr1.groupname;');  
   
-echo "<table><tr><th>Group</th><th>Working Hours Up</th><th>Working Hours Down</th><th>Bandwidth Up</th><th>Bandwidth Down</th><th>Session Timeout</th><th>Concurrent Users</th><th>Daily Up</th><th>Daily Down</th></tr>";
+echo "<table class='listtable'><tr><th>Group</th><th>Work&nbsp;&#8593;</th><th>Work&nbsp;&#8595;</th><th>Rate&nbsp;&#8593;</th><th>Rate&nbsp;&#8595;</th><th>Max. Users</th><th>Day&nbsp;&#8593;</th><th>Day&nbsp;&#8595;</th></tr>";
 while ($row = mysql_fetch_assoc($result)) {
 	echo "<tr>";
 	echo "<td>" . $row['groupname'] . "</td>";
@@ -22,7 +22,7 @@ while ($row = mysql_fetch_assoc($result)) {
 	echo "<td>" . $row['Max Business Hours Down'] . "</td>";
 	echo "<td>" . $row['WISPr-Bandwidth-Max-Up'] . "</td>";
 	echo "<td>" . $row['WISPr-Bandwidth-Max-Down'] . "</td>";
-	echo "<td>" . $row['Session Timeout'] . "</td>";
+//	echo "<td>" . $row['Session Timeout'] . "</td>";
 	echo "<td>" . $row['Max Concurrent Users'] . "</td>";
 	echo "<td>" . $row['Max Daily Up'] . "</td>";
 	echo "<td>" . $row['Max Daily Down'] . "</td>";

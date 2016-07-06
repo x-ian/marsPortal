@@ -6,7 +6,7 @@ include '../menu.php';
     <div id="main">
 
 <? 
-echo "<table>"; 
+echo "<table class='listtable'>"; 
 echo "<tr>"; 
 echo "<td><b>Groupname</b></td>"; 
 echo "<td><b>Work Total Input (MB)</b></td>"; 

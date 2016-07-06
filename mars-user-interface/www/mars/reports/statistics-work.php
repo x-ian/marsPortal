@@ -42,7 +42,7 @@
 		$upordown_work_total_last30days = query(total_upordown_work($daysago30, $today, $upordown));
 
 
-		echo "<table>
+		echo "<table class='listtable'>
 			<tr>
 				<th>" . $upordown . " (MB)</th>
 				<th>Today</th>
