@@ -33,7 +33,7 @@ include '../menu.php';
     $daysago30 = date('Y-m-d', strtotime('-29 days'));
   
 echo "
-<table>
+<table class='listtable'>
 	<tr>
 		<th>Username</th>
 		<th>Group</th>
