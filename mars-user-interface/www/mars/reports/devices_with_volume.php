@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Transfer history'; 
 include '../menu.php'; 
 ?>
 

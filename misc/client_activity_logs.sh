@@ -36,7 +36,7 @@ EOF
 }
 
 print_stats_line "\- x \-" "Registered"
-print_stats_line "\- 2 \-" "Too many users per group"
+print_stats_line "\- 2 \-" "Too many devices per group"
 print_stats_line "\- 3 \-" "Data volume reached"
 print_stats_line "\- 4 \-" "Disabled"
 print_stats_line "\- 5 \-" "Data volume during work reached"

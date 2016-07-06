@@ -27,14 +27,14 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
 <head>
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
   <link href="/mars/application.css" rel="stylesheet" type="text/css" />
-  <title>marsPortal <? echo $HEADLINE ?></title>
+  <title>marsPortal - <? echo $HEADLINE ?></title>
 </head>
 
 <body>
 
   <div id="banner" style="text-align: center;">
 	<table align="center">
-		<tr><td><a href="index.html"><img src="/mars/captiveportal-mars.jpg" width="75"/></a></td><td style="font-variant:small-caps; font-size:200%">portal</td></tr>
+		<tr><td><a href="index.html"><img src="/mars/captiveportal-mars.jpg" width="75"/></a></td><td style="font-variant:small-caps; font-size:200%">portal - <? echo $HEADLINE ?></td></tr>
 	</table>
   </div>
   

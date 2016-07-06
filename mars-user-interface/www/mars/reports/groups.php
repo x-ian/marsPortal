@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Group statistics'; 
 include '../menu.php'; 
 ?>
 
@@ -24,13 +25,6 @@ function total($startday, $endday) {
 		GROUP BY radusergroup.groupname;";
 }
 ?>
-
-<span style="font-variant:small-caps; font-size:200%">
-	<p align="center">
-		marsPortal Group Statistics (<?php echo $today; ?>)
-	</p>
-</span>
-
 
 Today:
 <table><tr><th>Group</th><th>Download</th><th>Upload</th></tr>

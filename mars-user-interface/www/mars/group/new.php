@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'New group'; 
 include '../menu.php'; 
 ?>
 

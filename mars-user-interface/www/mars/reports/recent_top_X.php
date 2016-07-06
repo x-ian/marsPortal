@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Most active devices'; 
 include '../menu.php'; 
 ?>
 
