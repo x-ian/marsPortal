@@ -44,7 +44,7 @@ echo "<td><a href=edit.php?username={$row['username']}>Edit</a><br/><a href=../u
 echo "</tr>"; 
 } 
 echo "</table>"; 
-echo "<a href=new.php>New User/device</a>"; 
+echo "<a href=new.php>New device</a>"; 
 ?>
 </div>
 </body>

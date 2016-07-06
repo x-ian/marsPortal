@@ -64,7 +64,7 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
 </form> 
 </table>
 <? } ?> 
-<b>Note: Saving changes will automatically close the session of this user on the Captive Portal.</b>
+<b>Note: Saving changes will automatically close the session of this device on the Captive Portal.</b>
 </div>
 </body>
 
