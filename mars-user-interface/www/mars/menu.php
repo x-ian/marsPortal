@@ -2,26 +2,24 @@
 
 include('config.php'); 
 
-//if (false) {
-    if (!isset($_SERVER['PHP_AUTH_USER'])) {
+if (!isset($_SERVER['PHP_AUTH_USER'])) {
+    header("WWW-Authenticate: Basic realm=\"marsPortal Admin\"");
+    header("HTTP/1.0 401 Unauthorized");
+    print "Sorry, invalid credentials. Access denied! Reload page or close&reopen browser to try again.\n";
+    exit;
+} else {
+    if (($_SERVER['PHP_AUTH_USER'] == $HTTP_AUTH_USER) && ($_SERVER['PHP_AUTH_PW'] == $HTTP_AUTH_PASSWD)) {
+//            print "Welcome to the private area!";
+    } else {
         header("WWW-Authenticate: Basic realm=\"marsPortal Admin\"");
         header("HTTP/1.0 401 Unauthorized");
-        print "Sorry, browser doesn't seem to enforce authentication. Try again with another browser!\n";
+        print "Sorry, invalid credentials. Access denied! Reload page or close&reopen browser to try again.\n";
         exit;
-    } else {
-        if (($_SERVER['PHP_AUTH_USER'] == $HTTP_AUTH_USER) && ($_SERVER['PHP_AUTH_PW'] == $HTTP_AUTH_PASSWD)) {
-//            print "Welcome to the private area!";
-        } else {
-            header("WWW-Authenticate: Basic realm=\"marsPortal Admin\"");
-            header("HTTP/1.0 401 Unauthorized");
-            print "Sorry, invalid credentials. Access denied!\n";
-            exit;
-        }
     }
-	//}
+}
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass browser caching
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
