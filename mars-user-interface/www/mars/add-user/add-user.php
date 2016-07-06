@@ -1,24 +1,11 @@
 <?php 
+	include('../auth.php'); 
+
 	$mac = $_GET['mac']; 
 	$mac_vendor = $_GET['mac_vendor']; 
 	$hostname = $_GET['hostname']; 
 	
 	$redirurl = $_GET['redirurl']; 
-
-	require '/home/marsPortal/config.php';
-	
-	mysql_connect('localhost',$user,$pw) or die('Could not connect to mysql server.');
-	mysql_select_db('radius');
-
-	function query($query) {
-	  $result = mysql_query($query);
-		if (!$result) {
-			$message  = 'Invalid query: ' . mysql_error() . "\n";
-			$message .= 'Full query: ' . $query;
-		  	die($message);
-		} 
-		return $result;
-	}
 
 	$all_groups = mysql_query('select distinct groupname from radgroupreply union select distinct groupname from radgroupcheck order by groupname;');  
   
