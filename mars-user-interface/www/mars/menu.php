@@ -48,7 +48,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
       	<ul id="ul2">
        		<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices</a></li>
        		<li><a href="/mars/reports/statistics.php">Statistics (Devices)</a></li>
-       		<li><a href="/mars/reports/statistics_users.php">Statistics (Users)</a></li>
+       		<li><a href="/mars/reports/users-statistics.php">Statistics (Users)</a></li>
        		<li><a href="/mars/reports/devices_with_volume.php">Devices (7d history)</a></li>
        		<li><a href="/mars/reports/groups.php">Groups</a></li>
        		<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
