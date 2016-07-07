@@ -55,14 +55,6 @@ if [ $? -eq 0 ]; then
   exit 5
 fi
 
-if [ $CHECK_REPLY -eq 0 ] && [ $CHECK_ACCESS -eq 0 ]; then
-  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
-  echo $MSG
-  echo "rejected with reply message (MAC address $MAC)"
-  echo "$MAC - $IP - 6 - rejected - $MSG - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
-  exit 6
-fi
-
 echo $RADTEST | grep "Daily data bundle for all devices exceeded" >/dev/null
 if [ $? -eq 0 ]; then
   MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
@@ -77,6 +69,14 @@ if [ $? -eq 0 ]; then
   MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
   echo "$MAC - $IP - 8 - Data bundle for all devices during business hours exceeded - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
   exit 8
+fi
+
+if [ $CHECK_REPLY -eq 0 ] && [ $CHECK_ACCESS -eq 0 ]; then
+  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
+  echo $MSG
+  echo "rejected with reply message (MAC address $MAC)"
+  echo "$MAC - $IP - 6 - rejected - $MSG - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
+  exit 6
 fi
 
 echo $RADTEST | grep "Access-Accept" >/dev/null
