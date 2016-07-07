@@ -41,7 +41,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 
 <table>
 <form action='' method='POST'> 
-<tr><td><b>Groupname:</b></td><td><input size="40" type='text' name='groupname' value='<?= stripslashes($row['groupname']) ?>' /> (only characters, digits, and dash; no spaces or symbols allowed)</td></tr>
+<tr><td><b>Groupname:</b></td><td><input size="40" type='text' name='groupname' value='<?= stripslashes($row['groupname']) ?>' /> (required) (only characters, digits, and dash; no spaces or symbols allowed)</td></tr>
 <tr><td><b>Work Total Input:</b></td><td><input type='text' name='work_total_input' value='<?= stripslashes($row['Max Work Hours Up']) ?>' /> (#) (Upload, in MB)</td></tr>
 <tr><td><b>Work Total Output:</b></td><td><input type='text' name='work_total_output' value='<?= stripslashes($row['Max Work Hours Down']) ?>' /> (#) (Download, in MB)</td></tr>
 <tr><td><b>Day Total Input:</b></td><td><input type='text' name='day_total_input' value='<?= stripslashes($row['Max Daily Up']) ?>' /> (#) (Upload, in MB)</td></tr>
@@ -52,7 +52,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 <tr><td><b>User Day Total Output:</b></td><td><input type='text' name='user_day_total_output' value='<?= stripslashes($row['User Max Daily Down']) ?>' /> (#) (Download, in MB)</td></tr>
 <tr><td><b>Bandwidth Up:</b></td><td><input type='text' name='bandwidth_up' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Up']) ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Bandwidth Down:</b></td><td><input type='text' name='bandwidth_down' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Down']) ?>' /> (*) (in bits/per second)</td></tr>
-<tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= stripslashes($row['Session Timeout']) ?>' /> (*) (in seconds)</td></tr>
+<tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= stripslashes($row['Session Timeout']) ?>' /> (required) (*) (in seconds)</td></tr>
 <tr><td><b>Concurrent Users:</b></td><td><input type='text' name='concurrent_user' value='<?= stripslashes($row['Max Concurrent Users']) ?>' /> (*) (maximum number of concurrent connected users)</td></tr>
 <tr><td><b>Auth Type:</b></td><td><input type='text' name='auth_type' value='<?= stripslashes($row['Auth Type']) ?>' /> (*) (empty by default, 'Reject' -without the quotes- to block users)</td></tr>
 <tr><td><b>Reply Message:</b></td><td><input size="40" type='text' name='reply_message' value='<?= stripslashes($row['Reply Message']) ?>' /> (*) (empty by default, only used when Auth Type == Reject)</td></tr>
