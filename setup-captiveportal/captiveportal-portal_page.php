@@ -65,6 +65,21 @@
 				echo "<p><b>Network access was rejected with below error message</b></p>";
 				echo "<p>Exit code: $exitCode - (Reason: " . implode(" ", $output) . ")</p>";
 				break;
+			case 7:
+				// access denied with additional restrictions
+				echo "<p><b>All your deviceshave used up your available data volume. Please try again tomorrow.</b></p>";
+				echo "<br/><br/><p>Exit code: $exitCode</p>";
+				echo "<p>   (Reason: " . implode(" ", $output) . ")</p>";
+				exec("/home/marsPortal/freeradius-integration/echo-user-data-statistics-link.sh " . $ip, $out, $exit);
+				echo "<p>In doubt, check your data usage of the last 7 days: " . implode(" ", $out) . "</p>";
+				break;
+			case 8:
+				// data bundle during business hours exceeded
+				echo "<p><b>All your devices have reached the maximum daily data bundle during working hours (Monday to Friday from 07:30-12:00 and 13:30-17:00). Please try again tomorrow.</b></p>";
+				echo "<p>Exit code: $exitCode - (Reason: " . implode(" ", $output) . ")</p>";
+				exec("/home/marsPortal/freeradius-integration/echo-user-data-statistics-link.sh " . $ip, $out, $exit);
+				echo "<p>In doubt, check your data usage of the last 7 days: " . implode(" ", $out) . "</p>";
+				break;
 			default:
 				// unknown response or server down
 				echo "<p><b>Network not available. Please see the IT team.</b></p>";
