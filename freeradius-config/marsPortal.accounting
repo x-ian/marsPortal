@@ -29,3 +29,35 @@
                 }
         }
 
+
+        # accounting during working hours excluding lunch hour across all devices
+        # kicking out active session if limit is reached
+        # needs to go in accounting section
+        update control {
+                # based on content in table daily_accounting_v2, which is updated by cronjobs
+                My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_output) - SUM(work_offset_output) - SUM(lunch_total_output) + SUM(lunch_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'acct_user_work_out' = 'acct_user_work_out'))), '0')}"
+                My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_input) - SUM(work_offset_input) - SUM(lunch_total_input) + SUM(lunch_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'acct_user_work_in' = 'acct_user_work_in'))), '0')}"
+        }
+
+        # check for daily volume restrictions during working hours
+        if ("%{check:mars-User-Output-Megabytes-Daily-Work-Hours}" && "%{check:mars-User-Input-Megabytes-Daily-Work-Hours}") {
+                if (("%{control:My-Local-Output}" > "%{check:mars-User-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-User-Input-Megabytes-Daily-Work-Hours}")) {
+                        captiveportal-disconnect-user
+                }
+        }
+
+        # daily total accounting across all devices, kicking out active session if limit is reached
+        # needs to go in accounting section, e.g. before exec block
+        update control {
+                # based on content in table daily_accounting, which is updated by cronjobs
+                My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'acct_user_daily_out' = 'acct_user_daily_out'))), '0')}"
+                My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'acct_user_daily_in' = 'acct_user_daily_in'))), '0')}"
+        }
+
+        # check for daily volume restrictions during working hours
+        if ("%{check:mars-User-Output-Megabytes-Daily-Total}" && "%{check:mars-User-Input-Megabytes-Daily-Total}") {
+                if (("%{control:My-Local-Output}" > "%{check:mars-User-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-User-Input-Megabytes-Daily-Total}")) {
+                        captiveportal-disconnect-user
+                }
+        }
+
