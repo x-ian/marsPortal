@@ -12,12 +12,16 @@ echo "<tr>";
 echo "<td><b>Groupname</b></td>"; 
 echo "<td><b>Work Total Input (MB)</b></td>"; 
 echo "<td><b>Work Total Output (MB)</b></td>"; 
+echo "<td><b>User Work Total Input (MB)</b></td>"; 
+echo "<td><b>User Work Total Output (MB)</b></td>"; 
 echo "<td><b>Bandwidth Up (bps)</b></td>"; 
 echo "<td><b>Bandwidth Down (bps)</b></td>"; 
 echo "<td><b>Session Timeout (s)</b></td>"; 
 echo "<td><b>Max Concurrent Users</b></td>"; 
 echo "<td><b>Day Total Input (MB)</b></td>"; 
 echo "<td><b>Day Total Output (MB)</b></td>"; 
+echo "<td><b>User Day Total Input (MB)</b></td>"; 
+echo "<td><b>User Day Total Output (MB)</b></td>"; 
 echo "<td><b>Auth Type</b></td>"; 
 echo "<td><b>Reply Message</b></td>"; 
 echo "</tr>"; 
@@ -28,6 +32,10 @@ select rr1.groupname,
 	(select value from radgroupcheck r6 where attribute="mars-Input-Megabytes-Daily-Total" and r6.groupname = r1.groupname)  "Max Daily Up", 
 	(select value from radgroupcheck r9 where attribute="mars-Output-Megabytes-Daily-Work-Hours" and r9.groupname = r1.groupname)  "Max Work Hours Down", 
 	(select value from radgroupcheck r10 where attribute="mars-Input-Megabytes-Daily-Work-Hours" and r10.groupname = r1.groupname)  "Max Work Hours Up", 
+	(select value from radgroupcheck r5 where attribute="mars-User-Output-Megabytes-Daily-Total" and r5.groupname = r1.groupname)  "User Max Daily Down", 
+	(select value from radgroupcheck r6 where attribute="mars-User-Input-Megabytes-Daily-Total" and r6.groupname = r1.groupname)  "User Max Daily Up", 
+	(select value from radgroupcheck r9 where attribute="mars-User-Output-Megabytes-Daily-Work-Hours" and r9.groupname = r1.groupname)  "User Max Work Hours Down", 
+	(select value from radgroupcheck r10 where attribute="mars-User-Input-Megabytes-Daily-Work-Hours" and r10.groupname = r1.groupname)  "User Max Work Hours Up", 
 	(select value from radgroupreply rr2 where attribute ="Session-Timeout" and rr2.groupname = rr1.groupname) "Session Timeout", 
 	(select value from radgroupreply rr3 where attribute ="WISPr-Bandwidth-Max-Up" and rr3.groupname = rr1.groupname) "WISPr-Bandwidth-Max-Up", 
 	(select value from radgroupreply rr4 where attribute ="WISPr-Bandwidth-Max-Down" and rr4.groupname = rr1.groupname) "WISPr-Bandwidth-Max-Down",
@@ -42,15 +50,19 @@ echo "<tr>";
 echo "<td>" . nl2br( $row['groupname']) . "</td>";
 echo "<td>" . nl2br( $row['Max Work Hours Up']) . "</td>";
 echo "<td>" . nl2br( $row['Max Work Hours Down']) . "</td>";
+echo "<td>" . nl2br( $row['User Max Work Hours Up']) . "</td>";
+echo "<td>" . nl2br( $row['User Max Work Hours Down']) . "</td>";
 echo "<td>" . nl2br( $row['WISPr-Bandwidth-Max-Up']) . "</td>";
 echo "<td>" . nl2br( $row['WISPr-Bandwidth-Max-Down']) . "</td>";
 echo "<td>" . nl2br( $row['Session Timeout']) . "</td>";
 echo "<td>" . nl2br( $row['Max Concurrent Users']) . "</td>";
 echo "<td>" . nl2br( $row['Max Daily Up']) . "</td>";
 echo "<td>" . nl2br( $row['Max Daily Down']) . "</td>";
+echo "<td>" . nl2br( $row['User Max Daily Up']) . "</td>";
+echo "<td>" . nl2br( $row['User Max Daily Down']) . "</td>";
 echo "<td>" . nl2br( $row['Auth Type']) . "</td>";  
 echo "<td>" . nl2br( $row['Reply Message']) . "</td>";  
-echo "<td><a href=edit.php?groupname={$row['groupname']}>Edit</a><br/><a href=duplicate.php?&work_total_input={$row['Max Work Hours Up']}&work_total_output={$row['Max Work Hours Down']}&day_total_input={$row['Max Daily Up']}&day_total_output={$row['Max Daily Down']}&bandwidth_up={$row['WISPr-Bandwidth-Max-Up']}&bandwidth_down={$row['WISPr-Bandwidth-Max-Down']}&session_timeout={$row['Session Timeout']}&reply_message=" . urlencode($row['Reply Message']) . "&auth_type={$row['Auth Type']}&concurrent_user={$row['Max Concurrent Users']}>Duplicate</a><br/><a href=delete.php?groupname={$row['groupname']}>Delete</a></td> "; 
+echo "<td><a href=edit.php?groupname={$row['groupname']}>Edit</a><br/><a href=duplicate.php?&work_total_input={$row['Max Work Hours Up']}&work_total_output={$row['Max Work Hours Down']}&day_total_input={$row['Max Daily Up']}&day_total_output={$row['Max Daily Down']}&user_work_total_input={$row['User Max Work Hours Up']}&user_work_total_output={$row['User Max Work Hours Down']}&user_day_total_input={$row['User Max Daily Up']}&user_day_total_output={$row['User Max Daily Down']}&bandwidth_up={$row['WISPr-Bandwidth-Max-Up']}&bandwidth_down={$row['WISPr-Bandwidth-Max-Down']}&session_timeout={$row['Session Timeout']}&reply_message=" . urlencode($row['Reply Message']) . "&auth_type={$row['Auth Type']}&concurrent_user={$row['Max Concurrent Users']}>Duplicate</a><br/><a href=delete.php?groupname={$row['groupname']}>Delete</a></td> "; 
 echo "</tr>"; 
 } 
 echo "</table>"; 

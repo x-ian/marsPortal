@@ -17,6 +17,10 @@ mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mar
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Total', '{$_POST['groupname']}', ':=', '{$_POST['day_total_input']}')") or die(mysql_error());
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['work_total_output']}')") or die(mysql_error());
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['work_total_input']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Total', '{$_POST['groupname']}', ':=', '{$_POST['user_day_total_output']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Total', '{$_POST['groupname']}', ':=', '{$_POST['user_day_total_input']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['user_work_total_output']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['user_work_total_input']}')") or die(mysql_error());
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('Auth-Type', '{$_POST['groupname']}', ':=', '{$_POST['auth_type']}')") or die(mysql_error());
 
 // re-create all radgroupreply entries
@@ -42,6 +46,10 @@ echo "<a href='list.php'>Back To Listing</a>";
 <tr><td><b>Work Total Output:</b></td><td><input type='text' name='work_total_output' value='<?= stripslashes($row['Max Work Hours Down']) ?>' /> (#) (Download, in MB)</td></tr>
 <tr><td><b>Day Total Input:</b></td><td><input type='text' name='day_total_input' value='<?= stripslashes($row['Max Daily Up']) ?>' /> (#) (Upload, in MB)</td></tr>
 <tr><td><b>Day Total Output:</b></td><td><input type='text' name='day_total_output' value='<?= stripslashes($row['Max Daily Down']) ?>' /> (#) (Download, in MB)</td></tr>
+<tr><td><b>User Work Total Input:</b></td><td><input type='text' name='user_work_total_input' value='<?= stripslashes($row['User Max Work Hours Up']) ?>' /> (#) (Upload, in MB)</td></tr>
+<tr><td><b>User Work Total Output:</b></td><td><input type='text' name='user_work_total_output' value='<?= stripslashes($row['User Max Work Hours Down']) ?>' /> (#) (Download, in MB)</td></tr>
+<tr><td><b>User Day Total Input:</b></td><td><input type='text' name='user_day_total_input' value='<?= stripslashes($row['User Max Daily Up']) ?>' /> (#) (Upload, in MB)</td></tr>
+<tr><td><b>User Day Total Output:</b></td><td><input type='text' name='user_day_total_output' value='<?= stripslashes($row['User Max Daily Down']) ?>' /> (#) (Download, in MB)</td></tr>
 <tr><td><b>Bandwidth Up:</b></td><td><input type='text' name='bandwidth_up' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Up']) ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Bandwidth Down:</b></td><td><input type='text' name='bandwidth_down' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Down']) ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= stripslashes($row['Session Timeout']) ?>' /> (*) (in seconds)</td></tr>

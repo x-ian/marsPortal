@@ -158,13 +158,6 @@ pkg add -M /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
 # for 32 bit: pkg add -M /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
 pkg lock freeradius
 
-cat >/home/marsPortal/config.php <<'EOF' 
-<?php
-$user = 'radius';
-$pw = 'radpass';
-?>
-'EOF'
-
 Editing text config files. Use vi if familiar, or ee if vi is unknown (https://www.freebsd.org/doc/handbook/editors.html)
 
 Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt

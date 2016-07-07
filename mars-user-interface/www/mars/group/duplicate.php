@@ -17,6 +17,10 @@ mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mar
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Total', '{$_POST['groupname']}', ':=', '{$_POST['day_total_input']}')") or die(mysql_error());
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['work_total_output']}')") or die(mysql_error());
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['work_total_input']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Total', '{$_POST['groupname']}', ':=', '{$_POST['day_total_output']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Total', '{$_POST['groupname']}', ':=', '{$_POST['day_total_input']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['work_total_output']}')") or die(mysql_error());
+mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Work-Hours', '{$_POST['groupname']}', ':=', '{$_POST['work_total_input']}')") or die(mysql_error());
 mysql_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('Auth-Type', '{$_POST['groupname']}', ':=', '{$_POST['auth_type']}')") or die(mysql_error());
 
 // re-create all radgroupreply entries
@@ -39,6 +43,10 @@ echo "<a href='list.php'>Back To Listing</a>";
 	$work_total_output = $_GET['work_total_output'];
 	$day_total_input = $_GET['day_total_input'];
 	$day_total_output = $_GET['day_total_output'];
+	$user_work_total_input = $_GET['user_work_total_input'];
+	$user_work_total_output = $_GET['user_work_total_output'];
+	$user_day_total_input = $_GET['user_day_total_input'];
+	$user_day_total_output = $_GET['user_day_total_output'];
 	$bandwidth_up = $_GET['bandwidth_up'];
 	$bandwidth_down = $_GET['bandwidth_down'];
 	$session_timeout = $_GET['session_timeout'];
@@ -55,6 +63,10 @@ echo "<a href='list.php'>Back To Listing</a>";
 <tr><td><b>Work Total Output:</b></td><td><input type='text' name='work_total_output' value='<?= $work_total_output ?>' /> (Download, in MB)</td></tr>
 <tr><td><b>Day Total Input:</b></td><td><input type='text' name='day_total_input' value='<?= $day_total_input ?>' /> (Upload, in MB)</td></tr>
 <tr><td><b>Day Total Output:</b></td><td><input type='text' name='day_total_output' value='<?= $day_total_output ?>' /> (Download, in MB)</td></tr>
+<tr><td><b>User Work Total Input:</b></td><td><input type='text' name='user_work_total_input' value='<?= $user_work_total_input ?>' /> (Upload, in MB)</td></tr>
+<tr><td><b>User Work Total Output:</b></td><td><input type='text' name='user_work_total_output' value='<?= $user_work_total_output ?>' /> (Download, in MB)</td></tr>
+<tr><td><b>User Day Total Input:</b></td><td><input type='text' name='user_day_total_input' value='<?= $user_day_total_input ?>' /> (Upload, in MB)</td></tr>
+<tr><td><b>User Day Total Output:</b></td><td><input type='text' name='user_day_total_output' value='<?= $user_day_total_output ?>' /> (Download, in MB)</td></tr>
 <tr><td><b>Bandwidth Up:</b></td><td><input type='text' name='bandwidth_up' value='<?= $bandwidth_up ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Bandwidth Down:</b></td><td><input type='text' name='bandwidth_down' value='<?= $bandwidth_down ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= $session_timeout ?>' /> (*) (in seconds)</td></tr>

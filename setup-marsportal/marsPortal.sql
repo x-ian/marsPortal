@@ -4,6 +4,10 @@ INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('marsPortal-Template', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '250'),
 ('marsPortal-Template', 'mars-Input-Megabytes-Daily-Total', ':=', '500'),
 ('marsPortal-Template', 'mars-Output-Megabytes-Daily-Total', ':=', '500'),
+('marsPortal-Template', 'mars-User-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
+('marsPortal-Template', 'mars-User-Output-Megabytes-Daily-Work-Hours', ':=', '250'),
+('marsPortal-Template', 'mars-User-Input-Megabytes-Daily-Total', ':=', '500'),
+('marsPortal-Template', 'mars-User-Output-Megabytes-Daily-Total', ':=', '500'),
 ('marsPortal-Template', 'mars-Max-Concurrent-Devices', ':=', '100');
 DELETE FROM radgroupreply WHERE groupname = 'marsPortal-Template';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
