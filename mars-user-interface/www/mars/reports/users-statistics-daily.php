@@ -3,7 +3,7 @@
   function top_upordown($startday, $endday, $topX, $upordown) {
 	return "
 		SELECT 
-			GROUP_CONCAT(' ', daily_accounting_v2.username), 
+			GROUP_CONCAT('', daily_accounting_v2.username) as usernames, 
 			radusergroup.groupname as groupname, 
 			CONCAT_WS(' ', userinfo.firstname, userinfo.lastname) as name, 
 			userinfo.department as department, 
@@ -77,22 +77,22 @@
 			echo "<td>Top #" . $i . "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_today)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_yesterday)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_last7days)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_last30days)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "</tr>";

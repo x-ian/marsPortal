@@ -22,28 +22,38 @@ function query($query) {
 	return $result;
 }
 
-function userdetailslink($mac, $name) {
-  return '<a href="/mars/userinfo/edit.php?username=' . $mac . '">' . $name . '</a>';
+function userdetailslinks($usernames) {
+	$links = 'Devices:';
+	$names = array_unique(explode(',', $usernames)); // danger, dont know why sometimes macs appear multipel times
+	for ($i = 0; $i < count($names); $i++) {
+		$links = $links . ' <a href="/mars/userinfo/edit.php?username=' . $names[$i] . '">' . $i . '</a>';
+	}
+	return $links;
 }
 
-function uservolumelink($mac, $linktext) {
-  return '<a href="/mars/device_with_volume.php?username=' . $mac . '">' . $linktext . '</a>';
+function uservolumelinks($usernames) {
+	$links = 'Data:';
+	$names = array_unique(explode(',', $usernames)); // danger, dont know why sometimes macs appear multipel times
+	for ($i = 0; $i < count($names); $i++) {
+		$links = $links . ' <a href="/mars/device_with_volume.php?username=' . $names[$i] . '">' . $i . '</a>';
+	}
+	return $links;
 }
 
-function deviceinfo($row, $upordown) {
-    echo uservolumelink($row['username'], $row[$upordown]) . " (" . userdetailslink($row['username'], $row['name']). " " . $row['department']. " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";	
+function userinfo($row, $upordown) {
+	echo $row[$upordown] . ", " . uservolumelinks($row['usernames']) . "<br/>" . $row['name'] . ", " . userdetailslinks($row['usernames']) . "<br/>" . $row['department']. " " . $row['email'] . " " . $row['groupname'] . " " . $row['company'];	
 }
 
 ?>
 
 
 <?php
-//require dirname(__FILE__)."/statistics-work.php";
+require dirname(__FILE__)."/users-statistics-work.php";
 
-//generateworktraffic('Download', $today, $yesterday, $daysago7, $daysago30);
-//generateworktraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
+generateworktraffic('Download', $today, $yesterday, $daysago7, $daysago30);
+generateworktraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
  
-require dirname(__FILE__)."/statistics-daily.php";
+require dirname(__FILE__)."/users-statistics-daily.php";
 	
 generatedailytraffic('Download', $today, $yesterday, $daysago7, $daysago30);
 generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
