@@ -35,6 +35,7 @@ function onChangeUser() {
 		document.getElementById('lastname').value = "";
 		document.getElementById('department').value = "";
 		document.getElementById('group').value = "Users";
+		document.getElementById('additional_mac').value = "";
 	} else {
 		document.getElementById('firstname').readOnly = true;
 		document.getElementById('lastname').readOnly = true;
@@ -134,6 +135,10 @@ function onChangeUser() {
 						?>						
 					</select>
 				<td/>
+			</tr>
+			<tr>
+				<td>Additional MAC Address:</td>
+				<td><input name="additional_mac" type="text" id="additional_mac" pattern="^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$"/></td>
 			</tr>
 			<tr>
 				<td></td>
