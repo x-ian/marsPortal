@@ -30,7 +30,7 @@ function onChangeUser() {
 		document.getElementById('lastname').readOnly = false;
 		document.getElementById('department').readOnly = false;
 		document.getElementById('group').disabled = false;
-		document.getElementById('additional_mac').disabled = false;
+		document.getElementById('additional_mac').readOnly = false;
 		document.getElementById('firstname').value = "";
 		document.getElementById('lastname').value = "";
 		document.getElementById('department').value = "";
@@ -45,6 +45,7 @@ function onChangeUser() {
 		document.getElementById('lastname').value = d[document.getElementById('existinguser').value]['lastname'];
 		document.getElementById('department').value = d[document.getElementById('existinguser').value]['department'];
 		document.getElementById('group').value = d[document.getElementById('existinguser').value]['group'];
+		document.getElementById('additional_mac').value = "";
 		document.getElementById('additional_mac').readOnly = true;
 	}
 }

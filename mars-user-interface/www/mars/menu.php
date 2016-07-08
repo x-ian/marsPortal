@@ -41,17 +41,23 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
   <div id="columns">
     <div id="side">
       <ul id="ul1">
-        <li><a href="/mars/userinfo/list.php">Manage devices</a></li>
-        <li><a href="/mars/user/list.php">Manage users</a></li>
-        <li><a href="/mars/group/list.php">Manage groups<a></li>
-        <li>Reports</li>
+        <li>Manage</li>
+      	<ul id="ul2">
+	        <li><a href="/mars/userinfo/list.php">Devices</a></li>
+	        <li><a href="/mars/user/list.php">Users</a></li>
+	        <li><a href="/mars/group/list.php">Groups<a></li>
+		</ul>
+        <li>Reports (Devices)</li>
       	<ul id="ul2">
        		<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices</a></li>
-       		<li><a href="/mars/reports/statistics.php">Statistics (Devices)</a></li>
-       		<li><a href="/mars/reports/users-statistics.php">Statistics (Users)</a></li>
+       		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
        		<li><a href="/mars/reports/devices_with_volume.php">Devices (7d history)</a></li>
-       		<li><a href="/mars/reports/groups.php">Groups</a></li>
        		<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
+		</ul>
+        <li>Reports (Users & Groups)</li>
+      	<ul id="ul2">
+       		<li><a href="/mars/reports/users-statistics.php">Statistics</a></li>
+       		<li><a href="/mars/reports/groups.php">Groups</a></li>
 		</ul>
 <!--        <li><a href="/mars/admin/admin.php">Admin<a></li> -->
         <li>Additional links</li>
