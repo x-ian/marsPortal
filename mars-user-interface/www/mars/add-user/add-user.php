@@ -140,7 +140,7 @@ function onChangeUser() {
 			</tr>
 			<tr>
 				<td>Additional MAC Address:</td>
-				<td><input name="additional_mac" type="text" id="additional_mac"/></td>
+				<td><input name="additional_mac" type="text" id="additional_mac" pattern="^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$"/> (xx:xx:xx:xx:xx:xx)</td>
 			</tr>
 			<tr>
 				<td></td>
