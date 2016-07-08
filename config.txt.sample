@@ -11,6 +11,8 @@ USER=admin
 PASSWD=pfsense
 ZONE=mars
 
+SSH_TUNNEL_PORT=17776
+
 # MySQL
 MYSQL_USER=radius
 MYSQL_PASSWD=radpass
@@ -27,7 +29,7 @@ WORK_DAYS=1,2,3,4,5
 
 # marsPortal HTTP Auth
 HTTP_AUTH_USER=admin
-HTTP_AUTH_PASSWD=admin
+HTTP_AUTH_PASSWD=pfsense
 
 # mail notifications
 # also adjust values of this ssmtp config file

@@ -1,5 +1,7 @@
 #!/usr/local/bin/bash
 
+/bin/sleep 30
+
 BASEDIR=/home/marsPortal
 
 source $BASEDIR/config.txt
