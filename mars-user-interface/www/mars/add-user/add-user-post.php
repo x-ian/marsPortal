@@ -15,10 +15,10 @@
 	$insert_radcheck = "INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('$mac', 'Auth-Type', ':=', 'Accept')";
 	$insert_group = " INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('$mac', '$group',0) ";
   	
-	if (empty($additional_mac)) {
-		$insert_userinfo =" INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ('$additional_mac', '$firstname', '$lastname', '', '$department', '', '', '$hostname', now(), '$mac_vendor', '')";	
-		$insert_radcheck = "INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('$additional_mac', 'Auth-Type', ':=', 'Accept')";
-		$insert_group = " INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('$additional_mac', '$group',0) ";
+	if (!empty($additional_mac)) {
+		$insert_userinfo_additional_mac =" INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ('$additional_mac', '$firstname', '$lastname', '', '$department', '', '', '$hostname', now(), '$mac_vendor', '')";	
+		$insert_radcheck_additional_mac = "INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('$additional_mac', 'Auth-Type', ':=', 'Accept')";
+		$insert_group_additional_mac = " INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('$additional_mac', '$group',0) ";
 	}
 ?>
 
@@ -35,6 +35,11 @@
 	<?php $result = mysql_query($insert_userinfo); ?>
 	<?php $result = mysql_query($insert_radcheck); ?>
 	<?php $result = mysql_query($insert_group); ?>
+
+	<?php $result = mysql_query($insert_userinfo_additional_mac); ?>
+	<?php $result = mysql_query($insert_radcheck_additional_mac); ?>
+	<?php $result = mysql_query($insert_group_additional_mac); ?>
+
 
 	<p><b>Device(s) added. Try again to access <a href="<?php echo $redirurl; ?>"><?php echo $redirurl; ?></a></b></p>
 
