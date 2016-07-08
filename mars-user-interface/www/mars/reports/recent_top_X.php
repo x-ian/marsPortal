@@ -129,7 +129,7 @@ while($row = mysql_fetch_array($result)){
 
 <br/>
 
-<p>(Transfer volume (MB) updated every 5 minutes)</p>
+<p>(Transfer volume (MB) updated every 5 minutes; devices only included if active/online before start of the relevant period)</p>
 
 <br/>
 

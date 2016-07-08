@@ -14,8 +14,12 @@
 	$insert_userinfo =" INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ('$mac', '$firstname', '$lastname', '', '$department', '', '', '$hostname', now(), '$mac_vendor', '')";	
 	$insert_radcheck = "INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('$mac', 'Auth-Type', ':=', 'Accept')";
 	$insert_group = " INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('$mac', '$group',0) ";
-  
-	// todo, repeat for additional mac
+  	
+	if (empty($additional_mac)) {
+		$insert_userinfo =" INSERT INTO userinfo (username, firstname, lastname, email, department, organisation, initial_ip, hostname, registration_date, mac_vendor, notes) VALUES ('$additional_mac', '$firstname', '$lastname', '', '$department', '', '', '$hostname', now(), '$mac_vendor', '')";	
+		$insert_radcheck = "INSERT INTO radcheck (Username,Attribute,op,Value) VALUES ('$additional_mac', 'Auth-Type', ':=', 'Accept')";
+		$insert_group = " INSERT INTO radusergroup (UserName,GroupName,priority) VALUES ('$additional_mac', '$group',0) ";
+	}
 ?>
 
 <span style="font-variant:small-caps; font-size:200%">

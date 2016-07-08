@@ -25,12 +25,12 @@ var d = {};
 ?>
 
 function onChangeUser() {
-	console.log(document.getElementById('existinguser').value);
 	if (document.getElementById('existinguser').value === '') {
 		document.getElementById('firstname').readOnly = false;
 		document.getElementById('lastname').readOnly = false;
 		document.getElementById('department').readOnly = false;
 		document.getElementById('group').disabled = false;
+		document.getElementById('additional_mac').disabled = false;
 		document.getElementById('firstname').value = "";
 		document.getElementById('lastname').value = "";
 		document.getElementById('department').value = "";
@@ -45,6 +45,7 @@ function onChangeUser() {
 		document.getElementById('lastname').value = d[document.getElementById('existinguser').value]['lastname'];
 		document.getElementById('department').value = d[document.getElementById('existinguser').value]['department'];
 		document.getElementById('group').value = d[document.getElementById('existinguser').value]['group'];
+		document.getElementById('additional_mac').readOnly = true;
 	}
 }
 </script>
@@ -138,7 +139,7 @@ function onChangeUser() {
 			</tr>
 			<tr>
 				<td>Additional MAC Address:</td>
-				<td><input name="additional_mac" type="text" id="additional_mac" pattern="^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$"/></td>
+				<td><input name="additional_mac" type="text" id="additional_mac"/></td>
 			</tr>
 			<tr>
 				<td></td>
