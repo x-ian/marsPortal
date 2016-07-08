@@ -17,14 +17,17 @@ source $BASEDIR/config.txt
 ###########################
 # pfsense config.xml backup
 CONFIG_FILE=config-router-$DATE.xml
-# login
-/usr/local/bin/wget -qO/dev/null --keep-session-cookies --save-cookies cookies.txt \
- --post-data "login=Login&usernamefld=`echo $USER`&passwordfld=`echo $PASSWD`" \
- --no-check-certificate $PF_SERVER/diag_backup.php
-# get the stuff
-/usr/local/bin/wget -qO/dev/null --keep-session-cookies --load-cookies cookies.txt \
- --post-data 'Submit=download&donotbackuprrd=yes' $PF_SERVER/diag_backup.php \
- --no-check-certificate -O /home/local_backups/$CONFIG_FILE
+wget -qO- --keep-session-cookies --save-cookies cookies.txt \
+  --no-check-certificate $PF_SERVER/diag_backup.php \
+  | grep "name='__csrf_magic'" | sed 's/.*value="\(.*\)".*/\1/' > /tmp/csrf.txt
+wget -qO- --keep-session-cookies --load-cookies cookies.txt \
+  --save-cookies cookies.txt --no-check-certificate \
+  --post-data "login=Login&usernamefld=`echo $USER`&passwordfld=`echo $PASSWD`&__csrf_magic=$(cat /tmp/csrf.txt)" \
+  $PF_SERVER/diag_backup.php  | grep "name='__csrf_magic'" \
+  | sed 's/.*value="\(.*\)".*/\1/' > /tmp/csrf2.txt
+wget --keep-session-cookies --load-cookies cookies.txt --no-check-certificate \
+  --post-data "Submit=download&donotbackuprrd=yes&__csrf_magic=$(head -n 1 /tmp/csrf2.txt)" \
+  $PF_SERVER/diag_backup.php -O /home/local_backups/$CONFIG_FILE
 rm cookies.txt
 
 ###########################
