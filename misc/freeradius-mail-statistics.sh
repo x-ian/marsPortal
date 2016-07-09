@@ -5,7 +5,7 @@ source $BASEDIR/config.txt
 
 FILE=/tmp/statistics-`date +%Y%m%d`.html
 #/usr/local/bin/curl -u $DR_HTTP_USER_PASSWD --retry 2 -s -o $FILE `echo $PF_SERVER`/mars/reports/statistics.php
-/usr/local/bin/curl --insecure --retry 2 -s -o $FILE `echo $PF_SERVER`/mars/reports/statistics.php
+/usr/local/bin/curl --user `echo $HTTP_AUTH_USER:$HTTP_AUTH_PASSWD` --insecure --retry 2 -s -o $FILE `echo $PF_SERVER`/mars/reports/statistics.php
 echo $? > $FILE.exitcode
 
 SUBJECT="`echo "marsPortal $ZONE: Users statistics: "` `date +%Y%m%d-%H%M`"
