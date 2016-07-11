@@ -32,6 +32,9 @@ source $BASEDIR/config.txt
 # delete outstanding mails older than 14 days
 /usr/bin/find /home/mail_backlog -mtime +14 -delete
 
+# reduce radius.log
+/usr/bin/truncate /var/log/radius.log
+
 # RADIUS ACCOUNTING
 /usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius <<EOF
 	delete from radpostauth where authdate < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
