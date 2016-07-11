@@ -69,7 +69,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 <tr><td><b>User Day Total Output:</b></td><td><input type='text' name='user_day_total_output' value='<?= $user_day_total_output ?>' /> (Download, in MB)</td></tr>
 <tr><td><b>Bandwidth Up:</b></td><td><input type='text' name='bandwidth_up' value='<?= $bandwidth_up ?>' /> (*) (in bits/per second)</td></tr>
 <tr><td><b>Bandwidth Down:</b></td><td><input type='text' name='bandwidth_down' value='<?= $bandwidth_down ?>' /> (*) (in bits/per second)</td></tr>
-<tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' value='<?= $session_timeout ?>' /> (*) (in seconds)</td></tr>
+<tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' required value='<?= $session_timeout ?>' /> (*) (in seconds)</td></tr>
 <tr><td><b>Concurrent Users:</b></td><td><input type='text' name='concurrent_user' value='<?= $concurrent_user ?>' /> (*) (maximum number of concurrent connected users)</td></tr>
 <tr><td><b>Auth Type:</b></td><td><input type='text' name='auth_type' value='<?= $auth_type ?>' /> (*) (empty by default, 'Reject' -without the quotes- to block users)</td></tr>
 <tr><td><b>Reply Message:</b></td><td><input size="40" type='text' name='reply_message' value='<?= $reply_message ?>' /> (*) (empty by default, only used when Auth Type == Reject)</td></tr>
