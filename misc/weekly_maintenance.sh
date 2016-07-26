@@ -33,7 +33,8 @@ source $BASEDIR/config.txt
 /usr/bin/find /home/mail_backlog -mtime +14 -delete
 
 # reduce radius.log
-/usr/bin/truncate /var/log/radius.log
+/usr/bin/truncate -s0 /var/log/radius.log
+/usr/bin/find /var/log/radacct/127.0.0.1 -mtime +90 -delete
 
 # RADIUS ACCOUNTING
 /usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius <<EOF
