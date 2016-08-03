@@ -45,7 +45,7 @@ EOF
 # update MAC vendor list, http://standards.ieee.org/develop/regauth/oui/public.html
 /usr/local/bin/wget http://standards.ieee.org/develop/regauth/oui/oui.txt -O /tmp/ieee_oui.txt
 if [ $? -eq 0 ]; then
-	mv /tmp/ieee_oui.txt $BASEDIR/freeradius-integration/self-registration
+	mv /tmp/ieee_oui.txt $BASEDIR
 fi
 
 # status notification
