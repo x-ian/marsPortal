@@ -18,7 +18,7 @@ MAC=$($PORTALDIR/misc/resolve_mac_address.sh $IP)
 MAC_FIRST_DIGITS=$(echo $MAC | tr -d ":" | cut -c 1-6 | awk '{print toupper($0)}')
 # check in the local copy of the IEEE OUI database
 # once in a while get an update from http://standards.ieee.org/develop/regauth/oui/public.html
-MAC_VENDOR=$(grep "(base 16)" $BASEDIR/ieee_oui.txt | grep $MAC_FIRST_DIGITS | awk -F"\t" '{ print $3 }' | sed -e 's/ /_/g')
+MAC_VENDOR=$(grep "(base 16)" $PORTALDIR/ieee_oui.txt | grep $MAC_FIRST_DIGITS | awk -F"\t" '{ print $3 }' | sed -e 's/ /_/g')
 
 # netbios doesn't seem as reliable as dhcp hostname
 #NETBIOS=$($BASEDIR/resolve_netbios_name.sh $IP)
