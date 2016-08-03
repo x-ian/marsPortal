@@ -13,10 +13,10 @@ while ($line=fgets($fh, 80)) {
 // connect to db
 $link = mysql_connect('localhost', $MYSQL_USER, $MYSQL_PASSWD);
 if (!$link) {
-    die('Not connected : ' . mysql_error());
+    die('Not connected to MySQL DB with error: ' . mysql_error());
 }
 
 if (! mysql_select_db('radius') ) {
-    die ('Can\'t use foo : ' . mysql_error());
+    die ('Can\'t use MySQL instace radius with error: ' . mysql_error());
 }
 ?>
