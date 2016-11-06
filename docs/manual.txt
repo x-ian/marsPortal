@@ -130,6 +130,15 @@ REMINDER: In all cases, do NOT forget to update both /home/marsPortal/config.txt
 Backup & Restore
 ----------------
 
+Backup up the whole database (including registered devices and accounting history):
+mysqldump -u root -pradius radius > /tmp/mysql-dump.sql
+Copy /tmp/mysql-dump.sql to another system, e.g. with scp /tmp/mysql-dump.sql USER@SERVER:
+
+Restore/reload device registration and accounting dump to a new system (requires that this system is 
+configured similar to the old setup while following instructions from install.txt):
+Copy database backup from another system, e.g. with scp USER@SERVER:mysql-dump.sql /tmp
+mysql -u radius -pradpass radius < /tmp/mysql-dump.sql
+
 
 Changing IP addresses
 ---------------------
@@ -170,7 +179,7 @@ Validating RADIUS connectivity
 
 If there is a problem in the configuration between pfSense and daloRADIUS no outside network access is granted. To check if with the RADIUS config itself everything is fine, run this command from a pfSense shell. Make sure at least one device is registered within daloRADIUS with its MAC address and change the MAC and IP addresses of the following command as needed:
 
-radtest 00:25:00:48:60:10 radius 192.168.0.2 0 radius
+radtest 00:25:00:48:60:10 radius 127.0.0.1 0 testing123
 radtest 08:00:27:d7:d7:e9 radius 192.168.0.2 0 radius
 
 Problems trying to connect to DHCP

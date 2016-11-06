@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Usage Statistics (' . date('Y-m-d H:i:s') . ')';
 include '../menu.php'; 
 ?>
 
@@ -6,8 +7,6 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
-
 $today = date('Y-m-d', strtotime('-0 day'));
 $yesterday = date('Y-m-d', strtotime('-1 day'));
 $daysago7 = date('Y-m-d', strtotime('-6 days'));
@@ -28,7 +27,7 @@ function userdetailslink($mac, $name) {
 }
 
 function uservolumelink($mac, $linktext) {
-  return '<a href="/mars/user_with_volume.php?username=' . $mac . '">' . $linktext . '</a>';
+  return '<a href="/mars/device_with_volume.php?username=' . $mac . '">' . $linktext . '</a>';
 }
 
 function deviceinfo($row, $upordown) {
@@ -36,12 +35,6 @@ function deviceinfo($row, $upordown) {
 }
 
 ?>
-
-<span style="font-variant:small-caps; font-size:200%">
-	<p align="center">
-		marsPortal Usage Statistics (<?php echo $today; ?>)
-	</p>
-</span>
 
 
 <?php
@@ -61,3 +54,6 @@ generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
 
 require dirname(__FILE__)."/statistics-current-groups.php";
 ?>
+
+<hr/>
+<span class="headline"><p>Usage Statistics (<?php echo date('Y-m-d H:i:s')?>)</p></span>

@@ -12,7 +12,6 @@ FILENAME=$4
 CONTENTTYPE=$5
 SENDER=$AuthUser
 
-
 TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
 echo "From: $SENDER
 To: $RECEIVER
@@ -30,16 +29,18 @@ $BODY
 --frontier
 Content-Type: $CONTENTTYPE; name=\"$FILENAME\"
 Content-Disposition: attachment; filename=\"$FILENAME\"
+Content-Transfer-Encoding: base64
 
-`cat $FILE`
+`cat $FILE | /usr/local/bin/base64 --encode`
 
 --frontier--
 " > $TEMP_MAIL.mail
 
 # place mail job in backlog of mails
 echo "#!/usr/local/bin/bash
-/usr/local/sbin/ssmtp -C $SSMTP_CONFIG $RECEIVER < $TEMP_MAIL.mail
-if [ $? -eq 0 ]; then
+/usr/local/sbin/ssmtp -C $SSMTP_CONFIG $RECEIVER < $TEMP_MAIL.mail > $TEMP_MAIL.exit 2>&1
+# if [ $? -eq 0 ]; then # used to work, doesnt anymore...
+if [ ! -s "$TEMP_MAIL.exit" ]; then
 	rm -f $TEMP_MAIL*
 fi
 " > $TEMP_MAIL

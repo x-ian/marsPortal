@@ -11,19 +11,25 @@ USER=admin
 PASSWD=pfsense
 ZONE=mars
 
+SSH_TUNNEL_PORT=17776
+
 # MySQL
 MYSQL_USER=radius
 MYSQL_PASSWD=radpass
 
 # all times in HoursMinutes, hours without leading zero, minutes with leading zero if single-digit
 DAY_START=0
-WORK_START=730
+WORK_START=800
 LUNCH_START=1200
 LUNCH_END=1330
 WORK_END=1700
 DAY_END=2359
 # day in week, mo=1, su=7
 WORK_DAYS=1,2,3,4,5
+
+# marsPortal HTTP Auth
+HTTP_AUTH_USER=admin
+HTTP_AUTH_PASSWD=pfsense
 
 # mail notifications
 # also adjust values of this ssmtp config file

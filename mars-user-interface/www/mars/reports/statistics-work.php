@@ -29,7 +29,7 @@
   }
 
 	function generateworktraffic($upordown, $today, $yesterday, $daysago7, $daysago30) {
-		echo "<hr/><p>Top " . $upordown . "s during working hours (Mo-Fr 8:00-12:30 and 13:30-16:30)</p>";
+		echo "<hr/><p>Top " . $upordown . "s during working hours (Mo-Fr 8:00-12:00 and 13:30-17:00)</p>";
 		
 		$upordown_work_today = query(top_upordown_work($today, $today, 10, $upordown));
 		$upordown_work_yesterday = query(top_upordown_work($yesterday, $yesterday, 10, $upordown));
@@ -42,7 +42,7 @@
 		$upordown_work_total_last30days = query(total_upordown_work($daysago30, $today, $upordown));
 
 
-		echo "<table>
+		echo "<table class='listtable'>
 			<tr>
 				<th>" . $upordown . " (MB)</th>
 				<th>Today</th>

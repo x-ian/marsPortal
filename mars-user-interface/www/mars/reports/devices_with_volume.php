@@ -1,13 +1,11 @@
 <? 
+$HEADLINE = 'Transfer history'; 
 include '../menu.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->
     <div id="main">
 
-<? 
-include('../config.php'); 
-?>
 <span style="font-variant:small-caps; font-size:200%">
 	<p align="center">
 		Data volume for all registered devices <?php echo date('Y-m-d H:i:s'); ?>
@@ -36,7 +34,7 @@ include('../config.php');
     $daysago30 = date('Y-m-d', strtotime('-29 days'));
   
 echo "
-<table>
+<table class='listtable'>
 	<tr>
 		<th>Username</th>
 		<th>Group</th>

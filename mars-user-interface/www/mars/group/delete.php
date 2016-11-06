@@ -6,7 +6,6 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
 $groupname = $_GET['groupname']; 
 mysql_query("DELETE FROM radgroupcheck WHERE groupname = '" . $groupname . "' ") or die(mysql_error());
 mysql_query("DELETE FROM radgroupreply WHERE groupname = '" . $groupname . "' ") or die(mysql_error());

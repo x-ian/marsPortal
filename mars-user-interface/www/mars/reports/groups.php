@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Group statistics'; 
 include '../menu.php'; 
 ?>
 
@@ -6,7 +7,6 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
 
 $today = date('Y-m-d', strtotime('-0 day'));
 $yesterday = date('Y-m-d', strtotime('-1 day'));
@@ -25,13 +25,6 @@ function total($startday, $endday) {
 		GROUP BY radusergroup.groupname;";
 }
 ?>
-
-<span style="font-variant:small-caps; font-size:200%">
-	<p align="center">
-		marsPortal Group Statistics (<?php echo $today; ?>)
-	</p>
-</span>
-
 
 Today:
 <table><tr><th>Group</th><th>Download</th><th>Upload</th></tr>

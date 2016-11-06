@@ -1,30 +1,49 @@
+DELETE FROM radgroupcheck WHERE groupname = 'marsPortal-Template';
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('marsPortal-Template', 'mars-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
 ('marsPortal-Template', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '250'),
 ('marsPortal-Template', 'mars-Input-Megabytes-Daily-Total', ':=', '500'),
 ('marsPortal-Template', 'mars-Output-Megabytes-Daily-Total', ':=', '500'),
+('marsPortal-Template', 'mars-User-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
+('marsPortal-Template', 'mars-User-Output-Megabytes-Daily-Work-Hours', ':=', '250'),
+('marsPortal-Template', 'mars-User-Input-Megabytes-Daily-Total', ':=', '500'),
+('marsPortal-Template', 'mars-User-Output-Megabytes-Daily-Total', ':=', '500'),
 ('marsPortal-Template', 'mars-Max-Concurrent-Devices', ':=', '100');
+DELETE FROM radgroupreply WHERE groupname = 'marsPortal-Template';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('marsPortal-Template', 'Session-Timeout', ':=', '43200'),
 ('marsPortal-Template', 'WISPr-Bandwidth-Max-Up', ':=', '512000'),
 ('marsPortal-Template', 'WISPr-Bandwidth-Max-Down', ':=', '512000');
 
+DELETE FROM radgroupreply WHERE groupname = 'marsPortal-Template-open-for-today';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('marsPortal-Template-open-for-today', 'Session-Timeout', ':=', '43200'),
 ('marsPortal-Template-open-for-today', 'WISPr-Bandwidth-Max-Up', ':=', '512000'),
 ('marsPortal-Template-open-for-today', 'WISPr-Bandwidth-Max-Down', ':=', '512000');
 
+DELETE FROM radgroupreply WHERE groupname = 'marsPortal-Template-non-work-hours';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('marsPortal-Template-non-work-hours', 'Session-Timeout', ':=', '43200');
 
+DELETE FROM radgroupcheck WHERE groupname = 'marsPortal-Template-restricted';
+INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
+('marsPortal-Template-restricted', 'Auth-Type', ':=', 'Reject');
+DELETE FROM radgroupreply WHERE groupname = 'marsPortal-Template-restricted';
+INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
+('marsPortal-Template-restricted', 'Reply-Message', ':=', 'Network currently in maintenance mode. Please try again later.');
+
+DELETE FROM radgroupcheck WHERE groupname = 'No-Internet-Access';
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('No-Internet-Access', 'Auth-Type', ':=', 'Reject');
+DELETE FROM radgroupreply WHERE groupname = 'No-Internet-Access';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('No-Internet-Access', 'Reply-Message', ':=', 'Your device is permanently disabled.');
 
+DELETE FROM radgroupcheck WHERE groupname = 'Users';
 INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
 ('Users', 'mars-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
 ('Users', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '100');
+DELETE FROM radgroupreply WHERE groupname = 'Users';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('Users', 'Session-Timeout', ':=', '43200'),
 ('Users', 'WISPr-Bandwidth-Max-Up', ':=', '150000'),

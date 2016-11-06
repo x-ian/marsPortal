@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Most active devices'; 
 include '../menu.php'; 
 ?>
 
@@ -6,14 +7,13 @@ include '../menu.php';
     <div id="main">
 
 <? 
-include('../config.php'); 
 $order = $_GET['order']; 
 ?>
 
 
 <table style='border-collapse: collapse;'>
 	<tr>
-		<th rowspan="3">User</th>
+		<th rowspan="3">Device</th>
 		<td colspan="4"><? echo snapshottime("accounting_snapshot_1"); ?></td>
 		<td colspan="4" style='border-left: 1px solid #000;'><? echo snapshottime("accounting_snapshot_2"); ?></td>
 		<td colspan="4" style='border-left: 1px solid #000;'><? echo snapshottime("accounting_snapshot_3"); ?></td>
@@ -126,6 +126,10 @@ while($row = mysql_fetch_array($result)){
 }
 ?>
 </table>
+
+<br/>
+
+<p>(Transfer volume (MB) updated every 5 minutes; devices only included if active/online before start of the relevant period)</p>
 
 <br/>
 

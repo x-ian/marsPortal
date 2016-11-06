@@ -8,7 +8,7 @@ set @non_work_groups_postfix = '-non-work-hours';
 
 UPDATE radusergroup 
   SET groupname = SUBSTRING(groupname,1,LENGTH(groupname)-LENGTH(@non_work_groups_postfix)) 
-  WHERE groupname LIKE CONCAT('%', @non_work_groups_postfix) COLLATE utf8_unicode_ci;
+  WHERE groupname LIKE CONCAT('%', @non_work_groups_postfix);
 EOF
 
 $BASEDIR/../misc/captiveportal-disconnect-all-users.sh

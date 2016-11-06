@@ -9,7 +9,7 @@ set @non_work_groups_postfix = '-non-work-hours';
 UPDATE radusergroup
 SET groupname = CONCAT(groupname, @non_work_groups_postfix)
 WHERE
-  (SELECT COUNT(*) > 0 FROM radgroupreply WHERE groupname = CONCAT(radusergroup.groupname, @non_work_groups_postfix) COLLATE utf8_unicode_ci)
+  (SELECT COUNT(*) > 0 FROM radgroupreply WHERE groupname = CONCAT(radusergroup.groupname, @non_work_groups_postfix))
 EOF
 
 $BASEDIR/../misc/captiveportal-disconnect-all-users.sh

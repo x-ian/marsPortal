@@ -3,33 +3,28 @@
   function top_upordown($startday, $endday, $topX, $upordown) {
 	return "
 		SELECT 
-	distinct(radacct.UserName) as username, 
-	radusergroup.groupname as groupname, 
-	CONCAT_WS(' ', userinfo.firstname, userinfo.lastname) as name, 
-	userinfo.department as department, 
-	userinfo.email as email, 
-	userinfo.company as company, 
-	userinfo.address as address, 
-	userinfo.city as city,
-	ROUND((sum(radacct.AcctOutputOctets)/1000000)) as Download,
-	ROUND((sum(radacct.AcctInputOctets)/1000000)) as Upload
-	FROM radacct     
-	LEFT JOIN radusergroup ON radacct.username=radusergroup.username 
-	LEFT JOIN userinfo ON radacct.username=userinfo.username    
-	WHERE (AcctStopTime > \"0000-00-00 00:00:01\" AND AcctStartTime>\"" . $startday . "\" AND AcctStartTime<date(date_add(\"" . $endday . "\", INTERVAL +1 DAY))) 
-	OR 
-	((radacct.AcctStopTime IS NULL OR radacct.AcctStopTime = \"0000-00-00 00:00:00\") AND AcctStartTime<date(date_add(\"" . $endday . "\", INTERVAL +1 DAY))) 
-	group by UserName order by " . $upordown . " desc limit " . $topX . ";";  
+			GROUP_CONCAT('', daily_accounting_v2.username) as usernames, 
+			radusergroup.groupname as groupname, 
+			CONCAT_WS(' ', userinfo.firstname, userinfo.lastname) as name, 
+			userinfo.department as department, 
+			userinfo.email as email, 
+			userinfo.organisation as company, 
+			userinfo.hostname as address, 
+			userinfo.mac_vendor as city, 
+			ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) as Upload, 
+			ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) as Download 
+		FROM daily_accounting_v2
+			LEFT JOIN radusergroup ON daily_accounting_v2.username=radusergroup.username 
+			LEFT JOIN userinfo ON daily_accounting_v2.username=userinfo.username 
+		WHERE daily_accounting_v2.day >= \"" . $startday . "\" AND daily_accounting_v2.day <= \"" . $endday . "\" 
+		GROUP BY CONCAT_WS(' ', userinfo.firstname, userinfo.lastname) ORDER BY " . $upordown . " DESC LIMIT " . $topX . ";";  
   }
   
   function total_upordown($startday, $endday, $upordown) {
-	  return "
-	  	SELECT ROUND((sum(radacct.AcctOutputOctets)/1000000)) as Download, 
-	  	 ROUND((sum(radacct.AcctInputOctets)/1000000)) as Upload 
-	  	 FROM radacct 
-	  WHERE (AcctStopTime > \"0000-00-00 00:00:01\" AND AcctStartTime>\"" . $startday . "\" AND AcctStartTime<date(date_add(\"" . $endday . "\", INTERVAL +1 DAY))) 
-	  OR 
-	  ((radacct.AcctStopTime IS NULL OR radacct.AcctStopTime = \"0000-00-00 00:00:00\") AND AcctStartTime<date(date_add(\"" . $endday . "\", INTERVAL +1 DAY))) ;";
+	  return "SELECT 
+		  ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) as Upload,
+		  ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) as Download
+	   FROM daily_accounting_v2 WHERE day >= \"" . $startday . "\" AND day <= \"" . $endday . "\";";  
   }
 
 	function generatedailytraffic($upordown, $today, $yesterday, $daysago7, $daysago30) {
@@ -46,7 +41,7 @@
 		$upordown_total_last30days = query(total_upordown($daysago30, $today, $upordown));
 
 
-		echo "<table>
+		echo "<table class='listtable'>
 			<tr>
 				<th>" . $upordown . " (MB)</th>
 				<th>Today</th>
@@ -82,22 +77,22 @@
 			echo "<td>Top #" . $i . "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_today)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_yesterday)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_last7days)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
 			if ($row = mysql_fetch_assoc($upordown_last30days)) {
-				deviceinfo($row, $upordown);
+				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "</tr>";

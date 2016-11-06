@@ -1,3 +1,12 @@
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+
+<? 
+
+include 'config.php'; 
+
+?>
+
 <span style="font-variant:small-caps; font-size:200%">
 	<table align="center">
 		<tr><td><img src="captiveportal-mars.jpg" /></td><td>Portal</td></tr>
@@ -17,9 +26,6 @@
 </span>
 
 <?php
-  mysql_connect('localhost','radius','radius') or die('Could not connect to mysql server.');
-  mysql_select_db('radius');
-
   function query($query) {
     $result = mysql_query($query);
 	if (!$result) {
@@ -51,17 +57,13 @@ echo "<table>
 select 
 	username, 
 	day, 
-	ROUND((IF(inputoctets_day_end = 0, 
-	inputoctets_work_end, 
-	inputoctets_day_end) - inputoctets_day_beg) / 1000000) as total_input, 
-	ROUND((IF(outputoctets_day_end = 0, 
-	outputoctets_work_end, 
-	outputoctets_day_end) - outputoctets_day_beg) / 1000000) as total_output,
-	ROUND((inputoctets_work_end - inputoctets_work_beg) / 1000000) as work_input,
-	ROUND((outputoctets_work_end - outputoctets_work_beg) / 1000000) as work_output,
-	ROUND((inputoctets_work_beg - inputoctets_day_beg + IF(inputoctets_day_end = 0, 0, inputoctets_day_end - inputoctets_work_end)) / 1000000) as non_work_input,
-	ROUND((outputoctets_work_beg - outputoctets_day_beg + IF(outputoctets_day_end = 0, 0, outputoctets_day_end - outputoctets_work_end)) / 1000000) as non_work_output 
-from daily_accounting 
+	ROUND((day_total_input - day_offset_input) / 1000000) as total_input, 
+	ROUND((day_total_output - day_offset_output) / 1000000) as total_output, 
+	ROUND((work_total_input - work_offset_input - lunch_total_input + lunch_offset_input) / 1000000) as work_input,
+	ROUND((work_total_output - work_offset_output - lunch_total_output + lunch_offset_output) / 1000000) as work_output,
+	ROUND((day_total_input - day_offset_input - work_total_input + work_offset_input + lunch_total_input - lunch_offset_input) / 1000000) as non_work_input, 
+	ROUND((day_total_output - day_offset_output - work_total_output + work_offset_output + lunch_total_output - lunch_offset_output) / 1000000) as non_work_output
+from daily_accounting_v2 
 where username = "' . $username . '" and day > "' . $start . '" 
 group by username, day order by day desc;';  
   }
@@ -81,5 +83,5 @@ while ($row = mysql_fetch_assoc($all_traffic)) {
 mysql_free_result($all_traffic);
 ?>
 </table>
-
-<p>(Values for today only accurate after begin of working hours.)</p>
+<br/>
+(Numbers updated every 10 minutes)

@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'All devices';
 include '../menu.php'; 
 ?>
 
@@ -8,9 +9,7 @@ include '../menu.php';
 <? 
 // generated with http://www.phpscaffold.com/
 
-include '../config.php'; 
-
-echo "<table>"; 
+echo "<table class='listtable'>"; 
 echo "<tr>"; 
 echo "<td><b>Username (MAC)</b></td>"; 
 echo "<td><b>Name</b></td>"; 
@@ -30,7 +29,7 @@ while($row = mysql_fetch_array($result)){
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 echo "<tr>";  
 echo "<td>" . nl2br( $row['username']) . "</td>";  
-echo "<td>" . nl2br( $row['firstname']) . " " . nl2br( $row['lastname']) . "</td>";  
+echo "<td>" . nl2br( $row['firstname']) . "&nbsp;" . nl2br( $row['lastname']) . "</td>";  
 echo "<td>" . nl2br( $row['groupname']) . "</td>";  
 echo "<td>" . nl2br( $row['mac_vendor']) . "</td>";  
 echo "<td>" . nl2br( $row['hostname']) . "</td>";  
@@ -40,11 +39,11 @@ echo "<td>" . nl2br( $row['organisation']) . "</td>";
 echo "<td>" . nl2br( $row['registration_date']) . "</td>";  
 echo "<td>" . nl2br( $row['initial_ip']) . "</td>";  
 echo "<td>" . nl2br( $row['notes']) . "</td>";  
-echo "<td><a href=edit.php?username={$row['username']}>Edit</a> <a href=../user_with_volume.php?username={$row['username']}>Transfer&nbsp;History</a> <a href=delete.php?username={$row['username']}>Delete</a></td> "; 
+echo "<td><a href=edit.php?username={$row['username']}>Edit</a><br/><a href=../device_with_volume.php?username={$row['username']}>Transfer&nbsp;History</a><br/><a href=delete.php?username={$row['username']}>Delete</a></td> "; 
 echo "</tr>"; 
 } 
 echo "</table>"; 
-echo "<a href=new.php>New User/device</a>"; 
+echo "<a href=new.php>New device</a>"; 
 ?>
 </div>
 </body>

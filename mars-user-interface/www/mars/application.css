@@ -3,6 +3,18 @@
   padding: 0em;
 }
 
+.listtable { 
+  border-collapse: collapse; 
+  border-style: hidden;
+}
+
+.listtable td, .listtable th {
+     border: 1px solid #CCCCCC; 
+     padding: 1px;
+     text-align:center; 
+     vertical-align:middle;
+}
+
 #banner img { float: left; }
 
   #main {

@@ -33,7 +33,8 @@ fi
 
 echo $RADTEST | grep "Daily data bundle exceeded" >/dev/null
 if [ $? -eq 0 ]; then
-  echo "Data volume reached"
+  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
+  echo "$MSG"
   echo "$MAC - $IP - 3 - Data volume reached - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
   exit 3
 fi
@@ -49,9 +50,25 @@ fi
 echo $RADTEST | grep "Data bundle during business hours exceeded" >/dev/null
 if [ $? -eq 0 ]; then
   echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'
-  echo "Data bundle during business hours exceeded."
+  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
   echo "$MAC - $IP - 5 - Data bundle during business hours exceeded - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
   exit 5
+fi
+
+echo $RADTEST | grep "Daily data bundle for all devices exceeded" >/dev/null
+if [ $? -eq 0 ]; then
+  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
+  echo "$MSG"
+  echo "$MAC - $IP - 7 - Data volume for all devices reached - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
+  exit 7
+fi
+
+echo $RADTEST | grep "Data bundle for all devices during business hours exceeded" >/dev/null
+if [ $? -eq 0 ]; then
+  echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'
+  MSG=`echo $RADTEST | grep Reply-Message | sed 's/.*Reply-Message = //g'`
+  echo "$MAC - $IP - 8 - Data bundle for all devices during business hours exceeded - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
+  exit 8
 fi
 
 if [ $CHECK_REPLY -eq 0 ] && [ $CHECK_ACCESS -eq 0 ]; then
