@@ -1,0 +1,36 @@
+select
+userinfo.username
+
+from 
+userinfo
+left outer join radacct on userinfo.username=radacct.username
+
+
+select distinct(da.username), max(da.day_total), 
+CONCAT_WS(" ", ui.firstname, ui.lastname) as name, 
+ui.department as department, 
+ui.email as email, 
+ui.organisation as company, 
+ui.hostname as address, 
+ui.mac_vendor as city
+from daily_accounting_v2 da
+LEFT OUTER JOIN userinfo ui ON da.username=ui.username
+group by da.username
+order by max(da.day_total);
+
+
+select t3.* from 
+
+select distinct(ac.username), max(ac.acctstoptime),
+ CONCAT_WS(" ", ui.firstname, ui.lastname) as name, 
+ ui.department as department, 
+ ui.email as email, 
+ ui.organisation as company, 
+ ui.hostname as address, 
+ ui.mac_vendor as city
+from radacct ac
+LEFT OUTER JOIN userinfo ui ON ac.username=ui.username
+group by ac.username
+union 
+select ui2.username, "unknown", CONCAT_WS(" ", ui2.firstname, ui2.lastname) as name, ui2.department as department, ui2.email as email, ui2.organisation as company, ui2.hostname as address, ui2.mac_vendor as city, from userinfo ui2
+) as t3 group by t3.username;
