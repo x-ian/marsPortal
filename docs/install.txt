@@ -4,7 +4,7 @@ NOTES ON INSTALLATION OF PFSENSE
 Preparing memstick installation
 -------------------------------
 
-pfsense can be installed from local CD drive or from an USB flash disk (if the BIOS supports it). Unlike with other Operating Systems, then 'ordinary' ISO image for Live-CDs doesn't work. For pfense the memstick variant needs to be chosen. To create a bootable flash drive, use these commands under Mac OS X; for other operating systems check https://doc.pfsense.org/index.php/Writing_Disk_Images:
+pfsense can be installed from local CD drive or from an USB flash disk (if the BIOS supports it). Unlike with other Operating Systems, then 'ordinary' ISO image for Live-CDs doesn't work. For pfsense the memstick variant needs to be chosen. To create a bootable flash drive, use these commands under Mac OS X; for other operating systems check https://doc.pfsense.org/index.php/Writing_Disk_Images:
 diskutil list
 diskutil umount /dev/diskX
 gzcat ~/Downloads/pfSense-memstick-2.2.2-RELEASE-amd64.img.gz | sudo dd of=/dev/diskX bs=16k
@@ -31,7 +31,7 @@ During boot on the old Baobab servers it is most likely necessary to disable ACP
 
 If after initial installation the boot process is very slow (e.g. the output messages coming in character by character), then consider deactivating the serial port (RS232) in the BIOS.
 
-When booting from LiveCD stops in the middle of the boot process (or stops with a mount error as described here https://doc.pfsense.org/index.php/Boot_Troubleshooting), attach an external USB CD drive and coose 'Boot from USB drive' (option 3) at the first pfSense selection screen.
+When booting from LiveCD stops in the middle of the boot process (or stops with a mount error as described here https://doc.pfsense.org/index.php/Boot_Troubleshooting), attach an external USB CD drive and choose 'Boot from USB drive' (option 3) at the first pfSense selection screen.
 
 
 Initial configuration
@@ -57,13 +57,13 @@ Adjust timezone if needed
 
 Change and add network interfaces as needed. Either by native/physical interfaces or by assigning VLAN interfaces to em1 starting from 192.168.11.x upwards, don't forget to disable the parent interface for these VLANs (e.g. em1)
 
-A DNS Server should be configuried, typically pointing towards the outside firewall, e.g. 172.16.1.1.
+A DNS Server should be configured, typically pointing towards the outside firewall, e.g. 172.16.1.1.
 
 Configure/activate DHCP server for every inside network/VLAN interface as required
 
 Set DHCP server lease time to 43200 (note that this must be greater than any Captive portal and RADIUS session timeouts)
 
-Deactive 'block private networks' if the WAN IP is not a public IP (Interfaces - WAN).
+Deactivate 'block private networks' if the WAN IP is not a public IP (Interfaces - WAN).
 
 Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6).
 
@@ -213,7 +213,7 @@ Background information; only for informational purpose. Continue with next secti
 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
 
-Run RADIUS server once and make sure the output messages end with line 'Redy to process requests' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
+Run RADIUS server once and make sure the output messages end with line 'Ready to process requests' ends with an OK: /usr/local/etc/rc.d/radiusd stop; /usr/local/etc/rc.d/radiusd debug
 
 The lines below are just there for historical reference, do NOT follow these instructions!
 
