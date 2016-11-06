@@ -72,7 +72,7 @@ select * from (
 			group by UserName
 	) 
 	union 
-	(select ui.username, "-1", "", "", "", "", "", "", "", "0" as download, "0" as upload from userinfo ui) 
+	(select ui.username, "-1", "(todo)", CONCAT_WS(" ", ui.firstname, ui.lastname) as name, ui.department as department, ui.email as email, ui.organisation as company, ui.hostname as address, ui.mac_vendor as city, "0" as download, "0" as upload from userinfo ui) 
 ) as t1 group by username;
 ';  
   }

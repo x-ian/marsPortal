@@ -47,6 +47,9 @@ fi
 # status notification
 /home/marsPortal/misc/heartbeat.sh
 
+# status notification
+/home/marsPortal/misc/check-radius-inconsistencies.sh
+
 # just in case, restart once in a while
 /sbin/reboot
 

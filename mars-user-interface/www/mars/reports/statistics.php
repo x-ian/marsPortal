@@ -59,5 +59,7 @@ require dirname(__FILE__)."/statistics-daily.php";
 generatedailytraffic('Download', $today, $yesterday, $daysago7, $daysago30);
 generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
 
+echo "<p>Up-/Download volumes are counted for every communication going through the marsPortal. Therefore also local traffic outside of marsPortal is counted, e.g. a local server subet/DMZ outside of marsPortal.</p>";
+
 require dirname(__FILE__)."/statistics-current-groups.php";
 ?>
