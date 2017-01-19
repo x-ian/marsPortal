@@ -100,7 +100,7 @@ Enable Lightsquid (Proxy report) reporting
   Save
   Manual Refresh: Refresh Full
 
-Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection:
+Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection. Carefully watch for error messages make sure that each command 'properly' finishes.
 pkg
 
 pkg update
@@ -123,18 +123,19 @@ ln -s /usr/local/bin/bash /bin/bash
 marsPortal Customization
 ------------------------
 
-Connect via SSH/Putty and execute these statements in the shell (press 8 to access the shell after initial login):
+Connect via SSH/Putty and execute these statements in the shell (press 8 to access the shell after initial login). Again making sure that every command is run successfully:
+
 mkdir /home/client_activities_log
 mkdir /home/local_backups
 mkdir /home/mail_backlog
 cd /home
 git clone https://github.com/x-ian/marsPortal.git
 cd /home/marsPortal
-#git checkout apzunet
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
-# touch /etc/php_dynamodules/mysql
-# /etc/rc.php_ini_setup
+mkdir /etc/php_dynamodules
+touch /etc/php_dynamodules/mysql
+/etc/rc.php_ini_setup
 ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "@reboot /home/marsPortal/misc/marsPortalStart.sh") | crontab -
 (crontab -l ; echo "@reboot /home/marsPortal/misc/mail_after_startup.sh") | crontab -
@@ -152,28 +153,28 @@ ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
 (crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
 (crontab -l ; echo "1 1,8,17 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_3") | crontab -
 
-# this would be fine, but doesnt work  as the newer & default versions do not have SQL support included!
+# this next line would be the right way to install freeradius, but doesnt work as the newer & default versions do not have SQL support included!
 # echo y | pkg install freeradius
 pkg add -M /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
 # for 32 bit: pkg add -M /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
 pkg lock freeradius
 
-Editing text config files. Use vi if familiar, or ee if vi is unknown (https://www.freebsd.org/doc/handbook/editors.html)
-
-Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
-
-Open /home/marsPortal/ssmtp.config and adjust the config values as needed, e.g. with vi /home/marsPortal/ssmtp.config
+Editing text config files. Use vi if familiar, or ee if vi is unknown (https://www.freebsd.org/doc/handbook/editors.html):
+- Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
+- Open /home/marsPortal/ssmtp.config and adjust the config values as needed, e.g. with vi /home/marsPortal/ssmtp.config
 
 
 Database preparation
 --------------------
 
-cd /usr/local && ./bin/mysql_install_db
+cd /usr/local
+./bin/mysql_install_db
 chown -R mysql /usr/local/data
 echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
 /usr/local/bin/mysqld_safe &
 sleep 60
 /usr/local/bin/mysql_secure_installation
+  (This command now is asking a couple of question for the installation of MySQL; each answer is specified with one line below)
   <enter>
   yes
   radius
@@ -208,7 +209,7 @@ cp /home/marsPortal/setup-marsportal/config-files/radiusd.conf /usr/local/etc/ra
 cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
 #32 bit: cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
 
-Background information; only for informational purpose. Continue with next section 'Captive portal':
+Below are some background information; only for informational purpose. Continue installation with next section 'Captive portal':
 
 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
@@ -238,6 +239,8 @@ uncomment relevant sql lines in /usr/local/etc/raddb/sites-enabled/default
 Captive Portal
 --------------
 
+Going back to the pfSense Admin-UI and adjust these each of these settings via the Services - Captive Portal config page.
+
 Create and enable new Captive portal zone labeled mars on the internal LAN interfaces
 
 Activate 'Disable concurrent logins'
@@ -256,13 +259,11 @@ set 'MAC authentication secret' to radius
 
 enable 'Use RADIUS Session-Timeout attributes'
 
+Upload files captive-portal_page.php as captive portal 'Portal page contents' (take file from https://github.com/x-ian/marsPortal/tree/master/setup-captiveportal)
+
 Save settings
 
-Add 172.16.1.0 / 24 to allowed IP addresses
-
-Upload files marsPortal/setup-captiveportal/captive-portal_page.php as captive portal 'Portal page contents'
-
-Use File manager of Captive portal to upload all files from marsPortal/setup-captiveportal/filemanager/*
+Use File manager of Captive portal (last tab for the newly created Captive Portal zone) to upload all files from setup-captiveportal/filemanager/* (again from https://github.com/x-ian/marsPortal/tree/master/setup-captiveportal)
 
 optional: add all local IP addresses and external hostnames as allowed systems where access should be possible without passing through the Captive Portal (to bypass captive portal registration and traffic accounting for local servers, e.g. with 172.16.1.0/24)
 
@@ -311,6 +312,8 @@ Optional: For every user group, create matching XYZ-open-for-today, XYZ-non-work
 Finalizing
 ----------
 
+Edit file /home/marsPortal/config.txt and make sure all values are specified as needed!
+
 Reboot pfSense
 
 Connect a client to LAN subnet of pfSense and try to access any HTTP (not HTTPS) page. E.g. http://www.marsgeneral.com
@@ -349,4 +352,4 @@ radtest testingSQL password localhost 0 testing123
 
 On some installations the local console is not shown - it stops with the 'bootup complete' message, unclear how to solve this: https://forum.pfsense.org/index.php?topic=34814.0. In my case the file /etc/ttys was corrupt and was replaced with a working file from another system. This file is available under docs/install - ttys.example.
 
-When temporarily deactivating a network interface to shutdown a certain area of the network, pfSense needs to be rebooted
+When temporarily deactivating a network interface to shutdown a certain area of the network, pfSense needs to be rebooted.

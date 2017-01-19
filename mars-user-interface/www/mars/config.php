@@ -17,6 +17,6 @@ if (!$link) {
 }
 
 if (! mysql_select_db('radius') ) {
-    die ('Can\'t use MySQL instace radius with error: ' . mysql_error());
+    die ('Can\'t use MySQL instance radius with error: ' . mysql_error());
 }
 ?>
