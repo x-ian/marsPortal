@@ -19,18 +19,18 @@
 				break;
 			case 1:
 				// not yet registered
-				// give password-protected way to directly add device entry to radius
 				
-				$redir = $_GET['redirurl']; 
-				exec("/home/marsPortal/freeradius-integration/echo-add-user-link.sh " . $ip . " " . $redir, $out, $exit);
-				echo "<b>Unknown device. Please consult the IT team" . implode(" ", $out) . ".</b>";
-				echo "<p>Once the IT team has given access, please try again: <a href=$PORTAL_REDIRURL$>$PORTAL_REDIRURL$</a></p>";
-				echo "<br/><br/><p>Exit code: $exitCode</p>";
-				echo "<p>   (Reason: " . implode(" ", $output) . ")</p>";
+				// give password-protected way to directly add device entry to radius
+				//$redir = $_GET['redirurl']; 
+				//exec("/home/marsPortal/freeradius-integration/echo-add-user-link.sh " . $ip . " " . $redir, $out, $exit);
+				//echo "<b>Unknown device. Please consult the IT team" . implode(" ", $out) . ".</b>";
+				//echo "<p>Once the IT team has given access, please try again: <a href=$PORTAL_REDIRURL$>$PORTAL_REDIRURL$</a></p>";
+				//echo "<br/><br/><p>Exit code: $exitCode</p>";
+				//echo "<p>   (Reason: " . implode(" ", $output) . ")</p>";
 				
 				
 				// provide self registration capabilty
-				//include '/usr/local/captiveportal/captiveportal-device_registration.html';
+				include '/usr/local/captiveportal/captiveportal-device_registration.html';
 				
 				break;
 			case 2:
