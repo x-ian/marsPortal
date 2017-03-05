@@ -5,6 +5,8 @@ NAME=$2
 EMAIL=$(echo $3 | awk '{print tolower($0)}')
 OWNER=$4
 PRIMARY_DEVICE=$5
+GROUP=Guests
+GROUP=$6
 
 DATE=`date +%Y%m%d-%H%M`
 
@@ -24,7 +26,6 @@ MAC_VENDOR=$(grep "(base 16)" $PORTALDIR/ieee_oui.txt | grep $MAC_FIRST_DIGITS |
 #NETBIOS=$($BASEDIR/resolve_netbios_name.sh $IP)
 DHCPHOSTNAME=$($BASEDIR/resolve_hostname.sh $IP)
 
-GROUP=Guests
 # auto elevate all @pih.org and partners.org users
 echo $EMAIL | grep "@pih.org"
 if [ $? -eq 0 ]; then

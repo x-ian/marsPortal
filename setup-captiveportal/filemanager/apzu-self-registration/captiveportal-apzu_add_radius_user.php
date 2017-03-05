@@ -18,11 +18,11 @@
 			<p><?php
 				$ip=$_SERVER['REMOTE_ADDR'];
 				$name=$_REQUEST['name'];
-				$email="";
-				$owner="";
-				$primary="";
+				$email=$_REQUEST['email'];
+				$owner=$_REQUEST['owner'];
+				$primary=$_REQUEST['primary'];
 			    echo "The registration process should be done for " . $name . " (" . $email . ") from " . $ip;
-				echo exec("/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh " . $ip . " \"" . $name . "\" \"" . $email . "\" " . "\"" . $owner . "\" " . "\"" . $primary . "\"" . "Users" . "\"");
+				echo exec("/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh " . $ip . " \"" . $name . "\" \"" . $email . "\" " . "\"" . $owner . "\" " . "\"" . $primary . "\"");
 			?>
 			</p>
 			<p>If you are not able to access any webpages like <a href="http://www.google.mw">Google</a>, please try it <a href="/">again</a> in a few minutes.</p>
