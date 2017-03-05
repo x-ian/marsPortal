@@ -23,8 +23,8 @@ MAC_FIRST_DIGITS=$(echo $MAC | tr -d ":" | cut -c 1-6 | awk '{print toupper($0)}
 MAC_VENDOR=$(grep "(base 16)" $PORTALDIR/ieee_oui.txt | grep $MAC_FIRST_DIGITS | awk -F"\t" '{ print $3 }' | sed -e 's/ /_/g')
 
 # netbios doesn't seem as reliable as dhcp hostname
-#NETBIOS=$($BASEDIR/resolve_netbios_name.sh $IP)
-DHCPHOSTNAME=$($BASEDIR/resolve_hostname.sh $IP)
+#NETBIOS=$($PORTALDIR/misc/resolve_netbios_name.sh $IP)
+DHCPHOSTNAME=$($PORTALDIR/misc/resolve_hostname.sh $IP)
 
 # auto elevate all @pih.org and partners.org users
 echo $EMAIL | grep "@pih.org"
@@ -58,7 +58,7 @@ $BASEDIR/new-user-with-mac-auth.sh $MAC "" "$NAME" "$EMAIL" "$OWNER" "$GROUP" "$
 
 echo "$MAC - $IP - x - newly registered - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
 
-SUBJECT="pfSense: New user: $OWNER $NAME $EMAIL"
+SUBJECT="pfSense: New user: $NAME $DHCPHOSTNAME"
 BODY="$OWNER
 $MAC
 $NAME
