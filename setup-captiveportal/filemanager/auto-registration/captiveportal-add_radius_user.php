@@ -1,19 +1,3 @@
-<html>
-<head>
-	<meta http-equiv="Refresh" content="0; url=http://www.google.com/" />
-</head>
-
-<body>
-<span style="font-variant:small-caps; font-size:200%">
-	<table align="center">
-		<tr><td><img src="/captiveportal-mars.jpg" /></td><td>Portal</td></tr>
-	</table>
-</span> 
-
-<hr/><br/>
-
-<div align="center">
-
 <div>
 	Auto-detecting device...
 </div>
