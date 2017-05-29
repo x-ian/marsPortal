@@ -65,7 +65,7 @@ Set DHCP server lease time to 43200 (note that this must be greater than any Cap
 
 Deactivate 'block private networks' if the WAN IP is not a public IP (Interfaces - WAN).
 
-Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6).
+Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6). (not available on pfSesne 2.3)
 
 Deactivate DNS Resolver from menu Service - DNS Resolver and apply changes. Afterwards activate DNS Forwarder from the Services menu.
 
@@ -101,7 +101,6 @@ Enable Lightsquid (Proxy report) reporting
   Manual Refresh: Refresh Full
 
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection. Carefully watch for error messages make sure that each command 'properly' finishes.
-pkg
 
 pkg update
 echo y | pkg install bash
@@ -109,12 +108,21 @@ echo y | pkg install curl
 echo y | pkg install git
 echo y | pkg install php56-mysql
 
+# 64 Bit
 pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/wget-1.16.3.txz
 pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/ssmtp-2.64_1.txz
 pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/base64-1.5_1.txz
 pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/mysql56-client-5.6.27.txz
 pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/mysql56-server-5.6.27.txz
 pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/autossh-1.4e.txz
+
+# 32 Bit
+pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/wget-1.16.3.txz
+pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/ssmtp-2.64_1.txz
+pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/base64-1.5_1.txz
+pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/mysql56-client-5.6.27.txz
+pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/mysql56-server-5.6.27.txz
+pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/autossh-1.4e.txz
 
 rehash
 ln -s /usr/local/bin/bash /bin/bash

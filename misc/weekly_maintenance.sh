@@ -49,7 +49,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # status notification
-/home/marsPortal/misc/heartbeat.sh
+#/home/marsPortal/misc/heartbeat.sh
 
 # just in case, restart once in a while
 sleep 60
