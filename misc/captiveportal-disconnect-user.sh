@@ -36,8 +36,6 @@ do
     "$PF_SERVER/status_captiveportal.php$url"
 done
 
-exit 0
-
 rm $TMP_ALL
 rm $TMP_ALL2
 rm $TMP_COOKIES
