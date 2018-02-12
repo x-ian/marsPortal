@@ -29,12 +29,14 @@ source $BASEDIR/config.txt
 
 # loop over users and terminate session for matching MAC address
 # should only be one, but I cloned the disconnect-all-users script
-cat $TMP_ALL | grep -A5 `echo $MAC` | tail -1 | cut -d "\"" -f2 | sed 's/amp;//g' | while read -r url
+cat $TMP_ALL | grep -A3 `echo $MAC` | tail -1 | cut -d "\"" -f2 | sed 's/amp;//g' | while read -r url
 do
   /usr/local/bin/wget --keep-session-cookies --load-cookies $TMP_COOKIES --no-check-certificate \
     --output-document=$TMP_ALL2 \
     "$PF_SERVER/status_captiveportal.php$url"
 done
+
+exit 0
 
 rm $TMP_ALL
 rm $TMP_ALL2
