@@ -19,7 +19,7 @@
 		$output, $exitCode);
 	?>
 	</p>
-	<p>If you are not able to access any webpages like <a href="http://www.google.com">Mars General</a>, please try it <a href="/">again</a> in a few minutes.</p>
+	<p>If you are not able to access any webpages like <a href="http://www.marsgeneral.com">Mars General</a>, please try it <a href="/">again</a> in a few minutes.</p>
 
 </div>
 </body>
