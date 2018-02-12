@@ -43,9 +43,9 @@ source $BASEDIR/config.txt
 EOF
 	
 # update MAC vendor list, http://standards.ieee.org/develop/regauth/oui/public.html
-/usr/local/bin/wget http://standards.ieee.org/develop/regauth/oui/oui.txt -O /tmp/ieee_oui.txt
+/usr/local/bin/wget -c http://standards.ieee.org/develop/regauth/oui/oui.txt -O $BASEDIR/ieee_oui_new.txt
 if [ $? -eq 0 ]; then
-	mv /tmp/ieee_oui.txt $BASEDIR
+	mv $BASEDIR/ieee_oui_new.txt $BASEDIR/ieee_oui.txt
 fi
 
 # status notification

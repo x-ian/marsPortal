@@ -24,8 +24,14 @@ AuthPass=GoingToIbiza
 UseSTARTTLS=YES" > $TEMP_MAIL.config
 echo "From: notification@marsgeneral.com
 To: cneumann@marsgeneral.com
-Subject: pfSense heartbeat zone: $ZONE, public ip: $PUBLIC_IP, `date +%Y%m%d-%H%M`
+Subject: marsPortal heartbeat: $ZONE, `date +%Y%m%d-%H%M`
 
+zone:
+	$ZONE
+public ip:
+	$PUBLIC_IP
+ssh tunnel port:
+	$SSH_TUNNEL_PORT
 uptime: 
 	$UPTIME
 all macs: 
