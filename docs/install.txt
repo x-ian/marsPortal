@@ -67,7 +67,9 @@ Deactivate 'block private networks' if the WAN IP is not a public IP (Interfaces
 
 Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6). (not available on pfSesne 2.3)
 
-Deactivate DNS Resolver from menu Service - DNS Resolver and apply changes. Afterwards activate DNS Forwarder from the Services menu.
+Either use DNS Forwarder (deprecated for new installs) or DNS Resolver (Unbound). If using the DNS Resolver, enable forwarding mode in its config from the Services menu.
+
+TODO: Set DNS for each interface of DHCP server to matching interface IP.
 
 TODO: Add pfsense.localdomain to DNS Forwarder/Resolver as host overwrites with the IP of the WAN interface. Services - DNS forwarder - add new host override with host = pfsense, domain = localdomain, IP = 172.16.1.2 and description = to make pfsense.localdomain locally available (e.g. required for radcheck).
 
@@ -182,7 +184,7 @@ echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
 /usr/local/bin/mysqld_safe &
 sleep 60
 /usr/local/bin/mysql_secure_installation
-  (This command now is asking a couple of question for the installation of MySQL; each answer is specified with one line below)
+  (This command now is asking a couple of questions for the installation of MySQL; each answer is specified with one line below)
   <enter>
   yes
   radius
