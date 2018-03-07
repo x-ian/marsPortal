@@ -8,8 +8,8 @@
         }
 
         # check for daily volume restrictions during working hours
-        if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" && "%{check:mars-Input-Megabytes-Daily-Work-Hours}") {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Work-Hours}")) {
+        if ("%{control:mars-Output-Megabytes-Daily-Work-Hours}" && "%{control:mars-Input-Megabytes-Daily-Work-Hours}") {
+                if (("%{control:My-Local-Output}" > "%{control:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{control:mars-Input-Megabytes-Daily-Work-Hours}")) {
                         captiveportal-disconnect-user
                 }
         }
@@ -23,8 +23,8 @@
         }
 
         # check for daily volume restrictions during working hours
-        if ("%{check:mars-Output-Megabytes-Daily-Total}" && "%{check:mars-Input-Megabytes-Daily-Total}") {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Total}")) {
+        if ("%{control:mars-Output-Megabytes-Daily-Total}" && "%{control:mars-Input-Megabytes-Daily-Total}") {
+                if (("%{control:My-Local-Output}" > "%{control:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{control:mars-Input-Megabytes-Daily-Total}")) {
                         captiveportal-disconnect-user
                 }
         }
@@ -40,8 +40,8 @@
         }
 
         # check for daily volume restrictions during working hours
-        if ("%{check:mars-User-Output-Megabytes-Daily-Work-Hours}" && "%{check:mars-User-Input-Megabytes-Daily-Work-Hours}") {
-                if (("%{control:My-Local-Output}" > "%{check:mars-User-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-User-Input-Megabytes-Daily-Work-Hours}")) {
+        if ("%{control:mars-User-Output-Megabytes-Daily-Work-Hours}" && "%{control:mars-User-Input-Megabytes-Daily-Work-Hours}") {
+                if (("%{control:My-Local-Output}" > "%{control:mars-User-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{control:mars-User-Input-Megabytes-Daily-Work-Hours}")) {
                         captiveportal-disconnect-user
                 }
         }
@@ -55,8 +55,8 @@
         }
 
         # check for daily volume restrictions during working hours
-        if ("%{check:mars-User-Output-Megabytes-Daily-Total}" && "%{check:mars-User-Input-Megabytes-Daily-Total}") {
-                if (("%{control:My-Local-Output}" > "%{check:mars-User-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-User-Input-Megabytes-Daily-Total}")) {
+        if ("%{control:mars-User-Output-Megabytes-Daily-Total}" && "%{control:mars-User-Input-Megabytes-Daily-Total}") {
+                if (("%{control:My-Local-Output}" > "%{control:mars-User-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{control:mars-User-Input-Megabytes-Daily-Total}")) {
                         captiveportal-disconnect-user
                 }
         }

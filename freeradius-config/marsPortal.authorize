@@ -1,9 +1,9 @@
 
         # checking for concurrently active users of same user group / profile
-        if ("%{check:mars-Max-Concurrent-Devices}") {
-                if("%{check:mars-Max-Concurrent-Devices}" <= "%{sql:select count(*) from radacct where acctstoptime is null and username in (select username from radusergroup where groupname in (select groupname from radusergroup where username='%{User-Name}'));}") {
+        if ("%{control:mars-Max-Concurrent-Devices}") {
+                if("%{control:mars-Max-Concurrent-Devices}" <= "%{sql:select count(*) from radacct where acctstoptime is null and username in (select username from radusergroup where groupname in (select groupname from radusergroup where username='%{User-Name}'));}") {
                         update reply {
-                                Reply-Message := "Too many users - please try again later (%{sql:select count(*) from radacct where acctstoptime is null and username in (select username from radusergroup where groupname in (select groupname from radusergroup where username='%{User-Name}'))} of %{check:mars-Max-Concurrent-Devices})"
+                                Reply-Message := "Too many users - please try again later (%{sql:select count(*) from radacct where acctstoptime is null and username in (select username from radusergroup where groupname in (select groupname from radusergroup where username='%{User-Name}'))} of %{control:mars-Max-Concurrent-Devices})"
                         }
                         reject
                 }
@@ -15,10 +15,10 @@
                 My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_output) - SUM(work_offset_output) - SUM(lunch_total_output) + SUM(lunch_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
                 My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_input) - SUM(work_offset_input) - SUM(lunch_total_input) + SUM(lunch_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
         }
-        if ("%{check:mars-Output-Megabytes-Daily-Work-Hours}" > 0 && "%{check:mars-Input-Megabytes-Daily-Work-Hours}" > 0) {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Work-Hours}")) {
+        if ("%{control:mars-Output-Megabytes-Daily-Work-Hours}" > 0 && "%{control:mars-Input-Megabytes-Daily-Work-Hours}" > 0) {
+                if (("%{control:My-Local-Output}" > "%{control:mars-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{control:mars-Input-Megabytes-Daily-Work-Hours}")) {
                         update reply {
-                                Reply-Message := "Data bundle during business hours exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-Output-Megabytes-Daily-Work-Hours} / %{check:mars-Input-Megabytes-Daily-Work-Hours} MB (download/upload)"
+                                Reply-Message := "Data bundle during business hours exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{control:mars-Output-Megabytes-Daily-Work-Hours} / %{control:mars-Input-Megabytes-Daily-Work-Hours} MB (download/upload)"
                         }
                         reject
                 }
@@ -30,10 +30,10 @@
                 My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
                 My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d')), '0')}"
         }
-        if ("%{check:mars-Output-Megabytes-Daily-Total}" > 0 && "%{check:mars-Input-Megabytes-Daily-Total}" > 0) {
-                if (("%{control:My-Local-Output}" > "%{check:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-Input-Megabytes-Daily-Total}")) {
+        if ("%{control:mars-Output-Megabytes-Daily-Total}" > 0 && "%{control:mars-Input-Megabytes-Daily-Total}" > 0) {
+                if (("%{control:My-Local-Output}" > "%{control:mars-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{control:mars-Input-Megabytes-Daily-Total}")) {
                         update reply {
-                                Reply-Message := "Daily data bundle exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-Output-Megabytes-Daily-Total} / %{check:mars-Input-Megabytes-Daily-Total} MB (download/upload)"
+                                Reply-Message := "Daily data bundle exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{control:mars-Output-Megabytes-Daily-Total} / %{control:mars-Input-Megabytes-Daily-Total} MB (download/upload)"
                         }
                         reject
                 }
@@ -45,10 +45,10 @@
                 My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_output) - SUM(work_offset_output) - SUM(lunch_total_output) + SUM(lunch_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'auth_user_work_out' = 'auth_user_work_out'))), '0')}"
                 My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(work_total_input) - SUM(work_offset_input) - SUM(lunch_total_input) + SUM(lunch_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'auth_user_work_in' = 'auth_user_work_in'))), '0')}"
         }
-        if ("%{check:mars-User-Output-Megabytes-Daily-Work-Hours}" > 0 && "%{check:mars-User-Input-Megabytes-Daily-Work-Hours}" > 0) {
-                if (("%{control:My-Local-Output}" > "%{check:mars-User-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{check:mars-User-Input-Megabytes-Daily-Work-Hours}")) {
+        if ("%{control:mars-User-Output-Megabytes-Daily-Work-Hours}" > 0 && "%{control:mars-User-Input-Megabytes-Daily-Work-Hours}" > 0) {
+                if (("%{control:My-Local-Output}" > "%{control:mars-User-Output-Megabytes-Daily-Work-Hours}") || ("%{control:My-Local-Input}" > "%{control:mars-User-Input-Megabytes-Daily-Work-Hours}")) {
                         update reply {
-                                Reply-Message := "Data bundle for all devices during business hours exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-User-Output-Megabytes-Daily-Work-Hours} / %{check:mars-User-Input-Megabytes-Daily-Work-Hours} MB (download/upload)"
+                                Reply-Message := "Data bundle for all devices during business hours exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{control:mars-User-Output-Megabytes-Daily-Work-Hours} / %{control:mars-User-Input-Megabytes-Daily-Work-Hours} MB (download/upload)"
                         }
                         reject
                 }
@@ -60,10 +60,10 @@
                 My-Local-Output := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_output) - SUM(day_offset_output)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'auth_user_daily_out' = 'auth_user_daily_out'))), '0')}"
                 My-Local-Input := "%{sql:SELECT IFNULL((SELECT ROUND((SUM(day_total_input) - SUM(day_offset_input)) / 1000000) FROM daily_accounting_v2 WHERE username IN (SELECT username FROM userinfo where CONCAT_WS(' ', firstname, lastname) = (SELECT CONCAT_WS(' ', firstname, lastname) FROM userinfo WHERE username = '%{SQL-User-Name}' AND day = date_format(now(), '%Y-%m-%d') AND 'auth_user_daily_in' = 'auth_user_daily_in'))), '0')}"
         }
-        if ("%{check:mars-User-Output-Megabytes-Daily-Total}" > 0 && "%{check:mars-User-Input-Megabytes-Daily-Total}" > 0) {
-                if (("%{control:My-Local-Output}" > "%{check:mars-User-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{check:mars-User-Input-Megabytes-Daily-Total}")) {
+        if ("%{control:mars-User-Output-Megabytes-Daily-Total}" > 0 && "%{control:mars-User-Input-Megabytes-Daily-Total}" > 0) {
+                if (("%{control:My-Local-Output}" > "%{control:mars-User-Output-Megabytes-Daily-Total}") || ("%{control:My-Local-Input}" > "%{control:mars-User-Input-Megabytes-Daily-Total}")) {
                         update reply {
-                                Reply-Message := "Daily data bundle for all devices exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{check:mars-User-Output-Megabytes-Daily-Total} / %{check:mars-User-Input-Megabytes-Daily-Total} MB (download/upload)"
+                                Reply-Message := "Daily data bundle for all devices exceeded. Used: %{control:My-Local-Output} / %{control:My-Local-Input} MB - Granted: %{control:mars-User-Output-Megabytes-Daily-Total} / %{control:mars-User-Input-Megabytes-Daily-Total} MB (download/upload)"
                         }
                         reject
                 }
