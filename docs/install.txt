@@ -1,10 +1,53 @@
 NOTES ON INSTALLATION OF PFSENSE
 ================================
 
+pfSense 2.4
+—————
+
+/usr/local/etc/pkg/repos/FreeBSD.conf enabled: no -> yes
+/usr/local/etc/pkg/repos/pfSense.conf enabled: no -> yes
+
+pkg install bash curl git php56-mysql wget ssmtp base64 autossh mysql56-client mysql56-server nap freeradius3 nmap
+
+http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/
+
+chown mysql:mysql /var/db/mysql/*
+
+./bin/mysql -u root -pradius radius < /usr/local/etc/raddb/mods-config/sql/main/mysql/schema.sql
+
+mv /usr/local/etc/raddb/dictionary /usr/local/etc/raddb/dictionary.original
+cp /home/marsPortal/freeradius-config/freeradius3/dictionary /usr/local/etc/raddb
+mv /usr/local/etc/raddb/sites-available/default /usr/local/etc/raddb/sites-available/default.original
+cp /home/marsPortal/freeradius-config/freeradius3/default /usr/local/etc/raddb/sites-available
+mv /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-available/sql.original
+cp /home/marsPortal/freeradius-config/freeradius3/sql /usr/local/etc/raddb/mods-available
+# ln -s /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-enabled/sql
+
+cp /home/marsPortal/setup-captiveportal/freeradius3/rlm_sql_mysql.* /usr/local/lib/freeradius-3.0.15
+
+ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /usr/local/etc/raddb/mods-enabled/captiveportal-disconnect-user
+
+copy SSH key for tunnel
+
+Increase number of concurrent Web Admin users to 10
+
+Disable Dashboard auto-update check (System - Update - Update settings - Dashboard check)
+
+Disabled Netgate Device ID (System - Advanced - Misc)
+
+
+Zotac CI327
+—————
+
+Booting takes a while cause of complaints/timeouts for the SD card reader.
+Wireless controller (Intel 3165) isn’t usable. And even if, it most likely won’t support AP mode, but just Station (sysctl net.wlan.devices, pciconf -vl)
+disable 'Monitor M-Wait' in bios; Could be under Features tab > CPU Configuration
+
+
 Preparing memstick installation
 -------------------------------
 
-pfsense can be installed from local CD drive or from an USB flash disk (if the BIOS supports it). Unlike with other Operating Systems, then 'ordinary' ISO image for Live-CDs doesn't work. For pfsense the memstick variant needs to be chosen. To create a bootable flash drive, use these commands under Mac OS X; for other operating systems check https://doc.pfsense.org/index.php/Writing_Disk_Images:
+pfsense can be installed from local CD drive or from an USB flash disk (if the BIOS supports it). Unlike with other Operating Systems, the 'ordinary' ISO image for Live-CDs doesn't work. For pfsense the memstick variant needs to be chosen. To create a bootable flash drive, use these commands under Mac OS X; for other operating systems check https://doc.pfsense.org/index.php/Writing_Disk_Images:
 diskutil list
 diskutil umount /dev/diskX
 gzcat ~/Downloads/pfSense-memstick-2.2.2-RELEASE-amd64.img.gz | sudo dd of=/dev/diskX bs=16k
@@ -65,13 +108,13 @@ Set DHCP server lease time to 43200 (note that this must be greater than any Cap
 
 Deactivate 'block private networks' if the WAN IP is not a public IP (Interfaces - WAN).
 
-Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6). (not available on pfSesne 2.3)
+Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6). (not available on pfSense 2.3)
 
 Either use DNS Forwarder (deprecated for new installs) or DNS Resolver (Unbound). If using the DNS Resolver, enable forwarding mode in its config from the Services menu.
 
 TODO: Set DNS for each interface of DHCP server to matching interface IP.
 
-TODO: Add pfsense.localdomain to DNS Forwarder/Resolver as host overwrites with the IP of the WAN interface. Services - DNS forwarder - add new host override with host = pfsense, domain = localdomain, IP = 172.16.1.2 and description = to make pfsense.localdomain locally available (e.g. required for radcheck).
+TODO: Add marsportal.localdomain to DNS Forwarder/Resolver as host overwrites with the IP of the WAN interface. Services - DNS forwarder - add new host override with host = pfsense, domain = localdomain, IP = 172.16.1.2 and description = to make pfsense.localdomain locally available (e.g. required for radcheck).
 
 TODO: Add firewall rule to allow TCP, UDP, and ICMP pings (easiest done through 'floating rules').
 
