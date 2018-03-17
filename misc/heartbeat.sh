@@ -7,12 +7,14 @@ source $BASEDIR/config.txt
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
  
 PUBLIC_IP="`curl https://wtfismyip.com/text`"
-FIRST_MAC=" `/sbin/ifconfig | grep ether | head -1`"
+FIRST_MAC="`/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
 INET=`/sbin/ifconfig | grep "inet "`
 LOAD=`top | grep averages`
 MEM=`top | grep Mem`
+TOTAL_MEM_TEMP=`sysctl hw.physmem | awk '{print $2}'`
+TOTAL_MEM=`echo "scale=2 ; $TOTAL_MEM_TEMP / 1000000" | bc`
 DISK=`df -H /`
 SWAP=`top | grep Swap`
 PFSENSE_VERSION="`cat /etc/version`-p`cat /etc/version.patch`"
@@ -43,6 +45,8 @@ all macs:
 $ALL_MACS
 ifconfig: 
 $INET
+total memory:
+	$TOTAL_MEM
 memory:
 	$MEM
 disk:
