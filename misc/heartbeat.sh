@@ -25,7 +25,7 @@ AuthPass=GoingToIbiza
 UseSTARTTLS=YES" > $TEMP_MAIL.config
 echo "From: notification@marsgeneral.com
 To: cneumann@marsgeneral.com
-Subject: marsPortal ($NETGATE_ID $SSH_TUNNEL_PORT) heartbeat at `date +%Y%m%d-%H%M`
+Subject: marsPortal heartbeat at `date +%Y%m%d-%H%M` ($SSH_TUNNEL_PORT,$NETGATE_ID)
 
 zone:
 	$ZONE

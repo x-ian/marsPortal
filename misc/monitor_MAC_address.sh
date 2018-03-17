@@ -9,7 +9,7 @@ MAC="b8:e8:56:03:99:d4"
 
 if [ $? -eq 0 ]; then
   BASEDIR=/home/marsPortal
-  SUBJECT="MAC found: $ZONE"
+  SUBJECT="MAC found: $MAC"
   BODY="SYSTEM ALIVE"
   $BASEDIR/misc/send_mail.sh "$SUBJECT" "$BODY"
 

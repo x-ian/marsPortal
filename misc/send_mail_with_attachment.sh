@@ -5,7 +5,7 @@ BASEDIR=/home/marsPortal
 source $BASEDIR/config.txt
 source $BASEDIR/ssmtp.config
  
-SUBJECT="marsPortal ($NETGATE_ID $SSH_TUNNEL_PORT) $1"
+SUBJECT="marsPortal $1 ($SSH_TUNNEL_PORT,$NETGATE_ID)"
 BODY=$2
 FILE=$3
 FILENAME=$4
