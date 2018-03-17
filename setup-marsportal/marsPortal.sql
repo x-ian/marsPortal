@@ -40,14 +40,9 @@ INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('No-Internet-Access', 'Reply-Message', ':=', 'Your device is permanently disabled.');
 
 DELETE FROM radgroupcheck WHERE groupname = 'Users';
-INSERT INTO radgroupcheck (groupname, attribute, op, value) VALUES
-('Users', 'mars-Input-Megabytes-Daily-Work-Hours', ':=', '250'),
-('Users', 'mars-Output-Megabytes-Daily-Work-Hours', ':=', '100');
 DELETE FROM radgroupreply WHERE groupname = 'Users';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
-('Users', 'Session-Timeout', ':=', '43200'),
-('Users', 'WISPr-Bandwidth-Max-Up', ':=', '150000'),
-('Users', 'WISPr-Bandwidth-Max-Down', ':=', '400000');
+('Users', 'Session-Timeout', ':=', '604800');
 
 
 DROP TABLE IF EXISTS daily_accounting_v2;
