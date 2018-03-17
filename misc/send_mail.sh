@@ -7,7 +7,7 @@ source $BASEDIR/ssmtp.config
 
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
 
-SUBJECT=$1
+SUBJECT="marsPortal ($NETGATE_ID $SSH_TUNNEL_PORT) $1"
 BODY=$2
 SENDER=$AuthUser
 #RECEIVER=$RECEIVER already part of config.txt

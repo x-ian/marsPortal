@@ -15,6 +15,7 @@ LOAD=`top | grep averages`
 MEM=`top | grep Mem`
 DISK=`df -H /`
 SWAP=`top | grep Swap`
+PFSENSE_VERSION="`cat /etc/version`-p`cat /etc/version.patch`"
 
 TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
 echo "FromLineOverride=YES
@@ -24,7 +25,7 @@ AuthPass=GoingToIbiza
 UseSTARTTLS=YES" > $TEMP_MAIL.config
 echo "From: notification@marsgeneral.com
 To: cneumann@marsgeneral.com
-Subject: marsPortal heartbeat: $ZONE, `date +%Y%m%d-%H%M`
+Subject: marsPortal ($NETGATE_ID $SSH_TUNNEL_PORT) heartbeat at `date +%Y%m%d-%H%M`
 
 zone:
 	$ZONE
@@ -32,6 +33,10 @@ public ip:
 	$PUBLIC_IP
 ssh tunnel port:
 	$SSH_TUNNEL_PORT
+netgate id:
+	$NETGATE_ID
+pfsense version:
+	$PFSENSE_VERSION
 uptime: 
 	$UPTIME
 all macs: 

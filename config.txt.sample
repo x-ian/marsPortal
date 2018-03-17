@@ -12,6 +12,7 @@ PASSWD=pfsense
 ZONE=mars
 
 SSH_TUNNEL_PORT=17778
+NETGATE_ID=`cat /var/db/uniqueid`
 
 # MySQL
 MYSQL_USER=radius
