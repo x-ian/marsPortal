@@ -7,6 +7,8 @@ source $BASEDIR/config.txt
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
  
 PUBLIC_IP="`curl https://wtfismyip.com/text`"
+# alterntively: dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'
+# or: dig +short @resolver1.opendns.com myip.opendns.com
 FIRST_MAC="`/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
