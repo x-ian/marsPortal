@@ -81,6 +81,156 @@ ALTER TABLE daily_accounting_v2 ADD UNIQUE INDEX (username, day);
 ALTER TABLE daily_accounting_v2 ADD INDEX (username);
 ALTER TABLE daily_accounting_v2 ADD INDEX (day);
 
+DROP TABLE IF EXISTS throughput;
+CREATE TABLE throughput (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  day date NOT NULL,
+  minute_of_day smallint NOT NULL,
+  
+  offset_input bigint(20) DEFAULT 0,
+  offset_output bigint(20) DEFAULT 0,
+  
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE throughput ADD UNIQUE INDEX (username, minute_of_day);
+
+DROP TABLE IF EXISTS daily_accounting_v5;
+CREATE TABLE daily_accounting_v5 (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  day date NOT NULL,
+
+  offset_input bigint(20) DEFAULT 0,
+  offset_output bigint(20) DEFAULT 0,
+  offset datetime,
+  
+  0029_input bigint(20) DEFAULT 0,
+  0029_output bigint(20) DEFAULT 0,
+  0059_input bigint(20) DEFAULT 0,
+  0059_output bigint(20) DEFAULT 0,
+
+  0129_input bigint(20) DEFAULT 0,
+  0129_output bigint(20) DEFAULT 0,
+  0159_input bigint(20) DEFAULT 0,
+  0159_output bigint(20) DEFAULT 0,
+
+  0229_input bigint(20) DEFAULT 0,
+  0229_output bigint(20) DEFAULT 0,
+  0259_input bigint(20) DEFAULT 0,
+  0259_output bigint(20) DEFAULT 0,
+
+  0329_input bigint(20) DEFAULT 0,
+  0329_output bigint(20) DEFAULT 0,
+  0359_input bigint(20) DEFAULT 0,
+  0359_output bigint(20) DEFAULT 0,
+
+  0429_input bigint(20) DEFAULT 0,
+  0429_output bigint(20) DEFAULT 0,
+  0459_input bigint(20) DEFAULT 0,
+  0459_output bigint(20) DEFAULT 0,
+
+  0529_input bigint(20) DEFAULT 0,
+  0529_output bigint(20) DEFAULT 0,
+  0559_input bigint(20) DEFAULT 0,
+  0559_output bigint(20) DEFAULT 0,
+
+  0629_input bigint(20) DEFAULT 0,
+  0629_output bigint(20) DEFAULT 0,
+  0659_input bigint(20) DEFAULT 0,
+  0659_output bigint(20) DEFAULT 0,
+
+  0729_input bigint(20) DEFAULT 0,
+  0729_output bigint(20) DEFAULT 0,
+  0759_input bigint(20) DEFAULT 0,
+  0759_output bigint(20) DEFAULT 0,
+
+  0829_input bigint(20) DEFAULT 0,
+  0829_output bigint(20) DEFAULT 0,
+  0859_input bigint(20) DEFAULT 0,
+  0859_output bigint(20) DEFAULT 0,
+
+  0929_input bigint(20) DEFAULT 0,
+  0929_output bigint(20) DEFAULT 0,
+  0959_input bigint(20) DEFAULT 0,
+  0959_output bigint(20) DEFAULT 0,
+
+  1029_input bigint(20) DEFAULT 0,
+  1029_output bigint(20) DEFAULT 0,
+  1059_input bigint(20) DEFAULT 0,
+  1059_output bigint(20) DEFAULT 0,
+
+  1129_input bigint(20) DEFAULT 0,
+  1129_output bigint(20) DEFAULT 0,
+  1159_input bigint(20) DEFAULT 0,
+  1159_output bigint(20) DEFAULT 0,
+
+  1229_input bigint(20) DEFAULT 0,
+  1229_output bigint(20) DEFAULT 0,
+  1259_input bigint(20) DEFAULT 0,
+  1259_output bigint(20) DEFAULT 0,
+
+  1329_input bigint(20) DEFAULT 0,
+  1329_output bigint(20) DEFAULT 0,
+  1359_input bigint(20) DEFAULT 0,
+  1359_output bigint(20) DEFAULT 0,
+
+  1429_input bigint(20) DEFAULT 0,
+  1429_output bigint(20) DEFAULT 0,
+  1459_input bigint(20) DEFAULT 0,
+  1459_output bigint(20) DEFAULT 0,
+
+  1529_input bigint(20) DEFAULT 0,
+  1529_output bigint(20) DEFAULT 0,
+  1559_input bigint(20) DEFAULT 0,
+  1559_output bigint(20) DEFAULT 0,
+
+  1629_input bigint(20) DEFAULT 0,
+  1629_output bigint(20) DEFAULT 0,
+  1659_input bigint(20) DEFAULT 0,
+  1659_output bigint(20) DEFAULT 0,
+
+  1729_input bigint(20) DEFAULT 0,
+  1729_output bigint(20) DEFAULT 0,
+  1759_input bigint(20) DEFAULT 0,
+  1759_output bigint(20) DEFAULT 0,
+
+  1829_input bigint(20) DEFAULT 0,
+  1829_output bigint(20) DEFAULT 0,
+  1859_input bigint(20) DEFAULT 0,
+  1859_output bigint(20) DEFAULT 0,
+
+  1929_input bigint(20) DEFAULT 0,
+  1929_output bigint(20) DEFAULT 0,
+  1959_input bigint(20) DEFAULT 0,
+  1959_output bigint(20) DEFAULT 0,
+
+  2029_input bigint(20) DEFAULT 0,
+  2029_output bigint(20) DEFAULT 0,
+  2059_input bigint(20) DEFAULT 0,
+  2059_output bigint(20) DEFAULT 0,
+
+  2129_input bigint(20) DEFAULT 0,
+  2129_output bigint(20) DEFAULT 0,
+  2159_input bigint(20) DEFAULT 0,
+  2159_output bigint(20) DEFAULT 0,
+
+  2229_input bigint(20) DEFAULT 0,
+  2229_output bigint(20) DEFAULT 0,
+  2259_input bigint(20) DEFAULT 0,
+  2259_output bigint(20) DEFAULT 0,
+
+  2329_input bigint(20) DEFAULT 0,
+  2329_output bigint(20) DEFAULT 0,
+  2359_input bigint(20) DEFAULT 0,
+  2359_output bigint(20) DEFAULT 0,
+
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE daily_accounting_v5 ADD UNIQUE INDEX (username, day);
+ALTER TABLE daily_accounting_v5 ADD INDEX (username);
+ALTER TABLE daily_accounting_v5 ADD INDEX (day);
+
 DROP TABLE IF EXISTS userinfo;
 CREATE TABLE userinfo (
   id int(32) NOT NULL AUTO_INCREMENT,
