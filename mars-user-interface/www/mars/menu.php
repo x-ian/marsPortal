@@ -59,7 +59,8 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
 		<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Stats (Devices)<span class="caret"></span></a>
           <ul class="dropdown-menu">
-					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Throughput (most active devices)</a> </li>
+					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (v2)</a> </li>
+					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput (most active devices)</a> </li>
 		   			<li><a href="/mars/reports/statistics.php">Statistics</a></li>
 					<li><a href="/mars/reports/devices_with_volume.php">Device history</a></li>
 					<li><a href="/mars/reports/online-devices.php">Device currently online</a></li>
