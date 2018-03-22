@@ -28,48 +28,82 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
   <link href="/mars/application.css" rel="stylesheet" type="text/css" />
   <title>marsPortal - <? echo $HEADLINE ?></title>
+  <script src="/mars/application.js"></script>
 </head>
 
-<body>
+<body class="visualize_text">
 
-  <div id="banner" style="text-align: center;">
-	<table align="center">
-		<tr><td><a href="index.html"><img src="/mars/captiveportal-mars.jpg" width="75"/></a></td><td style="font-variant:small-caps; font-size:200%">portal - <? echo $HEADLINE ?></td></tr>
-	</table>
-  </div>
-  
-  <div id="columns">
-    <div id="side">
-      <ul id="ul1">
-        <li>Manage</li>
-      	<ul id="ul2">
-	        <li><a href="/mars/userinfo/list.php">Devices</a></li>
-	        <li><a href="/mars/user/list.php">Users</a></li>
-	        <li><a href="/mars/group/list.php">Groups<a></li>
-		</ul>
-        <li>Reports (Devices)</li>
-      	<ul id="ul2">
-       		<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices</a></li>
-       		<li><a href="/mars/reports/statistics.php">Statistics</a></li>
-       		<li><a href="/mars/reports/devices_with_volume.php">Devices (7d history)</a></li>
-       		<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
-		</ul>
-        <li>Reports (Users & Groups)</li>
-      	<ul id="ul2">
-       		<li><a href="/mars/reports/users-statistics.php">Statistics</a></li>
-       		<li><a href="/mars/reports/groups.php">Groups</a></li>
-		</ul>
-<!--        <li><a href="/mars/admin/admin.php">Admin<a></li> -->
-        <li>Additional links</li>
-      	<ul id="ul2">
-       		<li><a href="/index.php">pfSense Dashboard</a></li>
-       		<li><a href="/status_captiveportal.php">Captive portal sessions</a></li>
-       		<li><a href="/status_graph.php?if=wan">Traffic graphs</a></li>
-<!--
-       		<li><?php echo '<a href=http://' . $PF_IP . ':3000/sortDataThpt.html?showH=1&showL=2&col=1>nTop - Top Downloaders</a>'; ?></li>
-       		<li><?php echo '<a href=http://' . $PF_IP . ':3000/sortDataThpt.html?col=1&showH=1&showL=1>nTop - Top Uploaders</a>'; ?></li>
--->
-       		<li><a href="/lightsquid/index.cgi">Squid Proxy report (if installed)</a></li>
-		</ul>
-  	  </ul>
-	</div>
+<nav class="navbar navbar-default"> <!-- navbar-fixed-top -->
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+	  <a class="navbar-brand" href="/mars/index.php"><img src="/mars/captiveportal-mars.jpg" width="33"/></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+		  
+        <!-- <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li> -->
+        
+		<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manage<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+					<li><a href="/mars/userinfo/list.php">Devices</a> </li>
+		   			<li><a href="/mars/user/list.php">Users</a></li>
+					<li><a href="/mars/group/list.php">Groups</a></li>
+            <!--<li role="separator" class="divider"></li>-->
+          </ul>
+        </li>
+		
+		<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Stats (Devices)<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Throughput (most active devices)</a> </li>
+		   			<li><a href="/mars/reports/statistics.php">Statistics</a></li>
+					<li><a href="/mars/reports/devices_with_volume.php">Device history</a></li>
+					<li><a href="/mars/reports/online-devices.php">Device currently online</a></li>
+            <!--<li role="separator" class="divider"></li>-->
+          </ul>
+        </li>
+		
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Stats (Users & Groups)<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	       		<li><a href="/mars/reports/users-statistics.php">Statistics</a></li>
+	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Config<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	       		<li><a href="/probe_configurations">Work hours</a></li>
+	       		<li><a href="/probe_configurations">Change password</a></li>
+	       		<li><a href="/probe_configurations">Edit email recipients</a></li>
+	       		<li><a href="/probe_configurations">Activate VIP/emergency mode</a></li>
+	       		<li><a href="/probe_configurations">License notes</a></li>
+	       		<li><a href="/probe_configurations">Useful links</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+			<li><a href="/users/edit">Edit account</a></li>
+			<li><a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <form class="navbar-form navbar-right">
+		  <button type="button" class="btn btn-default" aria-label="Contact">
+			<a href="mailto:sales@marsgeneral.com"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+		  </button>		
+      </form>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
