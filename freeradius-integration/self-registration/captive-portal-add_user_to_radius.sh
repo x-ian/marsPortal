@@ -16,6 +16,8 @@ source $PORTALDIR/config.txt
 
 STATUS_LOG=/home/client_activities_log/status-`date +%Y%m%d`.log
 
+# use dhcpd.leases to get hostname, only use additional path if nothing was returned
+# egrep "lease|hostname|hardware ethernet|}" /var/dhcpd/var/db/dhcpd.leases | sed 's/lease/\'$'nlease/g' | tr '\n' ' ' | tr '}', '\n'
 MAC=$($PORTALDIR/misc/resolve_mac_address.sh $IP)
 MAC_FIRST_DIGITS=$(echo $MAC | tr -d ":" | cut -c 1-6 | awk '{print toupper($0)}')
 # check in the local copy of the IEEE OUI database
