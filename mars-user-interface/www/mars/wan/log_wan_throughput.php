@@ -18,7 +18,8 @@ function wan_throughput() {
 	return "
 		select * 
 		from log_wan_throughput 
-		where at >= date_sub(now(), interval 1 hour);";
+		where at >= date_sub(now(), interval 1 hour)
+		order by at DESC;";
 }
 
 	$result = mysql_query(wan_throughput()) or trigger_error(mysql_error()); 

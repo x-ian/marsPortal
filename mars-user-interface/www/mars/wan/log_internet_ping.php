@@ -71,7 +71,7 @@ function internet_ping($expectedPings, $interval) {
 
 <br/>
 
-<p>Availability measured (via ping) every minute for a period of 1 minute.</p>
+<p>Availability measured (via ping) every minute for a period of 1 minute. marsPortal downtime (switched off) is counted as not available.</p>
 
 <br/>
 
