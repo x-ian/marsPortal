@@ -81,12 +81,56 @@ ALTER TABLE daily_accounting_v2 ADD UNIQUE INDEX (username, day);
 ALTER TABLE daily_accounting_v2 ADD INDEX (username);
 ALTER TABLE daily_accounting_v2 ADD INDEX (day);
 
+DROP TABLE IF EXISTS log_internet_ping;
+CREATE TABLE log_internet_ping (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  begin datetime NOT NULL,
+  end datetime NOT NULL,
+  
+  transmitted smallint,
+  received smallint,
+  packet_loss varchar(10),
+  rtt_avg DECIMAL(10,3) DEFAULT 0,
+  
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE log_internet_ping ADD UNIQUE INDEX (begin, end);
+
+DROP TABLE IF EXISTS log_wan_traffic;
+CREATE TABLE log_wan_traffic (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  when2 datetime NOT NULL,
+  
+  rx DECIMAL(5,2),
+  rx_unit varchar(10),
+  tx DECIMAL(5,2),
+  tx_unit varchar(10),
+  
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE log_wan_traffic ADD UNIQUE INDEX (when2);
+
+DROP TABLE IF EXISTS log_wan_throughput;
+CREATE TABLE log_wan_throughput (
+  id int(32) NOT NULL AUTO_INCREMENT,
+  at datetime NOT NULL,
+  
+  rx int(32),
+  rx_unit varchar(10),
+  tx int(32),
+  tx_unit varchar(10),
+  
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE log_wan_throughput ADD UNIQUE INDEX (at);
+
 DROP TABLE IF EXISTS throughput;
 CREATE TABLE throughput (
   id int(32) NOT NULL AUTO_INCREMENT,
   username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   day date NOT NULL,
   minute_of_day smallint NOT NULL,
+  time_of_day time NOT NULL,
   
   offset_input bigint(20) DEFAULT 0,
   offset_output bigint(20) DEFAULT 0,
@@ -94,6 +138,7 @@ CREATE TABLE throughput (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE throughput ADD UNIQUE INDEX (username, minute_of_day);
+ALTER TABLE throughput ADD INDEX (time_of_day);
 
 DROP TABLE IF EXISTS daily_accounting_v5;
 CREATE TABLE daily_accounting_v5 (
