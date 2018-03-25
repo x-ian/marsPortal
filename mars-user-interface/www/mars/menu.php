@@ -57,13 +57,24 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
         </li>
 		
 		<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WAN Stats<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Availability</a> </li>
+					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput</a> </li>
+		   			<li><a href="/mars/reports/statistics.php">Statistics</a></li>
+            <!--<li role="separator" class="divider"></li>-->
+          </ul>
+        </li>
+		
+		<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Stats (Devices)<span class="caret"></span></a>
           <ul class="dropdown-menu">
 					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (v2)</a> </li>
 					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput (most active devices)</a> </li>
-		   			<li><a href="/mars/reports/statistics.php">Statistics</a></li>
-					<li><a href="/mars/reports/devices_with_volume.php">Device history</a></li>
-					<li><a href="/mars/reports/online-devices.php">Device currently online</a></li>
+		   			<li><a href="/mars/reports/statistics.php">Statistics (v2)</a></li>
+		   			<li><a href="/mars/reports/statistics-v5.php">Statistics</a></li>
+					<li><a href="/mars/reports/devices_with_volume.php">Devices history</a></li>
+					<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
             <!--<li role="separator" class="divider"></li>-->
           </ul>
         </li>
@@ -77,11 +88,16 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
         </li>
 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Config<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
           <ul class="dropdown-menu">
 	       		<li><a href="/probe_configurations">Work hours</a></li>
 	       		<li><a href="/probe_configurations">Change password</a></li>
 	       		<li><a href="/probe_configurations">Edit email recipients</a></li>
+	       		<li><a href="/probe_configurations">View Logs</a></li>
+	       		<li><a href="/probe_configurations">Backups</a></li>
+	       		<li><a href="/probe_configurations">Activate remote administration</a></li>
+	       		<li><a href="/probe_configurations">Observe network devices</a></li>
+	       		<li><a href="/probe_configurations">Monitor additional network infrastructure</a></li>
 	       		<li><a href="/probe_configurations">Activate VIP/emergency mode</a></li>
 	       		<li><a href="/probe_configurations">License notes</a></li>
 	       		<li><a href="/probe_configurations">Useful links</a></li>
