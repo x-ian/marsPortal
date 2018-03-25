@@ -7,11 +7,12 @@ source $BASEDIR/../config.txt
 -- if new day, wipe out everything and start from scratch
 DELETE FROM throughput WHERE day < date_format(now(), '%Y-%m-%d');
 
-INSERT INTO throughput (username, day, minute_of_day, offset_input, offset_output)
+INSERT INTO throughput (username, day, minute_of_day, time_of_day, offset_input, offset_output)
   SELECT * from 
     (SELECT DISTINCT(ra.username), 
       date_format(now(), '%Y-%m-%d'),
       ((hour(now()) * 60) + minute(now())), 
+      curtime(), 
       SUM(ra.acctinputoctets) as input_octets, 
       SUM(ra.acctoutputoctets) as output_octets
     FROM radacct ra 

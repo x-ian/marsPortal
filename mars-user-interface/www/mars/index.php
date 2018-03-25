@@ -1,4 +1,5 @@
 <? 
+$HEADLINE = 'Administration';
 include 'menu.php'; 
 ?>
 
