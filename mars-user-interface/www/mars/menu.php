@@ -99,7 +99,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
 	       		<li><a href="/probe_configurations">Observe network devices</a></li>
 	       		<li><a href="/probe_configurations">Monitor additional network infrastructure</a></li>
 	       		<li><a href="/probe_configurations">Activate VIP/emergency mode</a></li>
-	       		<li><a href="/probe_configurations">License notes</a></li>
+	       		<li><a href="/mars/admin/licenses.php">License notes</a></li>
 	       		<li><a href="/probe_configurations">Useful links</a></li>
           </ul>
         </li>
