@@ -61,7 +61,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
           <ul class="dropdown-menu">
 					<li><a href="/mars/wan/log_internet_ping.php">Availability (ping)</a> </li>
 					<li><a href="/mars/wan/log_wan_throughput.php">Throughput (netstat)</a> </li>
-		   			<li><a href="/mars/wan/log_wan_traffic.php">Statistics</a></li>
+		   			<li><a href="/mars/wan/log_wan_traffic.php">Traffic volume</a></li>
             <!--<li role="separator" class="divider"></li>-->
           </ul>
         </li>
@@ -69,12 +69,13 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
 		<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Stats (Devices)<span class="caret"></span></a>
           <ul class="dropdown-menu">
-					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (v2)</a> </li>
-					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput (most active devices)</a> </li>
-		   			<li><a href="/mars/reports/statistics.php">Statistics (v2)</a></li>
-		   			<li><a href="/mars/reports/statistics-v5.php">Statistics</a></li>
+					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput / Most active devices</a> </li>
+		   			<li><a href="/mars/reports/statistics-v5.php">Traffic volume</a></li>
 					<li><a href="/mars/reports/devices_with_volume.php">Devices history</a></li>
 					<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
+					<li role="separator" class="divider"></li>
+		   			<li><a href="/mars/reports/statistics.php">Statistics (v2)</a></li>
+					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (v2)</a> </li>
             <!--<li role="separator" class="divider"></li>-->
           </ul>
         </li>
