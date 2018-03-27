@@ -67,21 +67,21 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
         </li>
 		
 		<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Stats (Devices)<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Devices)<span class="caret"></span></a>
           <ul class="dropdown-menu">
 					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput / Most active devices</a> </li>
 		   			<li><a href="/mars/reports/statistics-v5.php">Traffic volume</a></li>
 					<li><a href="/mars/reports/devices_with_volume.php">Devices history</a></li>
 					<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
 					<li role="separator" class="divider"></li>
-		   			<li><a href="/mars/reports/statistics.php">Statistics (v2)</a></li>
-					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (v2)</a> </li>
+		   			<li><a href="/mars/reports/statistics.php">Statistics old</a></li>
+					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (old)</a> </li>
             <!--<li role="separator" class="divider"></li>-->
           </ul>
         </li>
 		
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Stats (Users & Groups)<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Users & Groups)<span class="caret"></span></a>
           <ul class="dropdown-menu">
 	       		<li><a href="/mars/reports/users-statistics.php">Statistics</a></li>
 	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
@@ -89,19 +89,29 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
         </li>
 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="/probe_configurations">Work hours</a></li>
-	       		<li><a href="/probe_configurations">Change password</a></li>
-	       		<li><a href="/probe_configurations">Edit email recipients</a></li>
-	       		<li><a href="/probe_configurations">View Logs</a></li>
-	       		<li><a href="/probe_configurations">Backups</a></li>
-	       		<li><a href="/probe_configurations">Activate remote administration</a></li>
-	       		<li><a href="/probe_configurations">Observe network devices</a></li>
-	       		<li><a href="/probe_configurations">Monitor additional network infrastructure</a></li>
-	       		<li><a href="/probe_configurations">Activate VIP/emergency mode</a></li>
+	       		<li><a href="">View Logs</a></li>
+	       		<li><a href="">Backups</a></li>
+	       		<li><a href="">Activate remote administration</a></li>
+	       		<li><a href="">Notify when device comes online</a></li>
+	       		<li><a href="">Monitor additional network infrastructure</a></li>
+	       		<li><a href="">Activate VIP/emergency mode</a></li>
+				<li role="separator" class="divider"></li>
+	       		<li><a href="">Cleanup devices not seen for last x months</a></li>
+	       		<li><a href="">Reset all accounting data</a></li>
+				<li role="separator" class="divider"></li>
+	       		<li><a href="">Useful links</a></li>
 	       		<li><a href="/mars/admin/licenses.php">License notes</a></li>
-	       		<li><a href="/probe_configurations">Useful links</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuration<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+	       		<li><a href="">Work hours</a></li>
+	       		<li><a href="">Change password</a></li>
+	       		<li><a href="">Edit email recipients</a></li>
           </ul>
         </li>
       </ul>
@@ -115,12 +125,6 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
           </ul>
         </li>
       </ul>
-
-      <form class="navbar-form navbar-right">
-		  <button type="button" class="btn btn-default" aria-label="Contact">
-			<a href="mailto:sales@marsgeneral.com"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
-		  </button>		
-      </form>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
