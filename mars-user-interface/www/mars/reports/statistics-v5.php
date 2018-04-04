@@ -31,11 +31,33 @@ function uservolumelink($mac, $linktext) {
 }
 
 function deviceinfo($row, $upordown) {
-    echo uservolumelink($row['username'], $row[$upordown]) . " (" . userdetailslink($row['username'], $row['name']). " " . $row['department']. " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";	
+	$name = "";
+	if ($row['firstname'] !== '') {
+		$name .= $row['firstname'] . " ";
+	}
+	if ($row['lastname'] !== '') {
+		$name .= $row['lastname'] . " ";
+	}
+	if ($name !== '') {
+		$name .= ' - ';
+	}	
+	if ($row['hostname'] !== '') {
+		$name .= $row['hostname'];
+	}
+	$hoover = "";
+	if ($row['groupname'] !== '') {
+		$hoover .= $row['groupname'] . " - ";
+	}
+	if ($row['mac_vendor'] !== '') {
+		$hoover .= $row['mac_vendor'];
+	}
+
+    echo uservolumelink($row['username'], $row[$upordown]) . " (" . '<a href="/mars/userinfo/edit.php?username=' . $row['username'] . '" data-html="true" data-toggle="tooltip" title="' . $hoover . '">' . $name . '</a>)';
+
+//    echo uservolumelink($row['username'], $row[$upordown]) . " (" . userdetailslink($row['username'], $row['name']). " " . $row['department']. " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";	
 }
 
 ?>
-
 
 <?php
 //require dirname(__FILE__)."/statistics-registration.php";
@@ -48,8 +70,11 @@ function deviceinfo($row, $upordown) {
 //generateworktraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
  
 require dirname(__FILE__)."/statistics-daily-v5.php";
-	
+
+echo "<div class=\"page-header\"><h1>Top downloads</h1></div>";
 generatedailytraffic('Download', $today, $yesterday, $daysago7, $daysago30);
+
+echo "<div class=\"page-header\"><h1>Top uploads</h1></div>";
 generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
 
 //require dirname(__FILE__)."/statistics-current-groups.php";
