@@ -76,7 +76,6 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
 					<li role="separator" class="divider"></li>
 		   			<li><a href="/mars/reports/statistics.php">Statistics old</a></li>
 					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (old)</a> </li>
-            <!--<li role="separator" class="divider"></li>-->
           </ul>
         </li>
 		
@@ -92,12 +91,13 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
           <ul class="dropdown-menu">
 	       		<li><a href="">View Logs</a></li>
-	       		<li><a href="">Backups</a></li>
 	       		<li><a href="">Activate remote administration</a></li>
 	       		<li><a href="">Notify when device comes online</a></li>
 	       		<li><a href="">Monitor additional network infrastructure</a></li>
 	       		<li><a href="">Activate VIP/emergency mode</a></li>
+	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices not yet registered</a></li>
 				<li role="separator" class="divider"></li>
+	       		<li><a href="">Check for RADIUS inconsistencies</a></li>
 	       		<li><a href="">Cleanup devices not seen for last x months</a></li>
 	       		<li><a href="">Reset all accounting data</a></li>
 				<li role="separator" class="divider"></li>
@@ -109,7 +109,8 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="">Work hours</a></li>
+	       		<li><a href="">Invoke Backup</a></li>
+	       		<li><a href="">Configure Work hours</a></li>
 	       		<li><a href="">Change password</a></li>
 	       		<li><a href="">Edit email recipients</a></li>
           </ul>

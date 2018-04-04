@@ -1,5 +1,5 @@
 <? 
-$HEADLINE = 'WAN Traffic Volumne'; 
+$HEADLINE = 'WAN Traffic Volume'; 
 include '../menu.php'; 
 ?>
 
