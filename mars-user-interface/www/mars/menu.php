@@ -97,7 +97,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass 
 	       		<li><a href="">Activate VIP/emergency mode</a></li>
 	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices not yet registered</a></li>
 				<li role="separator" class="divider"></li>
-	       		<li><a href="">Check for RADIUS inconsistencies</a></li>
+	       		<li><a href="/mars/admin/check-radius-inconsistencies.php">Check for RADIUS inconsistencies</a></li>
 	       		<li><a href="">Cleanup devices not seen for last x months</a></li>
 	       		<li><a href="">Reset all accounting data</a></li>
 				<li role="separator" class="divider"></li>
