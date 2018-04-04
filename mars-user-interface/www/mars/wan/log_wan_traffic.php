@@ -19,7 +19,7 @@ function wan_traffic() {
 		select * 
 		from log_wan_traffic 
 		where when2 >= date_sub(now(), interval 24 hour)
-		order by at DESC;";
+		order by when2 DESC;";
 }
 
 	$result = mysql_query(wan_traffic()) or trigger_error(mysql_error()); 
@@ -29,9 +29,9 @@ while($row = mysql_fetch_array($result)){
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 ?>	
 	<tr>
-		<td><?=$row["at"]?></td>
-		<td><?=$row["tx"]?> (<?=$row["tx_unit"]?>)</td>
-		<td><?=$row["rx"]?> (<?=$row["rx_unit"]?>)</td>
+		<td><?=$row["when2"]?></td>
+		<td><?=($row["tx"] / 1000000)?> (Mega<?=$row["tx_unit"]?>)</td>
+		<td><?=($row["rx"] / 1000000)?> (Mega<?=$row["rx_unit"]?>)</td>
 	</tr>
 <? } ?>
 </tbody></table>
