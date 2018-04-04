@@ -101,9 +101,11 @@ CREATE TABLE log_wan_traffic (
   id int(32) NOT NULL AUTO_INCREMENT,
   when2 datetime NOT NULL,
   
-  rx DECIMAL(5,2),
+--  rx DECIMAL(5,2),
+  rx DECIMAL(12,0),
   rx_unit varchar(10),
-  tx DECIMAL(5,2),
+--  tx DECIMAL(5,2),
+  tx DECIMAL(12,0),
   tx_unit varchar(10),
   
   PRIMARY KEY (id)
