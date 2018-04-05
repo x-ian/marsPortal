@@ -11,7 +11,7 @@ $order = $_GET['order'];
 $period = $_GET['period']; 
 
 $now = date('Y-m-d H:i:s');
-$min_ago_5 = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+$min_ago_5 = date('Y-m-d H:i:s', strtotime('-6 minutes'));
 $min_ago_15 = date('Y-m-d H:i:s', strtotime('-15 minutes'));
 $hour_ago_1 = date('Y-m-d H:i:s', strtotime('-1 hour'));
 $hour_ago_4 = date('Y-m-d H:i:s', strtotime('-4 hours'));
@@ -52,8 +52,8 @@ function throughput_upordown($topX, $order, $start, $end) {
 			ui.hostname, g.groupname,
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
-			ROUND(ROUND((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
-			ROUND(ROUND((max(offset_output) - min(offset_output)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as output_rate, 
+			ROUND(((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
+			ROUND(((max(offset_output) - min(offset_output)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as output_rate, 
 			max(time_of_day) as max, 
 			min(time_of_day) as min 
 		from throughput t, userinfo ui, radusergroup g
