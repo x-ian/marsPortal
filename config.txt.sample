@@ -14,6 +14,8 @@ ZONE=mars
 SSH_TUNNEL_PORT=17778
 NETGATE_ID=`cat /var/db/uniqueid`
 
+WAN_INTERFACE=em0
+
 # MySQL
 MYSQL_USER=radius
 MYSQL_PASSWD=radpass
