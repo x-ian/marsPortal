@@ -9,7 +9,7 @@ do
 
 	START=`date +%s`
 	
-	TRAFFIC=`netstat -w 10  -q 1 -b -d -I igb0 | tail -1`
+	TRAFFIC=`netstat -w 10  -q 1 -b -d -I $WAN_INTERFACE | tail -1`
 
 	RX=$(echo $(echo $TRAFFIC | awk '{print $4}') / 1000 | bc)
 	if [ -z "$RX" ]; then
