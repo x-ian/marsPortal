@@ -22,8 +22,6 @@ if [ "$ENTRIES" != ""  ]; then
 	ERRORS=1
   echo "Device(s) without any group assignment detected."
   echo $ENTRIES
-else
-  echo "No inconsistency detected"
 fi
 
 ENTRIES=`/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -e "select username, count(*) from userinfo group by username having count(*) <> 1;"`
