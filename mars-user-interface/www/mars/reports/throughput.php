@@ -75,6 +75,17 @@ function throughput_device_upordown($device, $start, $end) {
 			time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "'";
 }
 
+function throughput_total_upordown($start, $end) {
+	return "
+		select 
+			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
+			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
+			ROUND(ROUND((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
+			ROUND(ROUND((max(offset_output) - min(offset_output)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as output_rate
+		from throughput t
+		where time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "'";
+}
+
 $start = $now;
 if ($period == 'min_ago_5')
 	$start =$min_ago_5;
@@ -87,7 +98,12 @@ else if ($period == "hour_ago_4")
 
 	$result = mysql_query(throughput_upordown(20, $order, $start, $now))  or trigger_error(mysql_error()); 
 
-	echo "<tbody>";
+	echo "<tbody><tr><td>Total</td>";
+	if ($row = mysql_fetch_assoc(throughput_total_upordown($min_ago_5, now()))) {
+		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
+		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
+	}	
+	echo "</tr>";
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 ?>
@@ -135,7 +151,7 @@ while($row = mysql_fetch_array($result)){
 
 <br/>
 
-<p>Throughput in kbit/sec (plus total size in MB). Data updated every minute.</p>
+<p>Throughput in kbit/sec (and total size in MB). Data updated every minute.</p>
 
 <br/>
 
