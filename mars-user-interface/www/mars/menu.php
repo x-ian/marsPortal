@@ -20,6 +20,31 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass browser caching
+
+function link_to_device($row) {
+	$name = "";
+	if ($row['firstname'] !== '') {
+		$name .= $row['firstname'] . " ";
+	}
+	if ($row['lastname'] !== '') {
+		$name .= $row['lastname'] . " ";
+	}
+	if ($row['hostname'] !== '') {
+		$name .= '(' . $row['hostname'] . ')';
+	}
+	$hoover = "";
+	if ($row['groupname'] !== '') {
+		$hoover .= $row['groupname'] . " - ";
+	}
+	if ($row['mac_vendor'] !== '') {
+		$hoover .= $row['mac_vendor'];
+	}
+
+    return '<a href="/mars/userinfo/edit.php?username=' . $row['username'] . '" data-html="true" data-toggle="tooltip" title="' . $hoover . '">' . $name . '</a>';
+
+}
+
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
