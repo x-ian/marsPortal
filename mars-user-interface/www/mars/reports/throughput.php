@@ -48,8 +48,11 @@ function snapshottime($table) {
 function throughput_upordown($topX, $order, $start, $end) {
 	return "
 		select distinct(t.username) as username, 
-			CONCAT(ui.firstname, ' ', ui.lastname) as name, 
-			ui.hostname, g.groupname,
+			ui.firstname as firstname,
+			ui.lastname as lastname, 
+			ui.hostname as hostname,
+			g.groupname as groupname,
+			ui.mac_vendor, 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
 			ROUND(((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
@@ -76,14 +79,18 @@ function throughput_device_upordown($device, $start, $end) {
 }
 
 function throughput_total_upordown($start, $end) {
-	return "
+	$a = "
+	select sum(tt.input) as input, sum(tt.input_rate) as input_rate, sum(tt.output) as output, sum(tt.output_rate) as output_rate from (
 		select 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
 			ROUND(ROUND((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
 			ROUND(ROUND((max(offset_output) - min(offset_output)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as output_rate
 		from throughput t
-		where time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "'";
+		where time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' GROUP BY username
+		) as tt";
+		//echo $a;
+		return $a;
 }
 
 $start = $now;
@@ -99,7 +106,19 @@ else if ($period == "hour_ago_4")
 	$result = mysql_query(throughput_upordown(20, $order, $start, $now))  or trigger_error(mysql_error()); 
 
 	echo "<tbody><tr><td>Total</td>";
-	if ($row = mysql_fetch_assoc(throughput_total_upordown($min_ago_5, now()))) {
+	if ($row = mysql_fetch_assoc(mysql_query(throughput_total_upordown($min_ago_5, $now)))) {
+		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
+		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
+	}	
+	if ($row = mysql_fetch_assoc(mysql_query(throughput_total_upordown($min_ago_15, $now)))) {
+		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
+		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
+	}	
+	if ($row = mysql_fetch_assoc(mysql_query(throughput_total_upordown($hour_ago_1, $now)))) {
+		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
+		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
+	}	
+	if ($row = mysql_fetch_assoc(mysql_query(throughput_total_upordown($hour_ago_4, $now)))) {
 		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
 		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
 	}	
@@ -108,7 +127,7 @@ while($row = mysql_fetch_array($result)){
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 ?>
 	<tr>
-	<td><?=$row["name"]?> (<?=$row["groupname"]?> <?=$row["hostname"]?>)<a href=/mars/userinfo/edit.php?username=<?=$row["username"]?>> <?=$row["username"]?></a></td>
+	<td><?=link_to_device($row)?></td>
 <? if ($period == "min_ago_5") { ?>
 	<td><?=nl2br( $row["input_rate"])?> (<?=nl2br( $row["input"])?>)</td>
 	<td><?=nl2br( $row["output_rate"])?> (<?=nl2br( $row["output"])?>)</td>
