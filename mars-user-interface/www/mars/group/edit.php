@@ -5,6 +5,9 @@ include '../menu.php';
 
 <!-- begin page-specific content ########################################### -->
     <div id="main">
+      <div class="page-header">
+  	    <h1>Edit group</h1>
+	  </div>
 
 <? 
 if (isset($_GET['groupname']) ) { 
@@ -32,6 +35,10 @@ if (isset($_POST['submitted'])) {
 	mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Down', '$groupname', ':=', '{$_POST['bandwidth_down']}')") or die(mysql_error());
 	mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Reply-Message', '$groupname', ':=', '{$_POST['reply_message']}')") or die(mysql_error());
 
+	// re-create groupinfo entry
+	mysql_query("DELETE FROM groupinfo WHERE groupname='$groupname'") or die(mysql_error());
+	mysql_query("INSERT groupinfo (groupname, auto_login) VALUES ('$groupname', '{$_POST['auto_login']}')") or die(mysql_error());
+	
 	// cleanup
 	mysql_query("delete from radgroupcheck where value =''") or die(mysql_error());
 	mysql_query("delete from radgroupreply where value =''") or die(mysql_error());
@@ -54,34 +61,139 @@ $row = mysql_fetch_array ( mysql_query('
 		(select value from radgroupreply rr3 where attribute ="WISPr-Bandwidth-Max-Up" and rr3.groupname = rr1.groupname) "WISPr-Bandwidth-Max-Up", 
 		(select value from radgroupreply rr4 where attribute ="WISPr-Bandwidth-Max-Down" and rr4.groupname = rr1.groupname) "WISPr-Bandwidth-Max-Down",
 		(select value from radgroupcheck r11 where attribute="Auth-Type" and r11.groupname = r1.groupname)  "Auth Type", 
-		(select value from radgroupreply rr12 where attribute ="Reply-Message" and rr12.groupname = rr1.groupname) "Reply Message"
+		(select value from radgroupreply rr12 where attribute ="Reply-Message" and rr12.groupname = rr1.groupname) "Reply Message",
+		(select auto_login from groupinfo gi1 where gi1.groupname = rr1.groupname) "Auto Login"		
 	from radgroupreply rr1 left join radgroupcheck r1 on rr1.groupname = r1.groupname 
 	where rr1.groupname = "' . $groupname . '"
 ')); 
 ?>
 
-<table>
-<form action='' method='POST'> 
-<tr><td><b>Groupname:</b></td><td><input readonly size="40" type='text' name='groupname' value='<?= stripslashes($row['groupname']) ?>' /> (only characters, digits, and dash; no spaces or symbols allowed)</td></tr>
-<tr><td><b>Work Total Input:</b></td><td><input type='text' name='work_total_input' value='<?= stripslashes($row['Max Work Hours Up']) ?>' /> (#) (Upload, in MB)</td></tr>
-<tr><td><b>Work Total Output:</b></td><td><input type='text' name='work_total_output' value='<?= stripslashes($row['Max Work Hours Down']) ?>' /> (#) (Download, in MB)</td></tr>
-<tr><td><b>Day Total Input:</b></td><td><input type='text' name='day_total_input' value='<?= stripslashes($row['Max Daily Up']) ?>' /> (#) (Upload, in MB)</td></tr>
-<tr><td><b>Day Total Output:</b></td><td><input type='text' name='day_total_output' value='<?= stripslashes($row['Max Daily Down']) ?>' /> (#) (Download, in MB)</td></tr>
-<tr><td><b>User Work Total Input:</b></td><td><input type='text' name='user_work_total_input' value='<?= stripslashes($row['User Max Work Hours Up']) ?>' /> (#) (Upload, in MB)</td></tr>
-<tr><td><b>User Work Total Output:</b></td><td><input type='text' name='user_work_total_output' value='<?= stripslashes($row['User Max Work Hours Down']) ?>' /> (#) (Download, in MB)</td></tr>
-<tr><td><b>User Day Total Input:</b></td><td><input type='text' name='user_day_total_input' value='<?= stripslashes($row['User Max Daily Up']) ?>' /> (#) (Upload, in MB)</td></tr>
-<tr><td><b>User Day Total Output:</b></td><td><input type='text' name='user_day_total_output' value='<?= stripslashes($row['User Max Daily Down']) ?>' /> (#) (Download, in MB)</td></tr>
-<tr><td><b>Bandwidth Up:</b></td><td><input type='text' name='bandwidth_up' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Up']) ?>' /> (*) (in bits/per second)</td></tr>
-<tr><td><b>Bandwidth Down:</b></td><td><input type='text' name='bandwidth_down' value='<?= stripslashes($row['WISPr-Bandwidth-Max-Down']) ?>' /> (*) (in bits/per second)</td></tr>
-<tr><td><b>Session Timeout:</b></td><td><input type='text' name='session_timeout' required value='<?= stripslashes($row['Session Timeout']) ?>' /> (*) (in seconds; usually 43200)</td></tr>
-<tr><td><b>Concurrent Users:</b></td><td><input type='text' name='concurrent_user' value='<?= stripslashes($row['Max Concurrent Users']) ?>' /> (*) (maximum number of concurrent connected users)</td></tr>
-<tr><td><b>Auth Type:</b></td><td><input type='text' name='auth_type' value='<?= stripslashes($row['Auth Type']) ?>' /> (*) (empty by default, 'Reject' -without the quotes- to block users)</td></tr>
-<tr><td><b>Reply Message:</b></td><td><input size="40" type='text' name='reply_message' value='<?= stripslashes($row['Reply Message']) ?>' /> (*) (empty by default, only used when Auth Type == Reject)</td></tr>
-<tr><td><input type='submit' value='Save' /><input type='hidden' value='1' name='submitted' /></td></tr>
+<form class="form-horizontal value_type" action='' method='POST'> 
+	
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Groupname</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['groupname']) ?>" name="groupname" id="value_type_name" /> (only characters, digits, and dash; no spaces or symbols allowed)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Work Total Input</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['groupname']) ?>" name="groupname" id="value_type_name" /> (#) (Upload, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Work Total Output</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['work_total_output']) ?>" name="work_total_output" id="value_type_name" /> (#) (Download, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Day Total Input</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['day_total_input']) ?>" name="day_total_input" id="value_type_name" /> (#) (Upload, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Day Total Output</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['day_total_output']) ?>" name="day_total_output" id="value_type_name" /> (#) (Download, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">User Work Total Input</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['user_work_total_input']) ?>" name="user_work_total_input" id="value_type_name" /> (#) (Upload, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">User Work Total Output</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['user_work_total_output']) ?>" name="user_work_total_output" id="value_type_name" /> (#) (Download, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">User Day Total Input</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['user_day_total_input']) ?>" name="user_day_total_input" id="value_type_name" /> (#) (Upload, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">User Day Total Output</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['user_day_total_output']) ?>" name="user_day_total_output" id="value_type_name" /> (#) (Download, in MB)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Bandwidth Up</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['bandwidth_up']) ?>" name="bandwidth_up" id="value_type_name" /> (*) (in bits/per second)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Bandwidth Down</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['bandwidth_down']) ?>" name="bandwidth_down" id="value_type_name" /> (*) (in bits/per second)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Session Timeout</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['session_timeout']) ?>" name="session_timeout" id="value_type_name" /> (*) (in seconds; usually 43200)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Concurrent Users</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['concurrent_user']) ?>" name="concurrent_user" id="value_type_name" /> (*) (maximum number of concurrent connected users)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Auth Type</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['auth_type']) ?>" name="auth_type" id="value_type_name" /> (*) (empty by default, 'Reject' -without the quotes- to block users)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Reply Message</label>
+    <div class="col-lg-4">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['reply_message']) ?>" name="reply_message" id="value_type_name" /> (*) (empty by default, only used when Auth Type == Reject)
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Auto-login to Portal</label>
+    <div class="col-lg-4">
+       <input name="" type="hidden" value="0" />
+	   <input class="form-control input-sm" type="checkbox" value="1" name="auto_login" id="auto_login" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-4">
+      <input type="submit" name="commit" value="Save" class="btn btn-primary" data-disable-with="Saving..." />
+	  <input type='hidden' value='1' name='submitted' />
+      <a class="btn btn-default" href="/mars/userinfo/list.php">Cancel</a>
+    </div>
+  </div>
 </form> 
-</table>
+
 <p>Notes:</p>
-<b>Be careful when renaming a group; user/device entries refering to the old name will NOT be updated and point then to an invalid group.</b>
+<b>Be careful when renaming a group; user/device entries referring to the old name will NOT be updated and point then to an invalid group.</b>
 <p>Use postfixes -non-work-hours and -open-for-today to name of group to define policies after work hours and when temporarily unblocked for the rest of the day after hitting the volume limits.</p>
 <p>(#) If at all, always specify Input and Output together. Don't leave one of them empty.</p>
 <p>(*) Changing these settings will only be activated once a new session is created for a device (either through manually kicking out the session on the Captive Portal or by reaching the Session Timeout).</p>
