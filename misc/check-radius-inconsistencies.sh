@@ -33,6 +33,15 @@ if [ "$ENTRIES" != ""  ]; then
   echo $ENTRIES
 fi
 
+ENTRIES=`/usr/local/bin/mysql -u $MYSQL_USER -p$MYSQL_PASSWD radius -e "select username from radusergroup where username not in (select username from userinfo);"`
+RET=`echo "$ENTRIES" | /usr/bin/wc -l`
+
+if [ "$ENTRIES" != ""  ]; then
+	ERRORS=1
+  echo "Group assignments, but no device entries found."
+  echo $ENTRIES
+fi
+
 if [ $ERRORS == 0 ]; then
 	echo "No inconsistencies detected."
 fi
