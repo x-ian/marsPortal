@@ -37,7 +37,9 @@ if (isset($_POST['submitted'])) {
 
 	// re-create groupinfo entry
 	mysql_query("DELETE FROM groupinfo WHERE groupname='$groupname'") or die(mysql_error());
-	mysql_query("INSERT groupinfo (groupname, auto_login) VALUES ('$groupname', '{$_POST['auto_login']}')") or die(mysql_error());
+	if (isset($_POST['auto_login'])) { 
+		mysql_query("INSERT groupinfo (groupname, auto_login) VALUES ('$groupname', TRUE)") or die(mysql_error());
+	}
 	
 	// cleanup
 	mysql_query("delete from radgroupcheck where value =''") or die(mysql_error());
@@ -72,118 +74,135 @@ $row = mysql_fetch_array ( mysql_query('
 	
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Groupname</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['groupname']) ?>" name="groupname" id="value_type_name" /> (only characters, digits, and dash; no spaces or symbols allowed)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['groupname']) ?>" name="groupname" id="value_type_name" />
     </div>
-    <div class="col-lg-4">
-		(only characters, digits, and dash; no spaces or symbols allowed)
-    </div>
+    <div class="col-lg-4 input-sm">(only characters, digits, and dash; no spaces or symbols allowed)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Work Total Input</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Up']) ?>" name="work_total_input" id="value_type_name" /> (#) (Upload, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Up']) ?>" name="work_total_input" id="value_type_name" />
     </div>
+    <div class="col-lg-4 input-sm"> (#) (Upload, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Work Total Output</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Down']) ?>" name="work_total_output" id="value_type_name" /> (#) (Download, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Down']) ?>" name="work_total_output" id="value_type_name" />
     </div>
+    <div class="col-lg-4 input-sm"> (#) (Download, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Day Total Input</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Up']) ?>" name="day_total_input" id="value_type_name" /> (#) (Upload, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Up']) ?>" name="day_total_input" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(#) (Upload, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Day Total Output</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Down']) ?>" name="day_total_output" id="value_type_name" /> (#) (Download, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Down']) ?>" name="day_total_output" id="value_type_name" />
     </div>
+    <div class="col-lg-4 input-sm"> (#) (Download, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">User Work Total Input</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Up']) ?>" name="user_work_total_input" id="value_type_name" /> (#) (Upload, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Up']) ?>" name="user_work_total_input" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm"> (#) (Upload, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">User Work Total Output</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Down']) ?>" name="user_work_total_output" id="value_type_name" /> (#) (Download, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Down']) ?>" name="user_work_total_output" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(#) (Download, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">User Day Total Input</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Up']) ?>" name="user_day_total_input" id="value_type_name" /> (#) (Upload, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Up']) ?>" name="user_day_total_input" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(#) (Upload, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">User Day Total Output</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Down']) ?>" name="user_day_total_output" id="value_type_name" /> (#) (Download, in MB)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Down']) ?>" name="user_day_total_output" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(#) (Download, in MB)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Bandwidth Up</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['WISPr-Bandwidth-Max-Up']) ?>" name="bandwidth_up" id="value_type_name" /> (*) (in bits/per second)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['WISPr-Bandwidth-Max-Up']) ?>" name="bandwidth_up" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(*) (in bits/per second)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Bandwidth Down</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['WISPr-Bandwidth-Max-Down']) ?>" name="bandwidth_down" id="value_type_name" /> (*) (in bits/per second)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['WISPr-Bandwidth-Max-Down']) ?>" name="bandwidth_down" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(*) (in bits/per second)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Session Timeout</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Session Timeout']) ?>" name="session_timeout" id="value_type_name" /> (*) (in seconds; usually 43200)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Session Timeout']) ?>" name="session_timeout" id="value_type_name" />
     </div>
+    <div class="col-lg-4 input-sm"> (*) (in seconds; usually 43200)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Concurrent Users</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Concurrent Users']) ?>" name="concurrent_user" id="value_type_name" /> (*) (maximum number of concurrent connected users)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Concurrent Users']) ?>" name="concurrent_user" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(*) (maximum number of concurrent connected users)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Auth Type</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Auth Type']) ?>" name="auth_type" id="value_type_name" /> (*) (empty by default, 'Reject' -without the quotes- to block users)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Auth Type']) ?>" name="auth_type" id="value_type_name" />
     </div>
+    <div class="col-lg-4 input-sm"> (*) (empty by default, 'Reject' -without the quotes- to block users)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Reply Message</label>
-    <div class="col-lg-4">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Reply Message']) ?>" name="reply_message" id="value_type_name" /> (*) (empty by default, only used when Auth Type == Reject)
+    <div class="col-lg-2">
+      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Reply Message']) ?>" name="reply_message" id="value_type_name" /> 
     </div>
+    <div class="col-lg-4 input-sm">(*) (empty by default, only used when Auth Type == Reject)</div>
   </div>
 
   <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Auto-login to Portal</label>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
        <input name="" type="hidden" value="0" />
-	   <input class="form-control input-sm" type="checkbox" value="1" name="auto_login" id="auto_login" /> (when activated under Configuration - Change Settings)
+	   <? if ($row['Auto Login'] == '1') { ?>
+	   	<input checked class="form-control input-sm" type="checkbox" value="<?= stripslashes($row['Auto Login']) ?>" name="auto_login" id="auto_login" />
+		<? } else { ?>
+	   	<input class="form-control input-sm" type="checkbox" value="<?= stripslashes($row['Auto Login']) ?>" name="auto_login" id="auto_login" />
+		<? } ?>
     </div>
+    <div class="col-lg-4 input-sm">(when activated under Configuration - Change Settings)</div>
   </div>
 
   <div class="form-group">
