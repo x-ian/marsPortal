@@ -24,12 +24,15 @@ do
 	
 	grep $IP $PORTAL_IPS
 	if [ $? -ne 0 ]; then
-		# not my own IP, so check if registered radius user
+		# not my own IP, so check if registered radius user in auto-login group
 		grep $MAC $ALL_POSSIBLE_MACS
 		if [ $? -eq 0 ]; then
 			# radius user with auto login found, check if already auth
-			echo "$MAC with $IP to be authed"
-			/usr/local/bin/php -e $BASEDIR/misc/captiveportal-connect-user.php $IP $MAC
+			/usr/local/bin/php -e $BASEDIR/misc/captiveportal-device-connected.php $MAC
+			if [ $? -ne 0 ]; then
+				echo "$MAC with $IP to be authed"
+				/usr/local/bin/php -e $BASEDIR/misc/captiveportal-connect-user.php $IP $MAC
+			fi
 		fi
 	fi
 done < $ALL_CONNECTED_MACS

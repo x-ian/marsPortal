@@ -119,9 +119,9 @@ function link_to_device($row) {
 	       		<li><a href="">Activate remote administration</a></li>
 	       		<li><a href="">Notify when device comes online</a></li>
 	       		<li><a href="">Activate VIP/emergency mode</a></li>
-	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices not yet registered</a></li>
+	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices without Portal Registration</a></li>
 				<li role="separator" class="divider"></li>
-	       		<li><a href="/mars/admin/check-radius-inconsistencies.php">Check for RADIUS inconsistencies</a></li>
+	       		<li><a href="/mars/admin/check-radius-inconsistencies.php">RADIUS inconsistencies</a></li>
 	       		<li><a href="">Cleanup devices not seen for last x months</a></li>
 	       		<li><a href="">Reset all accounting data</a></li>
 				<li role="separator" class="divider"></li>
