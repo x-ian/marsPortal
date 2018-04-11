@@ -15,7 +15,7 @@ ALL_CONNECTED_MACS=/tmp/all_connected_macs
 /usr/local/bin/mysql --defaults-extra-file=<(printf "[client]\nuser = %s\npassword = %s" "$MYSQL_USER" "$MYSQL_PASSWD") -s radius -e "select ui.username from userinfo ui, groupinfo gi, radusergroup rg where gi.groupname = rg.groupname and rg.username = ui.username and gi.auto_login=true;" > $ALL_POSSIBLE_MACS
 
 # get all currently connected macs
-/usr/sbin/arp -n -a -i bridge0 > $ALL_CONNECTED_MACS
+/usr/sbin/arp -n -a -i $LAN_INTERFACE > $ALL_CONNECTED_MACS
 
 while read line
 do
