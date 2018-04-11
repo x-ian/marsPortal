@@ -82,7 +82,7 @@ function link_to_device($row) {
         </li>
 		
 		<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WAN Stats<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WAN Statistics<span class="caret"></span></a>
           <ul class="dropdown-menu">
 					<li><a href="/mars/wan/log_internet_ping.php">Availability (ping)</a> </li>
 					<li><a href="/mars/wan/log_wan_throughput.php">Throughput (netstat)</a> </li>

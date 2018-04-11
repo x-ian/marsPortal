@@ -44,6 +44,12 @@ DELETE FROM radgroupreply WHERE groupname = 'Users';
 INSERT INTO radgroupreply (groupname, attribute, op, value) VALUES
 ('Users', 'Session-Timeout', ':=', '604800');
 
+DROP TABLE IF EXISTS groupinfo;
+CREATE TABLE groupinfo (
+  groupname varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  auto_login BOOL,
+  PRIMARY KEY (groupname)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS daily_accounting_v2;
 CREATE TABLE daily_accounting_v2 (
