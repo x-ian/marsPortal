@@ -91,6 +91,14 @@ Connect with a cable to the LAN port (e.g. em1), wait until your computer receiv
 Finish the installation wizard by following the instructions on the screen.
 
 
+Bridging network interfaces
+---------------------------
+
+Firewall rules need to be added to allow traffic between each interface of the bridge.
+
+TODO: To deactivate firewalling between bridge members, try this: https://forum.pfsense.org/index.php?topic=48947.0
+
+
 Configuration
 -------------
 

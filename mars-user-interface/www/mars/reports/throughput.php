@@ -170,7 +170,7 @@ while($row = mysql_fetch_array($result)){
 
 <br/>
 
-<p>Throughput in kbit/sec (and total size in MB). Data updated every minute.</p>
+<p>Throughput in kbytes/sec (and total size in MB). Data updated every minute.</p>
 
 <br/>
 
