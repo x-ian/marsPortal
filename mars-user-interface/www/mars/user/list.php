@@ -52,16 +52,11 @@ if (isset($_POST['submitted'])) {
 	
 <table class='table table-striped'>
 <thead><tr>
-<td>Name</td>
-<td>Group</td>
-<td>Department</td>
-<td>MAC address</td>
-<td>Join</td>
-<td>Mac Vendor</td>
-<td>Hostname</td>
-<td>Email</td>
-<td>Organisation</td>
-<td>Notes</td>
+<th>Name</th>
+<th>Group</th>
+<th>Device</th>
+<th>Join</th>
+<th>Mac Vendor</th>
 </tr></thead>
 <tbody>
 <?
@@ -73,26 +68,23 @@ while($row = mysql_fetch_array($result)){
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 echo "<tr>";  
 $name = nl2br( $row['firstname']) . "&nbsp;" . nl2br( $row['lastname']);
+if ($name == "&nbsp;") {
+	$name = "(not available)";
+}
 if ($previous_name == $name) {
-	echo "<td></td>";	
 	echo "<td></td>";	
 	echo "<td></td>";	
 } else {
 	echo "<td>" . $name . "</td>";
 	$previous_name = $name;
 	echo "<td>" . nl2br( $row['groupname']) . "</td>";  
-	echo "<td>" . nl2br( $row['department']) . "</td>";  
 }
 echo "<td>" . link_to_device($row) . "</td>";  
 echo "<td><input type='checkbox' name='mac[]'" . "' value='" . $row['username'] . "' onchange='ensureTwoCheckboxes();'></td> "; 
 echo "<td>" . nl2br( $row['mac_vendor']) . "</td>";  
-echo "<td>" . nl2br( $row['hostname']) . "</td>";  
-echo "<td>" . nl2br( $row['email']) . "</td>";  
-echo "<td>" . nl2br( $row['organisation']) . "</td>";  
-echo "<td>" . nl2br( $row['notes']) . "</td>";  
 echo "</tr>"; 
 } 
-echo "<tr><td><br/></td></tr><tr><td colspan='10'><input id='submitted' name='submitted' type='submit' value='Join device entries' disabled/> (unifies name, department & group; only active when two devices are selected)</td></tr>";
+echo "<tr><td colspan='10'><input id='submitted' name='submitted' type='submit' value='Join device entries' disabled/> (unifies name, department & group; only active when two devices are selected)</td></tr>";
 echo "</form></tbody></table>"; 
 ?>
 </div>
