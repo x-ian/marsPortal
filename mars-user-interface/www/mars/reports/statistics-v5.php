@@ -5,6 +5,9 @@ include '../menu.php';
 
 <!-- begin page-specific content ########################################### -->
     <div id="main">
+      <div class="page-header">
+  	    <h1>Traffic volme <?php echo date('Y-m-d H:i:s'); ?></h1>
+	  </div>
 
 <? 
 $today = date('Y-m-d', strtotime('-0 day'));

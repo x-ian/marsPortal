@@ -100,7 +100,6 @@ function link_to_device($row) {
 					<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
 					<li role="separator" class="divider"></li>
 		   			<li><a href="/mars/reports/statistics.php">Statistics old</a></li>
-					<li><a href="/mars/reports/recent_top_X.php?order=output_rate1">Most active devices (old)</a> </li>
           </ul>
         </li>
 		
