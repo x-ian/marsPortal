@@ -17,29 +17,25 @@ function online() {
 }
 ?>
 
-<table class='listtable'>
-	<tr>
-		<th>MAC address</th>
-		<th>Name</th>
-		<th>Hostname</th>
-		<th>MAC vendor</th>
+<table class='table table-striped'>
+	<thead><tr>
+		<th>Device</th>
 		<th>IP address</th>
 		<th>Session Start</th>
 		<th>Last activity</th>
-	</tr>
+	</tr></thead>
+	<tbody>
+
 <?php
 $result = mysql_query(online()) or trigger_error(mysql_error()); 
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 	echo "<tr>";
-	echo "<td><a href=/mars/userinfo/edit.php?username=" . $row['username'] . ">" . $row['username'] . "</a></td>";
-	echo "<td>" . $row['firstname'] . " " . $row['lastname'] . "</td>";
-	echo "<td>" . $row['hostname'] . "</td>";
-	echo "<td>" . $row['mac_vendor'] . "</td>";
+	echo "<td>" . link_to_device($row) . "</td>";
 	echo "<td>" . $row['ipaddress'] . "</td>";
 	echo "<td>" . $row['acctstart'] . "</td>";
 	echo "<td>" . $row['last_contact'] . "</td>";
 	echo "</tr>";
 }
 ?>
-</table>
+</tbody></table>
