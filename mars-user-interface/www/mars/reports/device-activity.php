@@ -28,7 +28,7 @@ include '../menu.php';
 	<th>Day</th>";
     
 for ($i=0; $i<=23; $i++) {
-	echo "<th colspan='2' align='left'>" . $i . ":00</th>";
+	echo "<td colspan='2' align='left'>" . $i . ":00</td>";
 }
 
 	echo "</tr></thead><tbody>";
@@ -47,9 +47,27 @@ for ($i=0; $i<=23; $i++) {
   }
   
 $all_activities = query(activity($username));
+$previous_day = date('Y-m-d');
+$previous_day_date = date_create_from_format('Y-m-d', $previous_day);
 while ($row = mysql_fetch_assoc($all_activities)) {
+	$day = $row['day'];
+/*	echo $day. ' + ' . $previous_day;
+	echo "<br/>";
+	date_sub($previous_day_date, date_interval_create_from_date_string('1 day'));
+	$previous_day = date_format($previous_day_date, 'Y-m-d');
+	echo $day. ' _ ' . $previous_day;
+	echo "<br/>";
+*/	
+	while ($day < $previous_day) {
+		
+		// last activity in the past, fill out all days between then and now
+		echo "<tr><td class='text-nowrap'>" . $previous_day . "</td><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/><td/></tr>";
+		date_sub($previous_day_date, date_interval_create_from_date_string('1 day'));
+		$previous_day = date_format($previous_day_date, 'Y-m-d');
+	}
+
 	echo "<tr>";
-    echo '<td>' . $row['day'] . '</td>';
+    echo '<td class="text-nowrap">' . $row['day'] . '</td>';
 	for ($i=0; $i<=23; $i++) {
 		if ($row[sprintf('%02d',$i) . "29_input"] > 0 || $row[sprintf('%02d', $i) . '29_output'] > 0) {
 			echo '<td bgcolor="#00FF00"/>';
@@ -62,6 +80,10 @@ while ($row = mysql_fetch_assoc($all_activities)) {
 			echo '<td/>';
 		}
 	}
+	$day_date = date_create_from_format('Y-m-d', $day);
+	date_sub($day_date, date_interval_create_from_date_string('1 day'));
+	$previous_day_date = $day_date;
+	$previous_day = date_format($day_date, 'Y-m-d');
 	echo "</tr>";
 }
 ?>
