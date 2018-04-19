@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-# Add new user with MAC Auth to DR
+# Add new user with MAC Auth to radius
 
 BASEDIR=`dirname $0`
 PORTALDIR=/home/marsPortal
