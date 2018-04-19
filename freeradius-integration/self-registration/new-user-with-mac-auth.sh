@@ -22,7 +22,8 @@ PRIMARY_DEVICE=${10}
 	DELETE FROM radacct WHERE username = "$MAC";
 	DELETE FROM radreply WHERE username = "$MAC";
 	DELETE FROM radpostauth WHERE username = "$MAC";
-	DELETE FROM daily_accounting_v2 WHERE username = "$MAC";
+	DELETE FROM daily_accounting_v5 WHERE username = "$MAC";
+	DELETE FROM throughput WHERE username = "$MAC";
 
 	DELETE FROM radcheck WHERE username = "$MAC";
 	INSERT INTO radcheck (Username, Attribute, op, Value) VALUES ("$MAC", "Auth-Type", ":=", "Accept");

@@ -51,42 +51,6 @@ CREATE TABLE groupinfo (
   PRIMARY KEY (groupname)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS daily_accounting_v2;
-CREATE TABLE daily_accounting_v2 (
-  id int(32) NOT NULL AUTO_INCREMENT,
-  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  day date NOT NULL,
-
-  day_offset datetime,
-  day_offset_input bigint(20) DEFAULT 0,
-  day_offset_output bigint(20) DEFAULT 0,
-
-  work_offset datetime,
-  work_offset_input bigint(20) DEFAULT 0,
-  work_offset_output bigint(20) DEFAULT 0,
-
-  lunch_offset datetime,
-  lunch_offset_input bigint(20) DEFAULT 0,
-  lunch_offset_output bigint(20) DEFAULT 0,
-
-  lunch_total datetime,
-  lunch_total_input bigint(20) DEFAULT 0,
-  lunch_total_output bigint(20) DEFAULT 0,
-
-  work_total datetime,
-  work_total_input bigint(20) DEFAULT 0,
-  work_total_output bigint(20) DEFAULT 0,
-
-  day_total datetime,
-  day_total_input bigint(20) DEFAULT 0,
-  day_total_output bigint(20) DEFAULT 0,
-
-  PRIMARY KEY (id)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-ALTER TABLE daily_accounting_v2 ADD UNIQUE INDEX (username, day);
-ALTER TABLE daily_accounting_v2 ADD INDEX (username);
-ALTER TABLE daily_accounting_v2 ADD INDEX (day);
-
 DROP TABLE IF EXISTS log_internet_ping;
 CREATE TABLE log_internet_ping (
   id int(32) NOT NULL AUTO_INCREMENT,
@@ -301,33 +265,3 @@ CREATE TABLE userinfo (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE userinfo ADD UNIQUE INDEX (username);
-
-DROP TABLE IF EXISTS accounting_snapshot_1;
-CREATE TABLE accounting_snapshot_1 (
-  id int(32) NOT NULL AUTO_INCREMENT,
-  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  datetime timestamp NOT NULL,
-  output bigint(20) NOT NULL DEFAULT 0,
-  input bigint(20) NOT NULL DEFAULT 0,
-  PRIMARY KEY (id)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS accounting_snapshot_2;
-CREATE TABLE accounting_snapshot_2 (
-  id int(32) NOT NULL AUTO_INCREMENT,
-  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  datetime timestamp NOT NULL,
-  output bigint(20) NOT NULL DEFAULT 0,
-  input bigint(20) NOT NULL DEFAULT 0,
-  PRIMARY KEY (id)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS accounting_snapshot_3;
-CREATE TABLE accounting_snapshot_3 (
-  id int(32) NOT NULL AUTO_INCREMENT,
-  username varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  datetime timestamp NOT NULL,
-  output bigint(20) NOT NULL DEFAULT 0,
-  input bigint(20) NOT NULL DEFAULT 0,
-  PRIMARY KEY (id)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;

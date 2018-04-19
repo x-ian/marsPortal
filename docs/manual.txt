@@ -145,10 +145,9 @@ If accounting data needs to be removed (e.g. for a fresh start), these statement
 
 /home/marsPortal/misc/captiveportal-disconnect-all-users.sh
 mysql -u radius -pradius radius <<EOF
-truncate daily_accounting;
-truncate daily_accounting_v2;
+truncate daily_accounting_v5;
 truncate radacct;
-truncate accounting_snapshot;
+truncate throughput;
 EOF
 /home/marsPortal/daloradius-accounting/accounting-snapshot-beg-of-day.sh
 /home/marsPortal/daloradius-accounting/accounting-snapshot-v2.sh day_offset
