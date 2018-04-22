@@ -30,8 +30,12 @@ while($row = mysql_fetch_array($result)){
 ?>	
 	<tr>
 		<td><?=$row["when2"]?></td>
+		<td><?=($row["tx"])?> <?=$row["tx_unit"]?>)</td>
+		<td><?=($row["rx"])?> <?=$row["rx_unit"]?>)</td>
+<!--
 		<td><?=($row["tx"] / 1000000)?> (Mega<?=$row["tx_unit"]?>)</td>
 		<td><?=($row["rx"] / 1000000)?> (Mega<?=$row["rx_unit"]?>)</td>
+-->
 	</tr>
 <? } ?>
 </tbody></table>
