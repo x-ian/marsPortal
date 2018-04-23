@@ -88,3 +88,9 @@ while ($row = mysql_fetch_assoc($all_activities)) {
 }
 ?>
 </tbody></table>
+
+<br/>
+
+<p>Only times with actual data traffic are listed; (briefly) connected without any data (e.g. via WiFi) is ignored.</p>
+
+<br/>

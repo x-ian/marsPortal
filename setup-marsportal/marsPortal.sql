@@ -265,3 +265,6 @@ CREATE TABLE userinfo (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE userinfo ADD UNIQUE INDEX (username);
+
+-- most likely requries root
+grant file on *.* to 'radius'@'localhost';
