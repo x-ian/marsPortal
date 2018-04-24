@@ -55,7 +55,12 @@ function deviceinfo($row, $upordown) {
 		$hoover .= $row['mac_vendor'];
 	}
 
-    echo uservolumelink($row['username'], $row[$upordown]) . " (" . '<a href="/mars/userinfo/edit.php?username=' . $row['username'] . '" data-html="true" data-toggle="tooltip" title="' . $hoover . '">' . $name . '</a>)';
+	$number = "<a href='/mars/device_with_volume.php?username={$row[username]}'> {$row[$upordown]} </a>";
+	$link = dropdown_link_to_device($row['username']);
+	
+    echo "{$number}: {$link}";
+
+//    echo uservolumelink($row['username'], $row[$upordown]) . " (" . '<a href="/mars/userinfo/edit.php?username=' . $row['username'] . '" data-html="true" data-toggle="tooltip" title="' . $hoover . '">' . $name . '</a>)';
 
 //    echo uservolumelink($row['username'], $row[$upordown]) . " (" . userdetailslink($row['username'], $row['name']). " " . $row['department']. " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";	
 }

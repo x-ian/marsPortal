@@ -3,13 +3,6 @@ $HEADLINE = 'Edit device';
 include '../menu.php'; 
 ?>
 
-
-<!-- begin page-specific content ########################################### -->
-    <div id="main">
-      <div class="page-header">
-  	    <h1>Edit Device</h1>
-	  </div>
-
 <?
 $ip=$_SERVER['REMOTE_ADDR'];
 if (isset($_GET['username']) ) { 
@@ -27,6 +20,14 @@ exec("/usr/local/bin/php -q /home/marsPortal/misc/captiveportal-disconnect-user.
 } 
 $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
 ?>
+
+<!-- begin page-specific content ########################################### -->
+    <div id="main">
+      <div class="page-header" align="center">
+  	    <h1>Edit Device</h1>
+		<?= dropdown_link_to_device($username) ?>
+	  </div>
+
 
 <form class="form-horizontal value_type" action='' method='POST'> 
 	

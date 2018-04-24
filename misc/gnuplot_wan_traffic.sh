@@ -24,12 +24,12 @@ ORDER BY t1.when2
 into outfile '/var/db/mysql_secure/gnuplot_wan_traffic.csv' fields terminated by ' ' lines terminated by '\n';
 EOF
 
-# average traffic per minute of last 60 minutes
+# average traffic per minute of last 60 minutes yesterday
 AVG=$(mysql -u radius -pradpass radius --skip-column-names <<EOF
 select 
-    (((max(tx)-min(tx)) / (select count(*) from log_wan_traffic where when2 >= now() - INTERVAL 1 HOUR)) * -1) as tx_avg,
-    ((max(rx)-min(rx)) / (select count(*) from log_wan_traffic where when2 >= now() - INTERVAL 1 HOUR)) as rx_avg
-from log_wan_traffic where when2 >= now() - INTERVAL 1 HOUR;
+    (((max(tx)-min(tx)) / (select count(*) from log_wan_traffic where when2 >= now() - INTERVAL 1 HOUR - INTERVAL 1 DAY and when2 <= now() - INTERVAL 1 DAY)) * -1) as tx_avg,
+    ((max(rx)-min(rx)) / (select count(*) from log_wan_traffic where when2 >= now() - INTERVAL 1 HOUR - INTERVAL 1 DAY and when2 <= now() - INTERVAL 1 DAY)) as rx_avg
+from log_wan_traffic where when2 >= now() - INTERVAL 1 HOUR - INTERVAL 1 DAY and when2 <= now() - INTERVAL 1 DAY;
 EOF
 )
 
@@ -49,7 +49,7 @@ FROM
             WHERE t3.when2 < t1.when2
         )
 WHERE
-    t1.when2 >= now() - INTERVAL 1 HOUR
+    t1.when2 >= now() - INTERVAL 1 HOUR - INTERVAL 1 DAY and t1.when2 <= now() - INTERVAL 1 DAY
 ) as t;
 EOF
 )
