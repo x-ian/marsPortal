@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# tweaking gnuplot output
+# http://www.gnuplotting.org/attractive-plots/
+# https://stackoverflow.com/questions/41602351/how-to-make-gnuplot-charts-look-more-visually-appealing
+# https://www.electricmonk.nl/log/2014/07/12/generating-good-looking-charts-with-gnuplot/
+
 ### current queries
 
 rm /var/db/mysql_secure/gnuplot_wan_traffic.csv 

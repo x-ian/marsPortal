@@ -109,8 +109,7 @@ CREATE TABLE throughput (
   
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-ALTER TABLE throughput ADD UNIQUE INDEX (username, minute_of_day);
-ALTER TABLE throughput ADD INDEX (time_of_day);
+ALTER TABLE throughput ADD UNIQUE INDEX (username, day, time_of_day);
 
 DROP TABLE IF EXISTS daily_accounting_v5;
 CREATE TABLE daily_accounting_v5 (
