@@ -8,11 +8,12 @@
  * You're free to add application-wide styles to this file and they'll appear a
  * compiled file, but it's generally better to create a new file per style scop
  *
-
-
-
-
 */
+
+/* potentially harmful, consider creating new class */
+.dropdown{
+    display: inline;
+}
 #banner {
   border-bottom: 2px solid;
   padding: 1em; }

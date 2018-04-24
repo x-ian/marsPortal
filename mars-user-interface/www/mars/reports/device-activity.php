@@ -7,8 +7,9 @@ include '../menu.php';
 
 <!-- begin page-specific content ########################################### -->
     <div id="main">
-      <div class="page-header">
-  	    <h1>Device activity for Device <?php echo $username . ' at ' . date('Y-m-d H:i:s'); ?></h1>
+      <div class="page-header" align="center">
+  	    <h1>Device activity at <?= date('Y-m-d H:i:s'); ?></h1>
+		<?= dropdown_link_to_device($username) ?>
 	  </div>
 
 <?php

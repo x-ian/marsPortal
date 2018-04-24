@@ -15,10 +15,10 @@ include '../menu.php';
 <th>Hostname</th>
 <!--<th>Email</th>
 <th>Department</th>
-<th>Organisation</th>-->
+<th>Organisation</th>
 <th>Registration Date</th>
 <th>Initial Ip</th>
-<!--<th>Notes</th>-->
+<th>Notes</th>-->
 </tr></thead><tbody>
 
 <? 
@@ -34,10 +34,10 @@ foreach($row AS $key => $value) { $row[$key] = stripslashes($value); }
 <td><?=nl2br( $row['hostname'])?></td>  
 <!--<td><?=nl2br( $row['email'])?></td>  
 <td><?=nl2br( $row['department'])?></td>  
-<td><?=nl2br( $row['organisation'])?></td>  -->
+<td><?=nl2br( $row['organisation'])?></td> 
 <td><?=nl2br( $row['registration_date'])?></td>  
 <td><?=nl2br( $row['initial_ip'])?></td>  
-<!--<td><?=nl2br( $row['notes'])?></td>  -->
+<td><?=nl2br( $row['notes'])?></td>  -->
 <td>
 	<a class="btn btn-default btn-xs"  href=edit.php?username=<?=$row['username']?>>Edit</a>&nbsp;
 	<a class="btn btn-default btn-xs" href=../device_with_volume.php?username=<?=$row['username']?>>Traffic&nbsp;History</a>&nbsp;<a class="btn btn-default btn-xs" href=/mars/reports/device-activity.php?username=<?=$row['username']?>>Activity&nbsp;History</a>&nbsp;

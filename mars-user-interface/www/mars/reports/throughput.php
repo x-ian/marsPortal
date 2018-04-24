@@ -6,18 +6,18 @@ include '../menu.php';
 <!-- begin page-specific content ########################################### -->
     <div id="main">
       <div class="page-header">
-  	    <h1>Throughput <?php echo date('Y-m-d H:i:s'); ?></h1>
+  	    <h1>Throughput at <?= date('Y-m-d H:i:s'); ?></h1>
 	  </div>
 
 <? 
 $order = $_GET['order']; 
 $period = $_GET['period']; 
 
-$now = date('Y-m-d H:i:s');
-$min_ago_5 = date('Y-m-d H:i:s', strtotime('-6 minutes'));
-$min_ago_15 = date('Y-m-d H:i:s', strtotime('-15 minutes'));
-$hour_ago_1 = date('Y-m-d H:i:s', strtotime('-1 hour'));
-$hour_ago_4 = date('Y-m-d H:i:s', strtotime('-4 hours'));
+$now = date('H:i:s');
+$min_ago_5 = date('H:i:s', strtotime('-6 minutes'));
+$min_ago_15 = date('H:i:s', strtotime('-15 minutes'));
+$hour_ago_1 = date('H:i:s', strtotime('-1 hour'));
+$hour_ago_4 = date('H:i:s', strtotime('-4 hours'));
 ?>
 
 <table class='table table-striped'>
@@ -58,13 +58,13 @@ function throughput_upordown($topX, $order, $start, $end) {
 			ui.mac_vendor, 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
-			ROUND(((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
-			ROUND(((max(offset_output) - min(offset_output)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as output_rate, 
+			ROUND(((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as input_rate, 
+			ROUND(((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as output_rate, 
 			max(time_of_day) as max, 
 			min(time_of_day) as min 
 		from throughput t, userinfo ui, radusergroup g
 		where t.username = ui.username and g.username = t.username and 
-			time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' 
+			time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' and day = curdate()
 		group by t.username order by " . $order . " desc
 		LIMIT " . $topX;
 }
@@ -74,26 +74,26 @@ function throughput_device_upordown($device, $start, $end) {
 		select 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
-			ROUND(ROUND((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
-			ROUND(ROUND((max(offset_output) - min(offset_output)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as output_rate
+			ROUND(ROUND((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as input_rate, 
+			ROUND(ROUND((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as output_rate
 		from throughput t
 		where t.username = '" . $device . "' and 
-			time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "'";
+			time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' and day = curdate()";
 }
 
 function throughput_total_upordown($start, $end) {
-	$a = "
+	$aa = "
 	select sum(tt.input) as input, sum(tt.input_rate) as input_rate, sum(tt.output) as output, sum(tt.output_rate) as output_rate from (
 		select 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
-			ROUND(ROUND((max(offset_input) - min(offset_input)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as input_rate, 
-			ROUND(ROUND((max(offset_output) - min(offset_output)) / timestampdiff(SECOND, '$start', '$end')) / 1000) as output_rate
+			ROUND(ROUND((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as input_rate, 
+			ROUND(ROUND((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as output_rate
 		from throughput t
-		where time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' GROUP BY username
+		where time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' and day=curdate() GROUP BY username
 		) as tt";
-		//echo $a;
-		return $a;
+		//echo $aa;
+		return $aa;
 }
 
 $start = $now;
@@ -130,7 +130,7 @@ while($row = mysql_fetch_array($result)){
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 ?>
 	<tr>
-	<td><?=link_to_device($row)?></td>
+	<td><?=dropdown_link_to_device($row["username"])?></td>
 <? if ($period == "min_ago_5") { ?>
 	<td><?=nl2br( $row["input_rate"])?> (<?=nl2br( $row["input"])?>)</td>
 	<td><?=nl2br( $row["output_rate"])?> (<?=nl2br( $row["output"])?>)</td>
