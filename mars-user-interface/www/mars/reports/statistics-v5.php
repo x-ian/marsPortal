@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Usage Statistics (' . date('Y-m-d H:i:s') . ')';
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 
@@ -15,54 +16,10 @@ $yesterday = date('Y-m-d', strtotime('-1 day'));
 $daysago7 = date('Y-m-d', strtotime('-6 days'));
 $daysago30 = date('Y-m-d', strtotime('-29 days'));	
 
-function query($query) {
-  $result = mysql_query($query);
-	if (!$result) {
-		$message  = 'Invalid query: ' . mysql_error() . "\n";
-		$message .= 'Full query: ' . $query;
-	  	die($message);
-	} 
-	return $result;
-}
-
-function userdetailslink($mac, $name) {
-  return '<a href="/mars/userinfo/edit.php?username=' . $mac . '">' . $name . '</a>';
-}
-
-function uservolumelink($mac, $linktext) {
-  return '<a href="/mars/device_with_volume.php?username=' . $mac . '">' . $linktext . '</a>';
-}
-
 function deviceinfo($row, $upordown) {
-	$name = "";
-	if ($row['firstname'] !== '') {
-		$name .= $row['firstname'] . " ";
-	}
-	if ($row['lastname'] !== '') {
-		$name .= $row['lastname'] . " ";
-	}
-	if ($name !== '') {
-		$name .= ' - ';
-	}	
-	if ($row['hostname'] !== '') {
-		$name .= $row['hostname'];
-	}
-	$hoover = "";
-	if ($row['groupname'] !== '') {
-		$hoover .= $row['groupname'] . " - ";
-	}
-	if ($row['mac_vendor'] !== '') {
-		$hoover .= $row['mac_vendor'];
-	}
-
 	$number = "<a href='/mars/device_with_volume.php?username={$row[username]}'> {$row[$upordown]} </a>";
-	$link = dropdown_link_to_device($row['username']);
-	
+	$link = dropdown_link_to_device($row['username']);	
     echo "{$number}: {$link}";
-
-//    echo uservolumelink($row['username'], $row[$upordown]) . " (" . '<a href="/mars/userinfo/edit.php?username=' . $row['username'] . '" data-html="true" data-toggle="tooltip" title="' . $hoover . '">' . $name . '</a>)';
-
-//    echo uservolumelink($row['username'], $row[$upordown]) . " (" . userdetailslink($row['username'], $row['name']). " " . $row['department']. " " . $row['email'] . " " . $row['username'] . " " . $row['groupname'] . " " . $row['company'] . " " . $row['address'] . " " . $row['city'] . ")";	
 }
 
 ?>
@@ -87,6 +44,3 @@ generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
 
 //require dirname(__FILE__)."/statistics-current-groups.php";
 ?>
-
-<hr/>
-<span class="headline"><p>Usage Statistics (<?php echo date('Y-m-d H:i:s')?>)</p></span>
