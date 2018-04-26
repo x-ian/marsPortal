@@ -1,6 +1,7 @@
 <? 
 $HEADLINE = 'Edit device'; 
 include '../menu.php'; 
+include '../common.php'; 
 ?>
 
 <?

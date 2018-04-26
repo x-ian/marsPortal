@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Group statistics'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

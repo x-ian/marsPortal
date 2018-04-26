@@ -1,6 +1,7 @@
 <? 
 $HEADLINE = 'WAN Throughput'; 
 include '../menu.php'; 
+include '../common.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->

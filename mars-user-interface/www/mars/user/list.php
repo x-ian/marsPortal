@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'All users'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

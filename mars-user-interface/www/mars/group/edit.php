@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Edit group'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

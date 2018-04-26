@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Device activity'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

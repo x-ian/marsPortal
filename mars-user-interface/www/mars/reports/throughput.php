@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Throughput'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Usage Statistics (' . date('Y-m-d H:i:s') . ')';
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

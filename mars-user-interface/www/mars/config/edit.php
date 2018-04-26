@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Configuration'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

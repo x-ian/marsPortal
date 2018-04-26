@@ -1,6 +1,7 @@
 <? 
 $HEADLINE = 'Internet Ping'; 
 include '../menu.php'; 
+include '../common.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->

@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Devices not yet registered'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

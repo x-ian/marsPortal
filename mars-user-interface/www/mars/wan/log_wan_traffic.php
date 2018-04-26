@@ -1,6 +1,7 @@
 <? 
 $HEADLINE = 'WAN Traffic Volume'; 
 include '../menu.php'; 
+include '../common.php'; 
 ?>
 
 <!-- begin page-specific content ########################################### -->

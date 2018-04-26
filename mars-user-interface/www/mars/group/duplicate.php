@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Duplicate group'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

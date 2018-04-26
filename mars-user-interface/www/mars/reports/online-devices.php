@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Devices online'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

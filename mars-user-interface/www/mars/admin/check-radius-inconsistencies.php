@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Check for RADIUS inconsistencies'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

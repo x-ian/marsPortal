@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Traffic volume history'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 
