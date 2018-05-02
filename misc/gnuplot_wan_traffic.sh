@@ -66,7 +66,9 @@ sed -e 's/\\//g' /tmp/gnuplot_wan_traffic_1.csv > /tmp/gnuplot_wan_traffic.csv
 ### create SVG
 /home/marsPortal/misc/gnuplot_wan_traffic.gp > /home/marsPortal/mars-user-interface/www/mars/wan.svg
 
+sleep 60
 
+/home/marsPortal/misc/gnuplot_wan_traffic.sh
 
 
 
@@ -102,6 +104,3 @@ ORDER BY when2
 
 -- min & max
 select max(t.rx), min(t.rx) from (select max(rx)-min(rx) as rx from log_wan_traffic group by when2 div 500) as t;
-
-
-

@@ -2,6 +2,10 @@
 $HEADLINE = 'Configuration'; 
 include '../common.php'; 
 include '../menu.php'; 
+include './crontab.php'; 
+
+define("CRONJOB_AUTOLOGIN", '*/5 * * * * /home/marsPortal/misc/captiveportal-auto-login-devices.sh');
+
 ?>
 
 
@@ -10,24 +14,6 @@ include '../menu.php';
       <div class="page-header">
   	    <h1>Change settings</h1>
 	  </div>
-
-<?
-$ip=$_SERVER['REMOTE_ADDR'];
-//if (isset($_GET['username']) ) { 
-$username = $_GET['username']; 
-if (isset($_POST['submitted'])) { 
-foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-mysql_query("DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysql_error()); 
-mysql_query("INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysql_error()); 
-
-$sql = "UPDATE `userinfo` SET  `username` =  '{$_POST['username']}' ,  `firstname` =  '{$_POST['firstname']}' ,  `lastname` =  '{$_POST['lastname']}' ,  `email` =  '{$_POST['email']}' ,  `department` =  '{$_POST['department']}' ,  `organisation` =  '{$_POST['organisation']}' ,  `initial_ip` =  '{$_POST['initial_ip']}' ,  `hostname` =  '{$_POST['hostname']}' ,  `registration_date` =  '{$_POST['registration_date']}' ,  `mac_vendor` =  '{$_POST['mac_vendor']}' ,  `notes` =  '{$_POST['notes']}'   WHERE `username` = '$username' "; 
-mysql_query($sql) or die(mysql_error()); 
-echo (mysql_affected_rows()) ? "Values saved. " : "Nothing changed. "; 
-echo "<a href='list.php'>Back To Listing</a><br />"; 
-exec("/usr/local/bin/php -q /home/marsPortal/misc/captiveportal-disconnect-user.php " . $_POST['username'], $out, $exit);
-} 
-$row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
-?>
 
 <form class="form-horizontal value_type" action='' method='POST'> 
 	
@@ -64,10 +50,14 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
   </div>
 
   <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">Auto-login to Portal for all connected devices</label>
+    <label class="control-label col-lg-2" for="value_type_name">Auto-login to Portal for all connected devices (every 5 mins)</label>
     <div class="col-lg-4">
        <input name="" type="hidden" value="0" />
-	   <input class="form-control input-sm" type="checkbox" value="1" name="" id="" />
+	   <? if (doesJobExist(CRONJOB_AUTOLOGIN)) { ?>
+	   <input checked class="form-control input-sm" type="checkbox" value="1" name="autologin" id="autologin" />
+	   <? } else { ?>
+	   <input class="form-control input-sm" type="checkbox" value="1" name="autologin" id="autologin" />
+		<? } ?>
     </div>
   </div>
 
@@ -89,7 +79,6 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
   </div>
 </form> 
 
-<? //} ?> 
 </div>
 </body>
 
