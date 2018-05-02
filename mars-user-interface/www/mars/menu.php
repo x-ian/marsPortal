@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-	  <a class="navbar-brand" href="/mars/index.php"><img src="/mars/captiveportal-mars.jpg" width="33"/></a>
+	  <a class="navbar-brand" href="/mars/index.php"><img src="/mars/logo-mars-cleaned-medium-150.png" width="33"/></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
