@@ -1,0 +1,32 @@
+# mandatory admin stuff
+59 23 * * * /sbin/reboot
+@reboot /home/marsPortal/misc/marsPortalStart.sh
+@reboot /home/marsPortal/misc/mail_after_startup.sh
+@reboot /home/marsPortal/misc/log_internet_ping.sh
+#59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh
+0 * * * * /home/mars-monitoring-probes/probes/marsPortal_Probe/heartbeat.sh
+*/30 * * * * /home/marsPortal/misc/process_mail_backlog.sh
+5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh
+0 23 * * Sun /home/marsPortal/misc/heartbeat.sh
+#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh
+55 23 * * * /home/marsPortal/misc/freeradius-mail-statistics.sh
+# marsmonitoring.com
+@reboot /home/mars-monitoring-probes/probes/Ubuntu_Internet_Probe/measure_network_speed_after_restart.sh 
+1,16,31,46 * * * * /home/mars-monitoring-probes/probes/Ubuntu_Internet_Probe/measure_network_speed.sh
+@reboot /home/mars-monitoring-probes/probes/marsPortal_Probe/heartbeat_after_restart.sh 
+# optional
+@reboot /home/marsPortal/misc/start-ssh-tunnel.sh
+0 7 * * * /home/marsPortal/misc/start-ssh-tunnel.sh
+59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh
+#0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh
+#0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh
+# accounting and traffic stats
+5,10,15,20,25,28,30,35,40,45,50,55,58 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v5.sh
+* * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput-v2.sh
+*/5 * * * * /home/marsPortal/misc/captiveportal-auto-login-devices.sh
+@reboot /home/marsPortal/misc/log_wan_throughput.sh
+#*/10 * * * * /home/marsPortal/misc/log_wan_traffic.sh
+#*/10 * * * * /home/marsPortal/misc/log_wan_traffic_2.sh
+* * * * * /home/marsPortal/misc/log_wan_traffic_3.sh
+@reboot /home/marsPortal/misc/gnuplot_wan_traffic.sh
+* * * * * /home/marsPortal/misc/log_wan_traffic_4.sh
