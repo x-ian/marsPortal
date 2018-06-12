@@ -12,7 +12,7 @@ ALL_CONNECTED_MACS=/tmp/all_connected_macs
 /sbin/ifconfig | grep "inet " | awk '{print $2}' > $PORTAL_IPS
 
 # get all existing users
-/usr/local/bin/mysql --defaults-extra-file=<(printf "[client]\nuser = %s\npassword = %s" "$MYSQL_USER" "$MYSQL_PASSWD") -s radius -e "select ui.username from userinfo ui;" > $ALL_KNOWN_MACS
+/usr/local/bin/mysql --defaults-extra-file=/home/marsPortal/mysql.txt -s radius -e "select ui.username from userinfo ui;" > $ALL_KNOWN_MACS
 
 # get all currently connected macs
 /usr/sbin/arp -n -a -i $LAN_INTERFACE > $ALL_CONNECTED_MACS
