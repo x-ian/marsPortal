@@ -1,4 +1,5 @@
 <? 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 

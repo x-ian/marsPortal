@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Duplicate group'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 
@@ -30,6 +31,12 @@ mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WIS
 mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Down', '{$_POST['groupname']}', ':=', '{$_POST['bandwidth_down']}')") or die(mysql_error());
 mysql_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Reply-Message', '{$_POST['groupname']}', ':=', '{$_POST['reply_message']}')") or die(mysql_error());
 
+// re-create groupinfo entry
+mysql_query("DELETE FROM groupinfo WHERE groupname='{$_POST['groupname']}'") or die(mysql_error());
+if (isset($_POST['auto_login'])) { 
+	mysql_query("INSERT groupinfo (groupname, auto_login) VALUES ('{$_POST['groupname']}', TRUE)") or die(mysql_error());
+}
+
 // cleanup
 mysql_query("delete from radgroupcheck where value =''") or die(mysql_error());
 mysql_query("delete from radgroupreply where value =''") or die(mysql_error());
@@ -53,6 +60,7 @@ echo "<a href='list.php'>Back To Listing</a>";
 	$auth_type = $_GET['auth_type'];
 	$reply_message = $_GET['reply_message'];
 	$concurrent_user = $_GET['concurrent_user'];
+	$auto_login = $_GET['auto_login'];
 }
 ?>
 

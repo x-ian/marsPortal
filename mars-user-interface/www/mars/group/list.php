@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'All groups'; 
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 
@@ -7,24 +8,28 @@ include '../menu.php';
     <div id="main">
 
 <? 
-echo "<table class='listtable'>"; 
-echo "<tr>"; 
-echo "<td><b>Groupname</b></td>"; 
-echo "<td><b>Work Total Input (MB)</b></td>"; 
-echo "<td><b>Work Total Output (MB)</b></td>"; 
-echo "<td><b>User Work Total Input (MB)</b></td>"; 
-echo "<td><b>User Work Total Output (MB)</b></td>"; 
-echo "<td><b>Bandwidth Up (bps)</b></td>"; 
-echo "<td><b>Bandwidth Down (bps)</b></td>"; 
-echo "<td><b>Session Timeout (s)</b></td>"; 
-echo "<td><b>Max Concurrent Users</b></td>"; 
-echo "<td><b>Day Total Input (MB)</b></td>"; 
-echo "<td><b>Day Total Output (MB)</b></td>"; 
-echo "<td><b>User Day Total Input (MB)</b></td>"; 
-echo "<td><b>User Day Total Output (MB)</b></td>"; 
-echo "<td><b>Auth Type</b></td>"; 
-echo "<td><b>Reply Message</b></td>"; 
-echo "</tr>"; 
+
+function empty2($value, $postfix) {
+	if ($value !== '') 
+		return $value . $postfix;
+	else
+		return '';
+	
+}
+
+echo "<table  class='table table-striped'>"; 
+echo "<thead><tr>"; 
+echo "<th>Groupname</th>"; 
+echo "<th>Work Total</th>"; 
+echo "<th>User Work Total</th>"; 
+echo "<th>Bandwidth</th>"; 
+echo "<th>Session Timeout</th>"; 
+echo "<th>Max Concurrent Users</th>"; 
+echo "<th>Day Total</th>"; 
+echo "<th>User Day Total</th>"; 
+echo "<th>Auth Type</th>"; 
+//echo "<th>Reply Message</th>"; 
+echo "</tr></thead><tbody>"; 
 $result = mysql_query('
 select rr1.groupname, 
 	(select value from radgroupcheck r2 where attribute="mars-Max-Concurrent-Devices" and r2.groupname = r1.groupname)  "Max Concurrent Users", 
@@ -44,30 +49,40 @@ select rr1.groupname,
 from radgroupreply rr1 left join radgroupcheck r1 on rr1.groupname = r1.groupname 
 group by rr1.groupname;') or trigger_error(mysql_error()); 
 while($row = mysql_fetch_array($result)){ 
-foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
-echo "<tr>";  
+foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } ?>
+<tr>
 
-echo "<td>" . nl2br( $row['groupname']) . "</td>";
-echo "<td>" . nl2br( $row['Max Work Hours Up']) . "</td>";
-echo "<td>" . nl2br( $row['Max Work Hours Down']) . "</td>";
-echo "<td>" . nl2br( $row['User Max Work Hours Up']) . "</td>";
-echo "<td>" . nl2br( $row['User Max Work Hours Down']) . "</td>";
-echo "<td>" . nl2br( $row['WISPr-Bandwidth-Max-Up']) . "</td>";
-echo "<td>" . nl2br( $row['WISPr-Bandwidth-Max-Down']) . "</td>";
-echo "<td>" . nl2br( $row['Session Timeout']) . "</td>";
-echo "<td>" . nl2br( $row['Max Concurrent Users']) . "</td>";
-echo "<td>" . nl2br( $row['Max Daily Up']) . "</td>";
-echo "<td>" . nl2br( $row['Max Daily Down']) . "</td>";
-echo "<td>" . nl2br( $row['User Max Daily Up']) . "</td>";
-echo "<td>" . nl2br( $row['User Max Daily Down']) . "</td>";
-echo "<td>" . nl2br( $row['Auth Type']) . "</td>";  
-echo "<td>" . nl2br( $row['Reply Message']) . "</td>";  
-echo "<td><a href=edit.php?groupname={$row['groupname']}>Edit</a><br/><a href=duplicate.php?&work_total_input={$row['Max Work Hours Up']}&work_total_output={$row['Max Work Hours Down']}&day_total_input={$row['Max Daily Up']}&day_total_output={$row['Max Daily Down']}&user_work_total_input={$row['User Max Work Hours Up']}&user_work_total_output={$row['User Max Work Hours Down']}&user_day_total_input={$row['User Max Daily Up']}&user_day_total_output={$row['User Max Daily Down']}&bandwidth_up={$row['WISPr-Bandwidth-Max-Up']}&bandwidth_down={$row['WISPr-Bandwidth-Max-Down']}&session_timeout={$row['Session Timeout']}&reply_message=" . urlencode($row['Reply Message']) . "&auth_type={$row['Auth Type']}&concurrent_user={$row['Max Concurrent Users']}>Duplicate</a><br/><a href=delete.php?groupname={$row['groupname']}>Delete</a></td> "; 
-echo "</tr>"; 
-} 
-echo "</table>"; 
-echo "<a href=new.php>New Group</a>"; 
-?>
+<td><?=nl2br( $row['groupname'])?></td>
+
+<td><?=nl2br( empty2($row['Max Work Hours Up'], '&nbsp;&#8593;'))?><br/>
+<?=nl2br( empty2($row['Max Work Hours Down'], '&nbsp;&#8595;'))?></td>
+
+<td><?=nl2br( empty2($row['User Max Work Hours Up'], '&nbsp;&#8593;'))?><br/>
+<?=nl2br( empty2($row['User Max Work Hours Down'], '&nbsp;&#8595;'))?></td>
+
+<td><?=nl2br( empty2($row['WISPr-Bandwidth-Max-Up'], '&nbsp;&#8593;'))?><br/>
+<?=nl2br( empty2($row['WISPr-Bandwidth-Max-Down'], '&nbsp;&#8595;'))?></td>
+
+<td><?=nl2br( $row['Session Timeout'])?></td>
+<td><?=nl2br( $row['Max Concurrent Users'])?></td>
+
+<td><?=nl2br( empty2($row['Max Daily Up'], '&nbsp;&#8593;'))?><br/>
+<?=nl2br( empty2($row['Max Daily Down'], '&nbsp;&#8595;'))?></td>
+
+<td><?=nl2br( empty2($row['User Max Daily Up'], '&nbsp;&#8593;'))?><br/>
+<?=nl2br( empty2($row['User Max Daily Down'], '&nbsp;&#8595;'))?></td>
+
+<td><?=nl2br( $row['Auth Type'])?></td>  
+<!--<td><?=nl2br( $row['Reply Message'])?></td>-->
+
+<td>
+	<a class="btn btn-default btn-xs"  href=edit.php?groupname=<?=$row['groupname']?>>Edit</a>&nbsp;
+	<a class="btn btn-default btn-xs"  href=duplicate.php?&work_total_input=<?=$row['Max Work Hours Up']?>&work_total_output=<?=$row['Max Work Hours Down']?>&day_total_input=<?=$row['Max Daily Up']?>&day_total_output=<?=$row['Max Daily Down']?>&user_work_total_input=<?=$row['User Max Work Hours Up']?>&user_work_total_output=<?=$row['User Max Work Hours Down']?>&user_day_total_input=<?=$row['User Max Daily Up']?>&user_day_total_output=<?=$row['User Max Daily Down']?>&bandwidth_up=<?=$row['WISPr-Bandwidth-Max-Up']?>&bandwidth_down=<?=$row['WISPr-Bandwidth-Max-Down']?>&session_timeout=<?=$row['Session Timeout']?>&reply_message=<?=urlencode($row['Reply Message'])?>&auth_type=<?=$row['Auth Type']?>&concurrent_user=<?=$row['Max Concurrent Users']?>>Duplicate</a>&nbsp;
+	<a data-confirm="Are you sure?" class="btn btn-danger btn-xs" rel="nofollow" data-method="post" href="delete.php?groupname=<?=$row['groupname']?>">Delete</a></td>
+  </tr>
+  <? } ?> 
+</tbody></table>
+<a class="btn btn-default btn-xs" href=new.php>New Group</a>
 
 <hr/>
 

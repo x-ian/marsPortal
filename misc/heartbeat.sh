@@ -7,14 +7,19 @@ source $BASEDIR/config.txt
 TIMESTAMP=`date +%Y%m%d-%H%M%S`
  
 PUBLIC_IP="`curl https://wtfismyip.com/text`"
-FIRST_MAC=" `/sbin/ifconfig | grep ether | head -1`"
+# alterntively: dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'
+# or: dig +short @resolver1.opendns.com myip.opendns.com
+FIRST_MAC="`/sbin/ifconfig | grep ether | head -1`"
 ALL_MACS=`/sbin/ifconfig | grep ether`
 UPTIME=`/usr/bin/uptime`
 INET=`/sbin/ifconfig | grep "inet "`
 LOAD=`top | grep averages`
 MEM=`top | grep Mem`
+TOTAL_MEM_TEMP=`sysctl hw.physmem | awk '{print $2}'`
+TOTAL_MEM=`echo "scale=2 ; $TOTAL_MEM_TEMP / 1000000" | bc`
 DISK=`df -H /`
 SWAP=`top | grep Swap`
+PFSENSE_VERSION="`cat /etc/version`-p`cat /etc/version.patch`"
 
 TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
 echo "FromLineOverride=YES
@@ -24,20 +29,28 @@ AuthPass=GoingToIbiza
 UseSTARTTLS=YES" > $TEMP_MAIL.config
 echo "From: notification@marsgeneral.com
 To: cneumann@marsgeneral.com
-Subject: marsPortal heartbeat: $ZONE, `date +%Y%m%d-%H%M`
+Subject: marsPortal heartbeat at `date +%Y%m%d-%H%M` ($DEVICE_NAME,$SSH_TUNNEL_PORT,$NETGATE_ID)
 
+device name:
+	$DEVICE_NAME
 zone:
 	$ZONE
 public ip:
 	$PUBLIC_IP
 ssh tunnel port:
 	$SSH_TUNNEL_PORT
+netgate id:
+	$NETGATE_ID
+pfsense version:
+	$PFSENSE_VERSION
 uptime: 
 	$UPTIME
 all macs: 
 $ALL_MACS
 ifconfig: 
 $INET
+total memory:
+	$TOTAL_MEM
 memory:
 	$MEM
 disk:

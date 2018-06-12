@@ -1,5 +1,6 @@
 <? 
 $HEADLINE = 'Usage Statistics (' . date('Y-m-d H:i:s') . ')';
+include '../common.php'; 
 include '../menu.php'; 
 ?>
 
@@ -11,16 +12,6 @@ $today = date('Y-m-d', strtotime('-0 day'));
 $yesterday = date('Y-m-d', strtotime('-1 day'));
 $daysago7 = date('Y-m-d', strtotime('-6 days'));
 $daysago30 = date('Y-m-d', strtotime('-29 days'));	
-
-function query($query) {
-  $result = mysql_query($query);
-	if (!$result) {
-		$message  = 'Invalid query: ' . mysql_error() . "\n";
-		$message .= 'Full query: ' . $query;
-	  	die($message);
-	} 
-	return $result;
-}
 
 function userdetailslink($mac, $name) {
   return '<a href="/mars/userinfo/edit.php?username=' . $mac . '">' . $name . '</a>';

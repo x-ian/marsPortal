@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-# Add new user with MAC Auth to DR
+# Add new user with MAC Auth to radius
 
 BASEDIR=`dirname $0`
 PORTALDIR=/home/marsPortal
@@ -22,7 +22,8 @@ PRIMARY_DEVICE=${10}
 	DELETE FROM radacct WHERE username = "$MAC";
 	DELETE FROM radreply WHERE username = "$MAC";
 	DELETE FROM radpostauth WHERE username = "$MAC";
-	DELETE FROM daily_accounting_v2 WHERE username = "$MAC";
+	DELETE FROM daily_accounting_v5 WHERE username = "$MAC";
+	DELETE FROM throughput WHERE username = "$MAC";
 
 	DELETE FROM radcheck WHERE username = "$MAC";
 	INSERT INTO radcheck (Username, Attribute, op, Value) VALUES ("$MAC", "Auth-Type", ":=", "Accept");
