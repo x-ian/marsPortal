@@ -14,15 +14,6 @@ include '../menu.php';
 	  </div>
 
 <?php
-  function query($query) {
-    $result = mysql_query($query);
-	if (!$result) {
-		$message  = 'Ungültige Abfrage: ' . mysql_error() . "\n";
-		$message .= 'Gesamte Abfrage: ' . $query;
-    	die($message);
-	} 
-	return $result;
-  }
   
   echo "
   <table class='table table-striped table-bordered '>
