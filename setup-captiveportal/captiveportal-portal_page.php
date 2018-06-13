@@ -30,10 +30,10 @@
 				
 				
 				// provide self registration capabilty
-				//include '/usr/local/captiveportal/captiveportal-device_registration.html';
+				include '/usr/local/captiveportal/captiveportal-device_registration.html';
 				
 				// provide auto registration capabilty
-				include '/usr/local/captiveportal/captiveportal-add_radius_user.php';
+				//include '/usr/local/captiveportal/captiveportal-add_radius_user.php';
 				
 				break;
 			case 2:
