@@ -56,7 +56,10 @@ if [ $? -eq 0 ]; then
 	GROUP=Users
 fi
 
-$BASEDIR/new-user-with-mac-auth.sh $MAC "" "$NAME" "$EMAIL" "$OWNER" "$GROUP" "$IP" "$DHCPHOSTNAME" "$MAC_VENDOR" "$PRIMARY_DEVICE"
+if [ -z $MAC ]; then
+	echo "$MAC - $IP - x - unable to register - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
+else
+$BASEDIR/new-user-with-mac-auth.sh "$MAC" "" "$NAME" "$EMAIL" "$OWNER" "$GROUP" "$IP" "$DHCPHOSTNAME" "$MAC_VENDOR" "$PRIMARY_DEVICE"
 
 echo "$MAC - $IP - x - newly registered - `date +%Y%m%d-%H%M%S`" >> $STATUS_LOG
 
@@ -76,3 +79,6 @@ $PF_SERVER/mars/userinfo/edit.php?username=$MAC
 
 # send mail in the background
 $PORTALDIR/misc/send_mail.sh "$SUBJECT" "$BODY" &
+
+fi
+
