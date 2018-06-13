@@ -103,6 +103,14 @@ function query($query) {
   <link href="/mars/application.css" rel="stylesheet" type="text/css" />
   <title>marsPortal - <? echo $HEADLINE ?></title>
   <script src="/mars/application.js"></script>
+<script>
+$(document).ready(function() {
+   $(".nav li.disabled a").click(function() {
+     return false;
+   });
+});
+</script>
+
 </head>
 
 <body class="visualize_text">

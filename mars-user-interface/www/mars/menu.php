@@ -17,7 +17,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manage<span class="caret"></span></a>
           <ul class="dropdown-menu">
 					<li><a href="/mars/userinfo/list.php">Devices</a> </li>
-		   			<li><a href="/mars/user/list.php">Users</a></li>
+		   			<li class="disabled"><a href="/mars/user/list.php">Users</a></li>
 					<li><a href="/mars/group/list.php">Groups</a></li>
             <!--<li role="separator" class="divider"></li>-->
           </ul>
@@ -26,9 +26,9 @@
 		<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WAN Statistics<span class="caret"></span></a>
           <ul class="dropdown-menu">
-					<li><a href="/mars/wan/log_internet_ping.php">Availability (ping)</a> </li>
-					<li><a href="/mars/wan/log_wan_throughput.php">Throughput (netstat)</a> </li>
-		   			<li><a href="/mars/wan/log_wan_traffic.php">Traffic volume</a></li>
+					<li class="disabled"><a href="/mars/wan/log_internet_ping.php">Availability (ping)</a> </li>
+					<li class="disabled"><a href="/mars/wan/log_wan_throughput.php">Throughput (netstat)</a> </li>
+		   			<li class="disabled"><a href="/mars/wan/log_wan_traffic.php">Traffic volume</a></li>
             <!--<li role="separator" class="divider"></li>-->
           </ul>
         </li>
@@ -39,16 +39,14 @@
 					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput / Most active devices</a> </li>
 		   			<li><a href="/mars/reports/statistics-v5.php">Traffic volume</a></li>
 					<li><a href="/mars/reports/devices_with_volume.php">Devices history</a></li>
-					<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
-					<li role="separator" class="divider"></li>
-		   			<li><a href="/mars/reports/statistics.php">Statistics old</a></li>
+					<li class="disabled"><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
           </ul>
         </li>
 		
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Users & Groups)<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="/mars/reports/users-statistics.php">Statistics</a></li>
+	       		<li class="disabled"><a href="/mars/reports/users-statistics.php">Statistics</a></li>
 	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
           </ul>
         </li>
@@ -56,17 +54,17 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="">View Logs</a></li>
-	       		<li><a href="">Activate remote administration</a></li>
-	       		<li><a href="">Notify when device comes online</a></li>
-	       		<li><a href="">Activate VIP/emergency mode</a></li>
+	       		<li class="disabled"><a href="">View Logs</a></li>
+	       		<li class="disabled"><a href="">Activate remote administration</a></li>
+	       		<li class="disabled"><a href="">Notify when device comes online</a></li>
+	       		<li class="disabled"><a href="">Activate VIP/emergency mode</a></li>
 	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices without Portal Registration</a></li>
 				<li role="separator" class="divider"></li>
 	       		<li><a href="/mars/admin/check-radius-inconsistencies.php">RADIUS inconsistencies</a></li>
-	       		<li><a href="">Cleanup devices not seen for last x months</a></li>
-	       		<li><a href="">Reset all accounting data</a></li>
+	       		<li class="disabled"><a href="">Cleanup devices not seen for last x months</a></li>
+	       		<li class="disabled"><a href="">Reset all accounting data</a></li>
 				<li role="separator" class="divider"></li>
-	       		<li><a href="">Useful links</a></li>
+	       		<li class="disabled"><a href="">Useful links</a></li>
 	       		<li><a href="/mars/admin/licenses.php">License notes</a></li>
           </ul>
         </li>
@@ -74,9 +72,9 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="">Invoke Backup</a></li>
-	       		<li><a href="/mars/config/edit.php">Change Settings</a></li>
-	       		<li><a href="">Change password</a></li>
+	       		<li class="disabled"><a href="">Invoke Backup</a></li>
+	       		<li class="disabled"><a href="/mars/config/edit.php">Change Settings</a></li>
+	       		<li class="disabled"><a href="">Change password</a></li>
           </ul>
         </li>
       </ul>
