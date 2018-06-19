@@ -61,7 +61,8 @@ sed -e 's/\\//g' /tmp/gnuplot_wan_traffic_1.csv > /tmp/gnuplot_wan_traffic.csv
 ### create SVG
 /home/marsPortal/misc/gnuplot_wan_traffic.gp > /home/marsPortal/mars-user-interface/www/mars/wan.svg
 
-
+sleep 180
+/home/marsPortal/misc/gnuplot_wan_traffic_8_hours.sh &
 
 
 
