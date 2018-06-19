@@ -1,7 +1,8 @@
 # enforce user disconnect from pfSense 
 exec captiveportal-disconnect-user {
 	wait = no
-	program = "/usr/local/bin/bash /home/marsPortal/misc/captiveportal-disconnect-user.sh %{User-Name}"
+#	program = "/usr/local/bin/bash /home/marsPortal/misc/captiveportal-disconnect-user.sh %{User-Name}"
+	program = "/usr/local/bin/php -q /home/marsPortal/misc/captiveportal-disconnect-user.php %{User-Name}"
 	input_pairs = request
 	shell_escape = yes
 	output = none
