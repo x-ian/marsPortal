@@ -1,4 +1,7 @@
 <?    
+
+    // Adopted from http://www.kavoir.com/2011/10/php-crontab-class-to-add-and-remove-cron-jobs.html
+
     // In this class, array instead of string would be the standard input / output format.
     
     // Legacy way to add a job:
