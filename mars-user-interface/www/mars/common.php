@@ -2,22 +2,6 @@
 
 include('config.php'); 
 
-if (!isset($_SERVER['PHP_AUTH_USER'])) {
-    header("WWW-Authenticate: Basic realm=\"marsPortal Admin\"");
-    header("HTTP/1.0 401 Unauthorized");
-    print "Sorry, invalid credentials. Access denied! Reload page or close&reopen browser to try again.\n";
-    exit;
-} else {
-    if (($_SERVER['PHP_AUTH_USER'] == $HTTP_AUTH_USER) && ($_SERVER['PHP_AUTH_PW'] == $HTTP_AUTH_PASSWD)) {
-//            print "Welcome to the private area!";
-    } else {
-        header("WWW-Authenticate: Basic realm=\"marsPortal Admin\"");
-        header("HTTP/1.0 401 Unauthorized");
-        print "Sorry, invalid credentials. Access denied! Reload page or close&reopen browser to try again.\n";
-        exit;
-    }
-}
-
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass browser caching
 
@@ -48,7 +32,7 @@ WHERE userinfo.username='" . $username . "';";
 	    <span class='caret'></span>
 	  </a>
 	  <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>
-	    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/device_with_volume.php?username={$row[username]}'>Traffic history</a></li>
+	    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device_with_volume.php?username={$row[username]}'>Traffic history</a></li>
 	    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device-activity.php?username={$row[username]}'>Activity history</a></li>
 	    <li role='presentation' class='divider'></li>
 	    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/userinfo/edit.php?username=${row[username]}'>Edit device</a></li>
