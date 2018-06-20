@@ -1,6 +1,7 @@
 <? 
 $HEADLINE = 'Device history'; 
-include './menu.php'; 
+include '../common.php'; 
+include '../menu.php'; 
 ?>
 
 <?php $username = $_GET['username']; ?>
@@ -31,15 +32,6 @@ include './menu.php';
 -->
 	  
 <?php
-  function query($query) {
-    $result = mysql_query($query);
-	if (!$result) {
-		$message  = 'Ungültige Abfrage: ' . mysql_error() . "\n";
-		$message .= 'Gesamte Abfrage: ' . $query;
-    	die($message);
-	} 
-	return $result;
-  }
   
   $today = date('Y-m-d', strtotime('-0 day'));
   $yesterday = date('Y-m-d', strtotime('-1 day'));
