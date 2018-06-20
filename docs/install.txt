@@ -33,7 +33,7 @@ Increase number of concurrent Web Admin users to 10
 
 Disable Dashboard auto-update check (System - Update - Update settings - Dashboard check)
 
-Disabled Netgate Device ID (System - Advanced - Misc)
+Disable Netgate Device ID (System - Advanced - Misc)
 
 
 Zotac CI327
@@ -248,6 +248,7 @@ sleep 60
 mysql -u root -pradius <<EOF
    CREATE DATABASE radius;
    GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "radpass";
+   GRANT FILE ON *.* TO 'radius'@'localhost';
    exit
 EOF
 mysql -u root -pradius radius < /usr/local/etc/raddb/sql/mysql/schema.sql

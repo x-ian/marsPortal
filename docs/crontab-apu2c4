@@ -1,3 +1,4 @@
+#############################################################################
 # mandatory admin stuff
 59 23 * * * /sbin/reboot
 @reboot /home/marsPortal/misc/marsPortalStart.sh
@@ -10,10 +11,12 @@
 0 23 * * Sun /home/marsPortal/misc/heartbeat.sh
 #50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh
 55 23 * * * /home/marsPortal/misc/freeradius-mail-statistics.sh
+#############################################################################
 # marsmonitoring.com
 @reboot /home/mars-monitoring-probes/probes/Ubuntu_Internet_Probe/measure_network_speed_after_restart.sh 
 1,16,31,46 * * * * /home/mars-monitoring-probes/probes/Ubuntu_Internet_Probe/measure_network_speed.sh
 @reboot /home/mars-monitoring-probes/probes/marsPortal_Probe/heartbeat_after_restart.sh 
+#############################################################################
 # optional
 @reboot /home/marsPortal/misc/start-ssh-tunnel.sh
 0 7 * * * /home/marsPortal/misc/start-ssh-tunnel.sh
