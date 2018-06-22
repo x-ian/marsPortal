@@ -44,3 +44,12 @@ generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
 
 //require dirname(__FILE__)."/statistics-current-groups.php";
 ?>
+
+<br/>
+
+<p>Updated every 5 minutes; up to first 5 minutes may not be counted.</p>
+
+<br/>
+
+</div>
+</body>

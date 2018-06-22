@@ -40,15 +40,13 @@
 		   			<li><a href="/mars/reports/statistics-v5.php">Traffic volume</a></li>
 					<li><a href="/mars/reports/devices_with_volume.php">Devices history</a></li>
 					<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
-					<li role="separator" class="divider"></li>
-		   			<li><a href="/mars/reports/statistics.php">Statistics old</a></li>
           </ul>
         </li>
 		
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Users & Groups)<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="/mars/reports/users-statistics.php">Statistics</a></li>
+	       		<li>Statistics (disabled)></li>
 	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
           </ul>
         </li>

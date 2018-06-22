@@ -41,7 +41,7 @@ foreach($row AS $key => $value) { $row[$key] = stripslashes($value); }
 <td><?=nl2br( $row['notes'])?></td>  -->
 <td>
 	<a class="btn btn-default btn-xs"  href=edit.php?username=<?=$row['username']?>>Edit</a>&nbsp;
-	<a class="btn btn-default btn-xs" href=../device_with_volume.php?username=<?=$row['username']?>>Traffic&nbsp;History</a>&nbsp;<a class="btn btn-default btn-xs" href=/mars/reports/device-activity.php?username=<?=$row['username']?>>Activity&nbsp;History</a>&nbsp;
+	<a class="btn btn-default btn-xs" href=/mars/reports/mars/device_with_volume.php?username=<?=$row['username']?>>Traffic&nbsp;History</a>&nbsp;<a class="btn btn-default btn-xs" href=/mars/reports/device-activity.php?username=<?=$row['username']?>>Activity&nbsp;History</a>&nbsp;
 	<a data-confirm="Are you sure?" class="btn btn-danger btn-xs" rel="nofollow" data-method="post" href="delete.php?username=<?=$row['username']?>">Delete</a></td>
 	
 </tr>
