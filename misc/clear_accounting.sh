@@ -4,6 +4,10 @@ BASEDIR=/home/marsPortal
 
 source $BASEDIR/config.txt
 
+# remove all CP sessions
+/usr/local/bin/php -q $BASEDIR/misc/captiveportal-disconnect-all-users.php
+
+# wipe database
 /usr/local/bin/mysql -u `echo $MYSQL_USER` -p`echo $MYSQL_PASSWD` radius <<EOF
 truncate accounting_snapshot_1;
 truncate accounting_snapshot_2;

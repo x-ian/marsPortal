@@ -12,7 +12,7 @@ BODY=$2
 SENDER=$AuthUser
 #RECEIVER=$RECEIVER already part of config.txt
 
-TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
+TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX`.sh
 echo "From: $SENDER
 To: $RECEIVER
 Subject: $SUBJECT

@@ -21,7 +21,7 @@ DISK=`df -H /`
 SWAP=`top | grep Swap`
 PFSENSE_VERSION="`cat /etc/version`-p`cat /etc/version.patch`"
 
-TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
+TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX`.sh
 echo "FromLineOverride=YES
 mailhub=smtp.gmail.com:587
 AuthUser=notification@marsgeneral.com

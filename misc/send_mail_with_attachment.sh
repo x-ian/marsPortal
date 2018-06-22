@@ -12,7 +12,7 @@ FILENAME=$4
 CONTENTTYPE=$5
 SENDER=$AuthUser
 
-TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX.sh`
+TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX`.sh
 echo "From: $SENDER
 To: $RECEIVER
 Subject: $SUBJECT
