@@ -22,6 +22,9 @@ do
 	IP=$(echo $line | awk '{print $2}' | tr '(' ' ' | tr ')' ' ')
 	MAC=$(echo $line | awk '{print $4}') 
 	
+	# check for (incomplete) MAC address; unclear why this happens
+	if [ "$MAC" != "(incomplete)" ]; then
+	
 	grep $IP $PORTAL_IPS
 	if [ $? -ne 0 ]; then
 		# not my own IP, so check if registered radius user
@@ -30,6 +33,11 @@ do
 			# radius user not found
 			echo "$MAC with $IP to be registered"
 			/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh $IP "" "" "" "" "Users"
+			# auto login newly registered device
+			# TODO: should only for groups with auto-login activated
+			/usr/local/bin/php -e $BASEDIR/misc/captiveportal-connect-user.php $IP $MAC
 		fi
+	fi
+
 	fi
 done < $ALL_CONNECTED_MACS
