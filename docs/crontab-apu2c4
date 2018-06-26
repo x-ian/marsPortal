@@ -26,7 +26,8 @@
 # accounting and traffic stats
 5,10,15,20,25,28,30,35,40,45,50,55,58 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v5.sh
 * * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput-v2.sh
-*/5 * * * * /home/marsPortal/misc/captiveportal-auto-login-devices.sh
+1-59/2 * * * * /home/marsPortal/misc/captiveportal-auto-login-devices.sh
+*/2 * * * * /home/marsPortal/misc/captiveportal-auto-register-devices.sh
 @reboot /home/marsPortal/misc/log_wan_throughput.sh
 #*/10 * * * * /home/marsPortal/misc/log_wan_traffic.sh
 #*/10 * * * * /home/marsPortal/misc/log_wan_traffic_2.sh
