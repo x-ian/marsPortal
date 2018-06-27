@@ -46,7 +46,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Users & Groups)<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li>Statistics (disabled)></li>
+	       		<li>Statistics (disabled)</li>
 	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
           </ul>
         </li>
@@ -60,9 +60,14 @@
 	       		<li><a href="">Activate VIP/emergency mode</a></li>
 	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices without Portal Registration</a></li>
 				<li role="separator" class="divider"></li>
+	       		<li><a href="./monitor-network-devices.php">Edit network devices to monitor</a></li>
+				<li role="separator" class="divider"></li>
+	       		<li><a href="/mars/admin/troubleshooting.php">Troubleshooting</a></li>
+				<li role="separator" class="divider"></li>
 	       		<li><a href="/mars/admin/check-radius-inconsistencies.php">RADIUS inconsistencies</a></li>
 	       		<li><a href="">Cleanup devices not seen for last x months</a></li>
 	       		<li><a href="">Reset all accounting data</a></li>
+	       		<li><a href="">Delete all registered devices</a></li>
 				<li role="separator" class="divider"></li>
 	       		<li><a href="">Useful links</a></li>
 	       		<li><a href="/mars/admin/licenses.php">License notes</a></li>
