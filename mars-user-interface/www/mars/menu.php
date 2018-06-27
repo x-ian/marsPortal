@@ -60,8 +60,6 @@
 	       		<li><a href="">Activate VIP/emergency mode</a></li>
 	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices without Portal Registration</a></li>
 				<li role="separator" class="divider"></li>
-	       		<li><a href="./monitor-network-devices.php">Edit network devices to monitor</a></li>
-				<li role="separator" class="divider"></li>
 	       		<li><a href="/mars/admin/troubleshooting.php">Troubleshooting</a></li>
 				<li role="separator" class="divider"></li>
 	       		<li><a href="/mars/admin/check-radius-inconsistencies.php">RADIUS inconsistencies</a></li>
@@ -79,6 +77,7 @@
           <ul class="dropdown-menu">
 	       		<li><a href="">Invoke Backup</a></li>
 	       		<li><a href="/mars/config/edit.php">Change Settings</a></li>
+	       		<li><a href="./monitor-network-devices.php">Edit network devices to monitor</a></li>
 	       		<li><a href="">Change password</a></li>
           </ul>
         </li>
