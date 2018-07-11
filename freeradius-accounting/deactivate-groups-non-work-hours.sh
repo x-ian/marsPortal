@@ -3,6 +3,9 @@
 BASEDIR=`dirname $0`
 source $BASEDIR/../config.txt
 
+# update config.txt to set new default group to work hours
+/usr/bin/sed  -i '' 's/-non-work-hours//g' $BASEDIR/../config.txt
+
 /usr/local/bin/mysql -u `echo $MYSQL_USER` -p`echo $MYSQL_PASSWD` radius <<EOF
 set @non_work_groups_postfix = '-non-work-hours';
 
@@ -11,4 +14,4 @@ UPDATE radusergroup
   WHERE groupname LIKE CONCAT('%', @non_work_groups_postfix);
 EOF
 
-$BASEDIR/../misc/captiveportal-disconnect-all-users.sh
+/usr/local/bin/php -q $BASEDIR/../misc/captiveportal-disconnect-all-users.php

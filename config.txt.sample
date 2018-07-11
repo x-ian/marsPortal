@@ -32,6 +32,8 @@ DAY_END=2359
 # day in week, mo=1, su=7
 WORK_DAYS=1,2,3,4,5
 
+DEFAULT_GROUP=Users
+
 # marsPortal HTTP Auth
 HTTP_AUTH_USER=admin
 HTTP_AUTH_PASSWD=pfsense

@@ -11,4 +11,4 @@ UPDATE radusergroup
   WHERE groupname LIKE CONCAT('%', @open_groups_postfix);
 EOF
 
-$BASEDIR/../misc/captiveportal-disconnect-all-users.sh
+/usr/local/bin/php -q $BASEDIR/../misc/captiveportal-disconnect-all-users.php

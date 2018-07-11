@@ -12,4 +12,4 @@ WHERE
   (SELECT COUNT(*) > 0 FROM radgroupreply WHERE groupname = CONCAT(radusergroup.groupname, @non_work_groups_postfix))
 EOF
 
-$BASEDIR/../misc/captiveportal-disconnect-all-users.sh
+/usr/local/bin/php -q $BASEDIR/../misc/captiveportal-disconnect-all-users.php
