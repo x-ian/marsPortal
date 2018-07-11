@@ -1,3 +1,4 @@
+<? include '/home/marsPortal/mars-user-interface/www/mars/config.php'; ?>
 <html>
 <head>
 	<meta http-equiv="Refresh" content="3; url=http://www.marsgeneral.com/" />
@@ -28,14 +29,14 @@
 		. " \"" . $email . "\"" 
 		. " \"" . $owner . "\"" 
 		. " \"" . $primary . "\"" 
-		. " \"" . "Users" . "\""; */
+		. " \"" . $DEFAULT_GROUP . "\""; */
 		exec("/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh " 
 		. $ip 
 		. " \"" . $name . "\"" 
 		. " \"" . $email . "\"" 
 		. " \"" . $owner . "\"" 
 		. " \"" . $primary . "\"" 
-		. " \"" . "Users" . "\"",
+		. " \"" . $DEFAULT_GROUP . "\"",
 		$output, $exitCode);
 	?>
 	</p>

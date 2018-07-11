@@ -32,7 +32,7 @@ do
 		if [ $? -ne 0 ]; then
 			# radius user not found
 			echo "$MAC with $IP to be registered"
-			/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh $IP "" "" "" "" "Users"
+			/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh $IP "" "" "" "" $DEFAULT_GROUP
 			# auto login newly registered device
 			# TODO: should only for groups with auto-login activated
 			/usr/local/bin/php -e $BASEDIR/misc/captiveportal-connect-user.php $IP $MAC

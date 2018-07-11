@@ -1,7 +1,7 @@
+<? include '/home/marsPortal/mars-user-interface/www/mars/config.php'; ?>
 <div>
 	Auto-detecting device...
 </div>
-
 	<p><?php
 		$ip=$_SERVER['REMOTE_ADDR'];
 		$name="";
@@ -15,7 +15,7 @@
 		. " \"" . $email . "\"" 
 		. " \"" . $owner . "\"" 
 		. " \"" . $primary . "\"" 
-		. " \"" . "Users" . "\"",
+		. " \"" . $DEFAULT_GROUP . "\"",
 		$output, $exitCode);
 	?>
 	</p>

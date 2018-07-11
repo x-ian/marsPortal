@@ -46,7 +46,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Users & Groups)<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li>Statistics (disabled)</li>
+	       		<li><a href=".">Statistics (disabled)</a></li>
 	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
           </ul>
         </li>
