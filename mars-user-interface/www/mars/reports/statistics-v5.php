@@ -42,6 +42,15 @@ generatedailytraffic('Download', $today, $yesterday, $daysago7, $daysago30);
 echo "<div class=\"page-header\"><h1>Top uploads</h1></div>";
 generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
 
+// during work hours , day
+
+echo "<div class=\"page-header\"><h1>Top downloads between 07:00 and 18:00</h1></div>";
+generatedailytraffic_gerry_mtl('Download', $today, $yesterday, $daysago7, $daysago30);
+
+echo "<div class=\"page-header\"><h1>Top uploads between 07:00 and 18:00</h1></div>";
+generatedailytraffic_gerry_mtl('Upload', $today, $yesterday, $daysago7, $daysago30);
+
+
 //require dirname(__FILE__)."/statistics-current-groups.php";
 ?>
 
