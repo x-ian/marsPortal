@@ -144,15 +144,15 @@ function generatedailytraffic($upordown, $today, $yesterday, $daysago7, $daysago
 function generatedailytraffic_gerry_mtl($upordown, $today, $yesterday, $daysago7, $daysago30) {
 	//echo "<hr/><p>Top " . $upordown . "s daily</p>";
 	
-	$upordown_today_gerry_mtl = query(top_upordown($today, $today, 10, $upordown));
-	$upordown_yesterday_gerry_mtl = query(top_upordown($yesterday, $yesterday, 10, $upordown));
-	$upordown_last7days_gerry_mtl = query(top_upordown($daysago7, $today, 10, $upordown));
-	$upordown_last30days_gerry_mtl = query(top_upordown($daysago30, $today, 10, $upordown));
+	$upordown_today_gerry_mtl = query_gerry_mtl(top_upordown($today, $today, 10, $upordown));
+	$upordown_yesterday_gerry_mtl = query_gerry_mtl(top_upordown($yesterday, $yesterday, 10, $upordown));
+	$upordown_last7days_gerry_mtl = query_gerry_mtl(top_upordown($daysago7, $today, 10, $upordown));
+	$upordown_last30days_gerry_mtl = query_gerry_mtl(top_upordown($daysago30, $today, 10, $upordown));
 
-	$upordown_total_today_gerry_mtl = query(total_upordown($today, $today, $upordown));
-	$upordown_total_yesterday_gerry_mtl = query(total_upordown($yesterday, $yesterday, $upordown));
-	$upordown_total_last7days_gerry_mtl = query(total_upordown($daysago7, $today, $upordown));
-	$upordown_total_last30days_gerry_mtl = query(total_upordown($daysago30, $today, $upordown));
+	$upordown_total_today_gerry_mtl = query_gerry_mtl(total_upordown($today, $today, $upordown));
+	$upordown_total_yesterday_gerry_mtl = query_gerry_mtl(total_upordown($yesterday, $yesterday, $upordown));
+	$upordown_total_last7days_gerry_mtl = query_gerry_mtl(total_upordown($daysago7, $today, $upordown));
+	$upordown_total_last30days_gerry_mtl = query_gerry_mtl(total_upordown($daysago30, $today, $upordown));
 ?>
 
 <table class='table table-striped'>
