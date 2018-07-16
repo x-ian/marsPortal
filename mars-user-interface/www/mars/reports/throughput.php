@@ -59,8 +59,8 @@ function throughput_upordown($topX, $order, $start, $end) {
 			ui.mac_vendor, 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
-			ROUND(((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as input_rate, 
-			ROUND(((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as output_rate, 
+			ROUND(((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) * 1) as input_rate, 
+			ROUND(((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) * 1) as output_rate, 
 			max(time_of_day) as max, 
 			min(time_of_day) as min 
 		from throughput t, userinfo ui, radusergroup g
@@ -75,8 +75,8 @@ function throughput_device_upordown($device, $start, $end) {
 		select 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
-			ROUND(ROUND((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as input_rate, 
-			ROUND(ROUND((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as output_rate
+			ROUND(ROUND((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) * 1) as input_rate, 
+			ROUND(ROUND((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) * 1) as output_rate
 		from throughput t
 		where t.username = '" . $device . "' and 
 			time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' and day = curdate()";
@@ -88,12 +88,12 @@ function throughput_total_upordown($start, $end) {
 		select 
 			ROUND((max(offset_input) - min(offset_input)) / 1000000) as input, 
 			ROUND((max(offset_output) - min(offset_output)) / 1000000) as output, 
-			ROUND(ROUND((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as input_rate, 
-			ROUND(ROUND((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) / 1000) as output_rate
+			ROUND(ROUND((max(offset_input) - min(offset_input)) / TIME_TO_SEC(timediff('$end', '$start'))) * 1) as input_rate, 
+			ROUND(ROUND((max(offset_output) - min(offset_output)) / TIME_TO_SEC(timediff('$end', '$start'))) * 1) as output_rate
 		from throughput t
 		where time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' and day=curdate() GROUP BY username
 		) as tt";
-		//echo $aa;
+		echo $aa;
 		return $aa;
 }
 
@@ -174,7 +174,7 @@ while($row = mysql_fetch_array($result)){
 
 <br/>
 
-<p>Throughput in kbytes/sec (and total size in MB). Data updated every minute.</p>
+<p>Throughput in kbits/sec (and total size in MB). Data updated every minute.</p>
 
 <br/>
 
