@@ -93,7 +93,7 @@ function throughput_total_upordown($start, $end) {
 		from throughput t
 		where time_of_day >= '" . $start . "' and time_of_day <= '" . $end . "' and day=curdate() GROUP BY username
 		) as tt";
-		echo $aa;
+		//echo $aa;
 		return $aa;
 }
 
