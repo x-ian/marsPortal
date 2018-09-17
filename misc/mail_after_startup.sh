@@ -17,6 +17,10 @@ else
 	SUBJECT="`echo "startup after crash at"` `date +%Y%m%d-%H%M`"	
 fi
 BODY="
+SSH tunnel: `echo $SSH_TUNNEL_PORT`
+ID: `echo $NETGATE_ID`
+Device name: `echo $DEVICE_NAME`
+
 IP addresses:
 `ifconfig | grep "inet "`
 
