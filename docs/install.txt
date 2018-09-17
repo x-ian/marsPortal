@@ -4,44 +4,15 @@ NOTES ON INSTALLATION OF PFSENSE
 pfSense 2.4
 —————
 
-/usr/local/etc/pkg/repos/FreeBSD.conf enabled: no -> yes
-/usr/local/etc/pkg/repos/pfSense.conf enabled: no -> yes
-
-pkg install bash curl git php56-mysql wget ssmtp base64 autossh mysql56-client mysql56-server nap freeradius3 nmap
-
 http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/
 
-chown mysql:mysql /var/db/mysql/*
-
-./bin/mysql -u root -pradius radius < /usr/local/etc/raddb/mods-config/sql/main/mysql/schema.sql
-
-mv /usr/local/etc/raddb/dictionary /usr/local/etc/raddb/dictionary.original
-cp /home/marsPortal/freeradius-config/freeradius3/dictionary /usr/local/etc/raddb
-mv /usr/local/etc/raddb/sites-available/default /usr/local/etc/raddb/sites-available/default.original
-cp /home/marsPortal/freeradius-config/freeradius3/default /usr/local/etc/raddb/sites-available
-mv /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-available/sql.original
-cp /home/marsPortal/freeradius-config/freeradius3/sql /usr/local/etc/raddb/mods-available
-# ln -s /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-enabled/sql
-
-cp /home/marsPortal/setup-captiveportal/freeradius3/rlm_sql_mysql.* /usr/local/lib/freeradius-3.0.15
-
-ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /usr/local/etc/raddb/mods-enabled/captiveportal-disconnect-user
 
 copy SSH key for tunnel
 
-Increase number of concurrent Web Admin users to 10
 
-Disable Dashboard auto-update check (System - Update - Update settings - Dashboard check)
-
-Disable Netgate Device ID (System - Advanced - Misc)
-
-
-Zotac CI327
-—————
-
-Booting takes a while cause of complaints/timeouts for the SD card reader.
-Wireless controller (Intel 3165) isn’t usable. And even if, it most likely won’t support AP mode, but just Station (sysctl net.wlan.devices, pciconf -vl)
-disable 'Monitor M-Wait' in bios; Could be under Features tab > CPU Configuration
+patching system.inc for automatic CP login during first capative portal detection attempt of (mobile) devices
+cp /etc/inc/system.inc /etc/inc/system.inc_original
+cp /home/marsPortal/setup-marsportal/initial_captiveportal_detection/system.inc_detection /etc/inc/system.inc
 
 
 Preparing memstick installation
@@ -51,7 +22,7 @@ pfsense can be installed from local CD drive or from an USB flash disk (if the B
 diskutil list
 diskutil umount /dev/diskX
 gzcat ~/Downloads/pfSense-memstick-2.2.2-RELEASE-amd64.img.gz | sudo dd of=/dev/diskX bs=16k
-
+or directly via: sudo dd if=pfSense-CE-memstick-2.4.2-RELEASE-amd64.iso of=/dev/disk2 bs=4m
 
 Installation
 ------------
@@ -84,7 +55,7 @@ After rebooting the basic network configs need to be configured.
 
 Skip VLAN configuration for now; they can be configured later on.
 
-Configure first network interface (e.g. em0) as WAN (e.g. with 172.16.1.X/24) and em1 as LAN (e.g. with 192.168.1.1/24) and enable DHCP services per devices as needed.
+Configure first network interface (e.g. em0) as WAN (e.g. with 172.16.1.X/24) and em1 as LAN (e.g. with 192.168.1.1/24) and enable DHCP services per interfaces as needed.
 
 Connect with a cable to the LAN port (e.g. em1), wait until your computer receives an IP address from the pfSense and open the web browser pointing to above http://192.168.1.1. Use admin/pfsense as username and password.
 
@@ -112,7 +83,7 @@ A DNS Server should be configured, typically pointing towards the outside firewa
 
 Configure/activate DHCP server for every inside network/VLAN interface as required
 
-Set DHCP server lease time to 43200 (note that this must be greater than any Captive portal and RADIUS session timeouts)
+Set DHCP server lease time to 604801 (note that this must be greater than any Captive portal and RADIUS session timeouts)
 
 Deactivate 'block private networks' if the WAN IP is not a public IP (Interfaces - WAN).
 
@@ -128,13 +99,21 @@ TODO: Add firewall rule to allow TCP, UDP, and ICMP pings (easiest done through 
 
 TODO: Add firewall rules on wan interface to allow traffic on port 3000 (for ntop)
 
+Increase number of concurrent Web Admin users to 10 (System - Admin Access - Max Processes)
+
+Disable Dashboard auto-update check (System - Update - Update settings - Dashboard check)
+
+Disable Netgate Device ID (System - Advanced - Misc)
+
+Optionally disable Disable HTTP_REFERER enforcement check (System - Advanced - Admin Access)
+
 
 Installation of additional software/packages (requires Internet access)
 --------------------------------------------
 
-Install pfSense packages 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
+## Install pfSense packages 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
 
-Enable transparent Squid for HTTP and activate logging
+## Enable transparent Squid for HTTP and activate logging
 - Services - Squid Proxy Server
   Local cache
     Hard disk Cache Size: 1000
@@ -147,7 +126,7 @@ Enable transparent Squid for HTTP and activate logging
     Enable Access Logging
   Save
 
-Enable Lightsquid (Proxy report) reporting
+## Enable Lightsquid (Proxy report) reporting
 - Status - Squid Proxy Reports
   Refresh Scheduler: 60 min
   Save
@@ -155,27 +134,11 @@ Enable Lightsquid (Proxy report) reporting
 
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection. Carefully watch for error messages make sure that each command 'properly' finishes.
 
+change /usr/local/etc/pkg/repos/FreeBSD.conf enabled: no -> yes
+change /usr/local/etc/pkg/repos/pfSense.conf enabled: no -> yes
+
 pkg update
-echo y | pkg install bash
-echo y | pkg install curl
-echo y | pkg install git
-echo y | pkg install php56-mysql
-
-# 64 Bit
-pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/wget-1.16.3.txz
-pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/ssmtp-2.64_1.txz
-pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/base64-1.5_1.txz
-pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/mysql56-client-5.6.27.txz
-pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/mysql56-server-5.6.27.txz
-pkg add http://pkg.freebsd.org/freebsd:10:x86:64/release_3/All/autossh-1.4e.txz
-
-# 32 Bit
-pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/wget-1.16.3.txz
-pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/ssmtp-2.64_1.txz
-pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/base64-1.5_1.txz
-pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/mysql56-client-5.6.27.txz
-pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/mysql56-server-5.6.27.txz
-pkg add http://pkg.freebsd.org/FreeBSD:10:i386/release_3/All/autossh-1.4e.txz
+echo y | pkg install bash curl git php56-mysql wget ssmtp base64 autossh mysql56-client mysql56-server nap freeradius3 nmap
 
 rehash
 ln -s /usr/local/bin/bash /bin/bash
@@ -192,33 +155,58 @@ mkdir /home/mail_backlog
 cd /home
 git clone https://github.com/x-ian/marsPortal.git
 cd /home/marsPortal
+git checkout pfSense2.4
 cp /home/marsPortal/config.txt.sample /home/marsPortal/config.txt
 cp /home/marsPortal/ssmtp.config.sample /home/marsPortal/ssmtp.config
 mkdir /etc/php_dynamodules
 touch /etc/php_dynamodules/mysql
 /etc/rc.php_ini_setup
+# restart PHP-FPM (e.g. from Console menu)
 ln -s /home/marsPortal/mars-user-interface/www/mars/ /usr/local/www/mars
+
+(crontab -l ; echo "#############################################################################") | crontab -
+(crontab -l ; echo "# mandatory admin stuff") | crontab -
+(crontab -l ; echo "59 23 * * * /sbin/reboot") | crontab -
 (crontab -l ; echo "@reboot /home/marsPortal/misc/marsPortalStart.sh") | crontab -
 (crontab -l ; echo "@reboot /home/marsPortal/misc/mail_after_startup.sh") | crontab -
-(crontab -l ; echo "59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
-(crontab -l ; echo "0 23 * * Sun /home/marsPortal/misc/heartbeat.sh") | crontab -
+(crontab -l ; echo "@reboot /home/marsPortal/misc/log_internet_ping.sh") | crontab -
+(crontab -l ; echo "#59 23 * * Sun /home/marsPortal/misc/weekly_maintenance.sh") | crontab -
+(crontab -l ; echo "0 * * * * /home/mars-monitoring-probes/probes/marsPortal_Probe/heartbeat.sh") | crontab -
+(crontab -l ; echo "*/30 * * * * /home/marsPortal/misc/process_mail_backlog.sh") | crontab -
 (crontab -l ; echo "5 7 * * * /home/marsPortal/misc/monitor_network_devices.sh") | crontab -
+(crontab -l ; echo "0 23 * * Sun /home/marsPortal/misc/heartbeat.sh") | crontab -
 (crontab -l ; echo "#50 23 * * * /home/marsPortal/misc/captiveportal-disconnect-all-users.sh") | crontab -
 (crontab -l ; echo "55 23 * * * /home/marsPortal/misc/freeradius-mail-statistics.sh") | crontab -
-(crontab -l ; echo "*/30 * * * * /home/marsPortal/misc/process_mail_backlog.sh") | crontab -
+(crontab -l ; echo "#############################################################################") | crontab -
+(crontab -l ; echo "# marsmonitoring.com") | crontab -
+(crontab -l ; echo "@reboot /home/mars-monitoring-probes/probes/Ubuntu_Internet_Probe/measure_network_speed_after_restart.sh ") | crontab -
+(crontab -l ; echo "1,16,31,46 * * * * /home/mars-monitoring-probes/probes/Ubuntu_Internet_Probe/measure_network_speed.sh") | crontab -
+(crontab -l ; echo "@reboot /home/mars-monitoring-probes/probes/marsPortal_Probe/heartbeat_after_restart.sh ") | crontab -
+(crontab -l ; echo "#############################################################################") | crontab -
+(crontab -l ; echo "# optional") | crontab -
+(crontab -l ; echo "@reboot /home/marsPortal/misc/start-ssh-tunnel.sh") | crontab -
+(crontab -l ; echo "0 7 * * * /home/marsPortal/misc/start-ssh-tunnel.sh") | crontab -
 (crontab -l ; echo "59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh") | crontab -
-(crontab -l ; echo "0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
-(crontab -l ; echo "0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
-(crontab -l ; echo "*/5 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v3.sh") | crontab -
-(crontab -l ; echo "15,45 * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_1") | crontab -
-(crontab -l ; echo "0 */2 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_2") | crontab -
-(crontab -l ; echo "1 1,8,17 * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput.sh accounting_snapshot_3") | crontab -
+(crontab -l ; echo "#0 17 * * 1-5 /home/marsPortal/freeradius-accounting/activate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "#0 8 * * 1-5 /home/marsPortal/freeradius-accounting/deactivate-groups-non-work-hours.sh") | crontab -
+(crontab -l ; echo "# accounting and traffic stats") | crontab -
+(crontab -l ; echo "5,10,15,20,25,28,30,35,40,45,50,55,58 * * * * /home/marsPortal/freeradius-accounting/accounting-snapshot-v5.sh") | crontab -
+(crontab -l ; echo "* * * * * /home/marsPortal/freeradius-accounting/accounting-recent-throughput-v2.sh") | crontab -
+(crontab -l ; echo "1-59/2 * * * * /home/marsPortal/misc/captiveportal-auto-login-devices.sh") | crontab -
+(crontab -l ; echo "*/2 * * * * /home/marsPortal/misc/captiveportal-auto-register-devices.sh") | crontab -
+(crontab -l ; echo "#@reboot /home/marsPortal/misc/log_wan_throughput.sh") | crontab -
+(crontab -l ; echo "#*/10 * * * * /home/marsPortal/misc/log_wan_traffic.sh") | crontab -
+(crontab -l ; echo "#*/10 * * * * /home/marsPortal/misc/log_wan_traffic_2.sh") | crontab -
+(crontab -l ; echo "#* * * * * /home/marsPortal/misc/log_wan_traffic_3.sh") | crontab -
+(crontab -l ; echo "#@reboot /home/marsPortal/misc/gnuplot_wan_traffic.sh") | crontab -
+(crontab -l ; echo "#* * * * * /home/marsPortal/misc/log_wan_traffic_4.sh") | crontab -
+
 
 # this next line would be the right way to install freeradius, but doesnt work as the newer & default versions do not have SQL support included!
 # echo y | pkg install freeradius
-pkg add -M /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
+##pkg add -M /home/marsPortal/setup-marsportal/amd64-freeradius-2.2.6_3.txz
 # for 32 bit: pkg add -M /home/marsPortal/setup-marsportal/i386-freeradius-2.2.6_3.txz
-pkg lock freeradius
+##pkg lock freeradius
 
 Editing text config files. Use vi if familiar, or ee if vi is unknown (https://www.freebsd.org/doc/handbook/editors.html):
 - Open /home/marsPortal/config.txt and adjust the config values as needed, e.g. with vi /home/marsPortal/config.txt
@@ -230,7 +218,7 @@ Database preparation
 
 cd /usr/local
 ./bin/mysql_install_db
-chown -R mysql /usr/local/data
+chown -R mysql:mysql /var/db/mysql/*
 echo "bind-address = 127.0.0.1" >> /usr/local/my.cnf
 /usr/local/bin/mysqld_safe &
 sleep 60
@@ -251,24 +239,31 @@ mysql -u root -pradius <<EOF
    GRANT FILE ON *.* TO 'radius'@'localhost';
    exit
 EOF
-mysql -u root -pradius radius < /usr/local/etc/raddb/sql/mysql/schema.sql
-mysql -u radius -pradpass radius < /home/marsPortal/setup-marsportal/marsPortal.sql
+./bin/mysql -u root -pradius radius < /usr/local/etc/raddb/mods-config/sql/main/mysql/schema.sql
+./bin/mysql -u root -pradius radius < /home/marsPortal/setup-marsportal/marsPortal.sql
+
+
 
 
 Configuration of freeRADIUS
 ---------------------------
 
 echo 'radiusd_enable="YES"' >> /etc/rc.conf
-mkdir /var/run/radiusd/
-ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user  /usr/local/etc/raddb/modules/captiveportal-disconnect-user
-mv /usr/local/etc/raddb/sites-available/default /usr/local/etc/raddb/sites-available/default.original
-cp /home/marsPortal/setup-marsportal/config-files/default /usr/local/etc/raddb/sites-available/default
-mv /usr/local/etc/raddb/dictionary /usr/local/etc/raddb/dictionary.original
-cp /home/marsPortal/setup-marsportal/config-files/dictionary /usr/local/etc/raddb/dictionary
-mv /usr/local/etc/raddb/radiusd.conf /usr/local/etc/raddb/radiusd.conf.original
-cp /home/marsPortal/setup-marsportal/config-files/radiusd.conf /usr/local/etc/raddb/radiusd.conf
 
-cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
+## mkdir /var/run/radiusd/
+ln -s /home/marsPortal/freeradius-config/captiveportal-disconnect-user /usr/local/etc/raddb/mods-enabled/captiveportal-disconnect-user
+
+mv /usr/local/etc/raddb/dictionary /usr/local/etc/raddb/dictionary.original
+cp /home/marsPortal/freeradius-config/freeradius3/dictionary /usr/local/etc/raddb
+mv /usr/local/etc/raddb/sites-available/default /usr/local/etc/raddb/sites-available/default.original
+cp /home/marsPortal/freeradius-config/freeradius3/default /usr/local/etc/raddb/sites-available
+mv /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-available/sql.original
+cp /home/marsPortal/freeradius-config/freeradius3/sql /usr/local/etc/raddb/mods-available
+
+cp /home/marsPortal/setup-captiveportal/freeradius3/rlm_sql_mysql.* /usr/local/lib/freeradius-3.0.17
+ln -s /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-enabled/sql
+
+##cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
 #32 bit: cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_i386.tgz
 
 Below are some background information; only for informational purpose. Continue installation with next section 'Captive portal':
