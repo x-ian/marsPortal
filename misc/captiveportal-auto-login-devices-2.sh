@@ -34,12 +34,12 @@ if [[ ! -z "$ALL" ]]; then
 
 		if [ ! -z "$AUTO_LOGIN" ]; then
 			IP=$(/usr/sbin/arp -n -a -i $LAN_INTERFACE | grep $MAC | awk '{print $2}' | tr '(' ' ' | tr ')' ' ')
-			echo "$MAC with $IP to be authed at `date`" >>/tmp/auto_login_new
+			echo "$MAC - $IP - y - scheduled automatic cp login - `date +%Y%m%d-%H%M%S`" >> /home/client_activities_log/status-`date +%Y%m%d`.log
 			/usr/local/bin/php -e $BASEDIR/misc/captiveportal-connect-user.php $IP $MAC
 		fi
 	done <<< "$ALL"
 fi
 cp $ALL_CONNECTED_MACS $ALL_PREVIOUS_MACS
 
-sleep 300
-/home/marsPortal/misc/captiveportal-auto-login-devices-2.sh &
+#sleep 300
+#/home/marsPortal/misc/captiveportal-auto-login-devices-2.sh &
