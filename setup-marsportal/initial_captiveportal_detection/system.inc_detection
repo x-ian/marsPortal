@@ -1478,6 +1478,7 @@ http {
 		default 0;
 		"clients3.google.com:/generate_204" 1;
 		"captive.apple.com:/generate_204" 1;
+		"spectrum.s3.amazonaws.com:/kindle-wifi/wifistub.html" 1;
 	}
 
 EOD;
