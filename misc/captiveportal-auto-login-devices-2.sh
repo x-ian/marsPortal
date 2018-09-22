@@ -41,5 +41,5 @@ if [[ ! -z "$ALL" ]]; then
 fi
 cp $ALL_CONNECTED_MACS $ALL_PREVIOUS_MACS
 
-#sleep 300
-#/home/marsPortal/misc/captiveportal-auto-login-devices-2.sh &
+sleep 60
+/home/marsPortal/misc/captiveportal-auto-login-devices-2.sh &
