@@ -6,7 +6,6 @@ header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass browser caching
 
 function dropdown_link_to_device($username) {
-	
 	$query = "SELECT radusergroup.groupname as groupname, userinfo.* from userinfo
 LEFT JOIN radusergroup ON userinfo.username=radusergroup.username 
 WHERE userinfo.username='" . $username . "';";
@@ -25,25 +24,29 @@ WHERE userinfo.username='" . $username . "';";
 		if ($row['hostname'] !== '') {
 			$name .= '(' . $row['hostname'] . ')';
 		}
-		
-		return "<div class='dropdown'>
-	  <a class='dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown'>
-	    {$name}
-	    <span class='caret'></span>
-	  </a>
-	  <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>
-	    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device_with_volume.php?username={$row[username]}'>Traffic history</a></li>
-	    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device-activity.php?username={$row[username]}'>Activity history</a></li>
-	    <li role='presentation' class='divider'></li>
-	    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/userinfo/edit.php?username=${row[username]}'>Edit device</a></li>
-	    <li role='presentation' class='divider'></li>
-	    <li role='presentation'>Username: {$row[firstname]} ${row[lastname]}</li>
-	    <li role='presentation'>Hostname: {$row[hostname]}</li>
-	    <li role='presentation'>Group: {$row[groupname]}</li>
-	    <li role='presentation'>MAC Address: {$row[username]}</li>
-	    <li role='presentation'>MAC Vendor: {$row[mac_vendor]}</li>
-	  </ul>
-	</div>";
+
+		if (isset($_GET['mail'])) {
+			return "{$name}";
+		} else {
+			return "<div class='dropdown'>
+		  <a class='dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown'>
+		    {$name}
+		    <span class='caret'></span>
+		  </a>
+		  <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>
+		    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device_with_volume.php?username={$row[username]}'>Traffic history</a></li>
+		    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device-activity.php?username={$row[username]}'>Activity history</a></li>
+		    <li role='presentation' class='divider'></li>
+		    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/userinfo/edit.php?username=${row[username]}'>Edit device</a></li>
+		    <li role='presentation' class='divider'></li>
+		    <li role='presentation'>Username: {$row[firstname]} ${row[lastname]}</li>
+		    <li role='presentation'>Hostname: {$row[hostname]}</li>
+		    <li role='presentation'>Group: {$row[groupname]}</li>
+		    <li role='presentation'>MAC Address: {$row[username]}</li>
+		    <li role='presentation'>MAC Vendor: {$row[mac_vendor]}</li>
+		  </ul>
+		</div>";
+		}
 	}
 }
 
@@ -84,9 +87,9 @@ function query($query) {
 <html>
 <head>
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <link href="/mars/application.css" rel="stylesheet" type="text/css" />
+  <? if (!isset($_GET['mail'])) { ?><link href="/mars/application.css" rel="stylesheet" type="text/css" /><? } ?>
   <title>marsPortal - <? echo $HEADLINE ?></title>
-  <script src="/mars/application.js"></script>
+  <? if (!isset($_GET['mail'])) { ?><script src="/mars/application.js"></script><? } ?>
 </head>
 
 <body class="visualize_text">
