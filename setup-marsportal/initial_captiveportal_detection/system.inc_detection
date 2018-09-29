@@ -1474,12 +1474,18 @@ http {
 	access_log      syslog:server=unix:/var/run/log,facility=local5 combined;
 
 # added for CP detection
+# http://nginx.org/en/docs/hash.html
+# https://serverfault.com/questions/853102/nginx-could-not-build-map-hash-you-should-increase-map-hash-bucket-size-64
+	map_hash_max_size 1024;
+	map_hash_bucket_size 1024;
+
 	map "\$http_host:\$uri" \$detection {
 		default 0;
 		"clients3.google.com:/generate_204" 1;
 		"captive.apple.com:/generate_204" 1;
 		"spectrum.s3.amazonaws.com:/kindle-wifi/wifistub.html" 1;
 	}
+# end of added for CP detection
 
 EOD;
 
