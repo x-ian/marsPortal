@@ -33,7 +33,7 @@ if [[ ! -z "$ALL" ]]; then
 		AUTO_LOGIN=`/usr/local/bin/mysql --defaults-extra-file=<(printf "[client]\nuser = %s\npassword = %s" "$MYSQL_USER" "$MYSQL_PASSWD") -s radius -b -e "select ui.username from userinfo ui, groupinfo gi, radusergroup rg where ui.username = \"$MAC\" and gi.groupname = rg.groupname and rg.username = ui.username and gi.auto_login=true;"`
 
 		if [ ! -z "$AUTO_LOGIN" ]; then
-			IP=$(/usr/sbin/arp -n -a -i $LAN_INTERFACE | grep $MAC | awk '{print $2}' | tr '(' ' ' | tr ')' ' ')
+			IP=$(/usr/sbin/arp -n -a -i $LAN_INTERFACE | grep $MAC | awk '{print $2}' | tr -d '()')
 			echo "$MAC - $IP - y - scheduled automatic cp login - `date +%Y%m%d-%H%M%S`" >> /home/client_activities_log/status-`date +%Y%m%d`.log
 			/usr/local/bin/php -e $BASEDIR/misc/captiveportal-connect-user.php $IP $MAC
 		fi
