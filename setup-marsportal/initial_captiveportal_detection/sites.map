@@ -4,3 +4,6 @@ default 0;
 "spectrum.s3.amazonaws.com:/kindle-wifi/wifistub.html" 1;
 "network-test.debian.org:/nm" 1;
 "connectivity-check.ubuntu.com:/" 1;
+"www.msftncsi.com:/ncsi.txt" 1;
+"www.msftconnecttest.com:/connecttest.txt" 1;
+"detectportal.firefox.com:/success.txt" 1;

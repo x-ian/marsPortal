@@ -16,8 +16,8 @@ cp /home/marsPortal/setup-marsportal/initial_captiveportal_detection/system.inc_
 
 
 patching captiveportal.inc to allow dns traffic for non-auth'd clients (possibly bypassing traffic accounting)
-cp /etc/inc/captiveportal.inc /etc/inc/captiveportal.inc_original
-cp /home/marsPortal/setup-marsportal/initial_captiveportal_detection/captiveportal.inc /etc/inc/captiveportal.inc
+cp /etc/inc/system.inc /etc/inc/system.inc_original
+cp /home/marsPortal/setup-marsportal/initial_captiveportal_detection/system.inc_detection /etc/inc/system.inc
 
 
 Preparing memstick installation
