@@ -26,6 +26,9 @@ source $BASEDIR/config.txt
   --output-document=$TMP_ALL \
   "$PF_SERVER/status_captiveportal.php?zone=$ZONE"
 
+# delete cache of known MACs
+rm -f /tmp/auto_login_all_previous_macs
+
 # loop over users and terminate all sessions
 cat $TMP_ALL | grep '&amp;order=&amp;showact=&amp;act=del&amp;id' | cut -d "\"" -f2 | sed 's/amp;//g' | while read -r url
 do
