@@ -1480,10 +1480,7 @@ http {
 	map_hash_bucket_size 1024;
 
 	map "\$http_host:\$uri" \$detection {
-		default 0;
-		"clients3.google.com:/generate_204" 1;
-		"captive.apple.com:/generate_204" 1;
-		"spectrum.s3.amazonaws.com:/kindle-wifi/wifistub.html" 1;
+		include /home/marsPortal/setup-marsportal/initial_captiveportal_detection/sites.map;
 	}
 # end of added for CP detection
 
