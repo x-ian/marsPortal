@@ -18,3 +18,6 @@ mkdir /var/run/radiusd/
 #/usr/local/bin/mysql -u `echo $MYSQL_USER` -p`echo $MYSQL_PASSWD` radius <<EOF
 #truncate radacct;
 #EOF
+
+/usr/local/bin/yaf --mac --in bridge0 --live pcap --out /home/yaf/yaf --log /home/yaf/yaf.log --verbose --rotate 300 &
+
