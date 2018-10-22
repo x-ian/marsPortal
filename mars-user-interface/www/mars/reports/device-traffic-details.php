@@ -21,16 +21,16 @@ function deviceinfo($row, $upordown) {
 //	$number = "<a href='/mars/device_with_volume.php?username={$row[username]}'> {$row[$upordown]} </a>";
 //	$link = dropdown_link_to_device($row['username']);	
 //    echo "{$number}: {$link}";
-	echo "{$row} {$upordown}";
+	echo $row[$upordown] . ": " . $row["remote_ip"] . " (" . $row["reverse_dns"] . ")";
 }
 
 require dirname(__FILE__)."/device-traffic-details-2.php";
 
 echo "<div class=\"page-header\"><h1>Top downloads</h1></div>";
-generatedailytraffic('Download', $today, $yesterday, $daysago7, $daysago30);
+generatedailytraffic($username, 'Download', $today, $yesterday, $daysago7, $daysago30);
 
 echo "<div class=\"page-header\"><h1>Top uploads</h1></div>";
-generatedailytraffic('Upload', $today, $yesterday, $daysago7, $daysago30);
+generatedailytraffic($username, 'Upload', $today, $yesterday, $daysago7, $daysago30);
 
 ?>
 
