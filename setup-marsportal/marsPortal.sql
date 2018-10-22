@@ -265,5 +265,32 @@ CREATE TABLE userinfo (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ALTER TABLE userinfo ADD UNIQUE INDEX (username);
 
+DROP TABLE IF EXISTS traffic_details;
+CREATE TABLE traffic_details (
+  day date NOT NULL,
+  mac char(17) NOT NULL,
+  remote_ip char(15) NOT NULL,
+  -- reverse_dns varchar(64),
+  -- asn long,
+  -- remote aggregation criteria,
+  -- port int,
+  -- proto,
+  outgoing long NOT NULL,
+  incoming long NOT NULL,
+  id int(32) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE traffic_details ADD INDEX (day, mac);
+-- ALTER TABLE traffic_details ADD COLUMN ipv4 INT UNSIGNED;
+-- UPDATE traffic_details set ipv4=INET_ATON(remote_ip);
+-- SELECT INET_NTOA(`ipv4`) FROM `traffic_details `;
+
+DROP TABLE IF EXISTS ip_registry;
+CREATE TABLE ip_registry (
+  reverse_dns varchar(256),
+  ip varchar(15) NOT NULL,
+  PRIMARY KEY (ip)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 -- most likely requries root
 grant file on *.* to 'radius'@'localhost';
