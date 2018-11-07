@@ -48,7 +48,7 @@ if (isset($_POST['submitted'])) {
 	
 	echo "<a href='list.php'>Back To Listing</a>"; 
 } 
-$row = mysqli_fetch_array ( mysqli_query('
+$row = mysqli_fetch_array ( mysqli_query($link, '
 	
 	select rr1.groupname "groupname", 
 		(select value from radgroupcheck r2 where attribute="mars-Max-Concurrent-Devices" and r2.groupname = r1.groupname)  "Max Concurrent Users", 

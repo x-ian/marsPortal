@@ -7,9 +7,9 @@
 	
 	$redirurl = $_GET['redirurl']; 
 
-	$all_groups = mysqli_query('select distinct groupname from radgroupreply union select distinct groupname from radgroupcheck order by groupname;');  
+	$all_groups = mysqli_query($link, 'select distinct groupname from radgroupreply union select distinct groupname from radgroupcheck order by groupname;');  
   
-	$all_users = mysqli_query('select firstname, lastname, department from userinfo group by firstname, lastname order by firstname ASC, lastname ASC;');  
+	$all_users = mysqli_query($link, 'select firstname, lastname, department from userinfo group by firstname, lastname order by firstname ASC, lastname ASC;');  
   
 ?>
 
@@ -18,7 +18,7 @@
 var d = {};
 <?php
 	// very stupid, very inefficient
-	$all_users2 = mysqli_query('select userinfo.firstname, userinfo.lastname, userinfo.department, radusergroup.groupname from userinfo, radusergroup where userinfo.username = radusergroup.username group by userinfo.firstname, userinfo.lastname order by userinfo.firstname ASC, userinfo.lastname ASC;');  
+	$all_users2 = mysqli_query($link, 'select userinfo.firstname, userinfo.lastname, userinfo.department, radusergroup.groupname from userinfo, radusergroup where userinfo.username = radusergroup.username group by userinfo.firstname, userinfo.lastname order by userinfo.firstname ASC, userinfo.lastname ASC;');  
 	while($r = mysqli_fetch_assoc($all_users2)) {
 		echo "d['" . $r['firstname'] . ' ' . $r['lastname']  . "'] = { firstname : '" . $r['firstname'] . "', lastname : '" . $r['lastname'] . "', department : '" . $r['department'] . "', group : '" . $r['groupname'] . "'};";
 	}
