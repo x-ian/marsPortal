@@ -1,6 +1,26 @@
 NOTES ON INSTALLATION OF PFSENSE
 ================================
 
+pfSense 2.4.4
+-------------
+
+Changed yet again PHP version (and with this the mysql lib) plus removed custom portal pages(?). Giving up for now and leaving my unfinished work in branch pfSense2.4.4 for marsPortal 2.5
+
+/usr/local/captiveportal/index.php
+
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install bash
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install curl
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install git wget
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install ssmtp base64 autossh
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install nmap
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install php72-mysqli
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install php72-pdo_mysql
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install yaf 
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install silktools
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install mysql57-server mysql57-client
+[2.4.4-RELEASE][admin@marsportal.localdomain]/root: pkg install freeradius3
+
+
 pfSense 2.4
 —————
 
