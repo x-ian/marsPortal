@@ -653,7 +653,7 @@ function captiveportal_init_rules($reinit = false) {
 	}
 
 	$cprules .= "# Rules to allow DNS queries to external servers from unauthenticated users\n";
-	$cprules .= "# gratefully borrowed from https://forum.netgate.com/topic/71251/whitelisting-forwarding-dns-for-captive-portal-users-solved/8
+	$cprules .= "# gratefully borrowed from https://forum.netgate.com/topic/71251/whitelisting-forwarding-dns-for-captive-portal-users-solved/8";
 	$cprules .= captiveportal_create_ipfw_rule("add", $rulenum, "allow udp from any to any 53 out");
 	$cprules .= captiveportal_create_ipfw_rule("add", $rulenum, "allow tcp from any to any 53 out");
 	$cprules .= captiveportal_create_ipfw_rule("add", $rulenum, "allow udp from any to any 53 in keep-state");
