@@ -17,34 +17,34 @@ if (isset($_POST['submitted'])) {
 	foreach($_POST AS $key => $value) { $_POST[$key] = mysqli_real_escape_string($value); } 
 
 	// re-create all radgroupcheck entries
-	mysqli_query("DELETE FROM radgroupcheck WHERE groupname='$groupname'") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Max-Concurrent-Devices', '$groupname', ':=', '{$_POST['concurrent_user']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['day_total_output']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['day_total_input']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['work_total_output']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['work_total_input']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['user_day_total_output']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['user_day_total_input']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['user_work_total_output']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['user_work_total_input']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('Auth-Type', '$groupname', ':=', '{$_POST['auth_type']}')") or die(mysqli_error());
+	mysqli_query($link, "DELETE FROM radgroupcheck WHERE groupname='$groupname'") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Max-Concurrent-Devices', '$groupname', ':=', '{$_POST['concurrent_user']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['day_total_output']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['day_total_input']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Output-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['work_total_output']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-Input-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['work_total_input']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['user_day_total_output']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Total', '$groupname', ':=', '{$_POST['user_day_total_input']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Output-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['user_work_total_output']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('mars-User-Input-Megabytes-Daily-Work-Hours', '$groupname', ':=', '{$_POST['user_work_total_input']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupcheck (attribute, groupname, op, value) VALUES ('Auth-Type', '$groupname', ':=', '{$_POST['auth_type']}')") or die(mysqli_error());
 
 	// re-create all radgroupreply entries
-	mysqli_query("DELETE FROM radgroupreply WHERE groupname='$groupname'") or die(mysqli_error());
-	mysqli_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Session-Timeout', '$groupname', ':=', '{$_POST['session_timeout']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Up', '$groupname', ':=', '{$_POST['bandwidth_up']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Down', '$groupname', ':=', '{$_POST['bandwidth_down']}')") or die(mysqli_error());
-	mysqli_query("INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Reply-Message', '$groupname', ':=', '{$_POST['reply_message']}')") or die(mysqli_error());
+	mysqli_query($link, "DELETE FROM radgroupreply WHERE groupname='$groupname'") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Session-Timeout', '$groupname', ':=', '{$_POST['session_timeout']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Up', '$groupname', ':=', '{$_POST['bandwidth_up']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupreply (attribute, groupname, op, value) VALUES ('WISPr-Bandwidth-Max-Down', '$groupname', ':=', '{$_POST['bandwidth_down']}')") or die(mysqli_error());
+	mysqli_query($link, "INSERT radgroupreply (attribute, groupname, op, value) VALUES ('Reply-Message', '$groupname', ':=', '{$_POST['reply_message']}')") or die(mysqli_error());
 
 	// re-create groupinfo entry
-	mysqli_query("DELETE FROM groupinfo WHERE groupname='$groupname'") or die(mysqli_error());
+	mysqli_query($link, "DELETE FROM groupinfo WHERE groupname='$groupname'") or die(mysqli_error());
 	if (isset($_POST['auto_login'])) { 
-		mysqli_query("INSERT groupinfo (groupname, auto_login) VALUES ('$groupname', TRUE)") or die(mysqli_error());
+		mysqli_query($link, "INSERT groupinfo (groupname, auto_login) VALUES ('$groupname', TRUE)") or die(mysqli_error());
 	}
 	
 	// cleanup
-	mysqli_query("delete from radgroupcheck where value =''") or die(mysqli_error());
-	mysqli_query("delete from radgroupreply where value =''") or die(mysqli_error());
+	mysqli_query($link, "delete from radgroupcheck where value =''") or die(mysqli_error());
+	mysqli_query($link, "delete from radgroupreply where value =''") or die(mysqli_error());
 	
 	echo "<a href='list.php'>Back To Listing</a>"; 
 } 

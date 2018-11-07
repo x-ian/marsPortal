@@ -12,6 +12,7 @@ while ($line=fgets($fh, 80)) {
 
 // connect to db
 $link = mysqli_connect('localhost', $MYSQL_USER, $MYSQL_PASSWD);
+global $link;
 if (!$link) {
     die('Not connected to MySQL DB with error: ' . mysqli_error());
 }

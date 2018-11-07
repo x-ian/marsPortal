@@ -9,14 +9,14 @@ include '../common.php';
 <? 
 $username = $_GET['username']; 
 $ip=$_SERVER['REMOTE_ADDR'];
-mysqli_query("DELETE FROM `radusergroup` WHERE `username` = '$username' ") ; 
-mysqli_query("DELETE FROM `radcheck` WHERE `username` = '$username' ") ; 
-mysqli_query("DELETE FROM `radacct` WHERE `username` = '$username' ") ; 
-mysqli_query("DELETE FROM `radreply` WHERE `username` = '$username' ") ; 
-mysqli_query("DELETE FROM `radpostauth` WHERE `username` = '$username' ") ; 
-mysqli_query("DELETE FROM `daily_accounting_v5` WHERE `username` = '$username' ") ; 
-mysqli_query("DELETE FROM `throughput` WHERE `username` = '$username' ") ; 
-mysqli_query("DELETE FROM `userinfo` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `radusergroup` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `radcheck` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `radacct` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `radreply` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `radpostauth` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `daily_accounting_v5` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `throughput` WHERE `username` = '$username' ") ; 
+mysqli_query($link, "DELETE FROM `userinfo` WHERE `username` = '$username' ") ; 
 echo (mysqli_affected_rows()) ? "Device including accounting history deleted.<br /> " : "Nothing deleted.<br /> "; 
 exec("/usr/local/bin/php -q /home/marsPortal/misc/captiveportal-disconnect-user.php  " . $username, $out, $exit);
 ?> 

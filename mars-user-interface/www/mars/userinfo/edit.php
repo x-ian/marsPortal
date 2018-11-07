@@ -10,8 +10,8 @@ if (isset($_GET['username']) ) {
 $username = $_GET['username']; 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysqli_real_escape_string($value); } 
-mysqli_query("DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysqli_error()); 
-mysqli_query("INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysqli_error()); 
+mysqli_query($link, "DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysqli_error()); 
+mysqli_query($link, "INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysqli_error()); 
 
 $sql = "UPDATE `userinfo` SET  `username` =  '{$_POST['username']}' ,  `firstname` =  '{$_POST['firstname']}' ,  `lastname` =  '{$_POST['lastname']}' ,  `email` =  '{$_POST['email']}' ,  `department` =  '{$_POST['department']}' ,  `organisation` =  '{$_POST['organisation']}' ,  `initial_ip` =  '{$_POST['initial_ip']}' ,  `hostname` =  '{$_POST['hostname']}' ,  `registration_date` =  '{$_POST['registration_date']}' ,  `mac_vendor` =  '{$_POST['mac_vendor']}' ,  `notes` =  '{$_POST['notes']}'   WHERE `username` = '$username' "; 
 mysqli_query($sql) or die(mysqli_error()); 
@@ -19,7 +19,7 @@ echo (mysqli_affected_rows()) ? "Values saved. " : "Nothing changed. ";
 echo "<a href='list.php'>Back To Listing</a><br />"; 
 exec("/usr/local/bin/php -q /home/marsPortal/misc/captiveportal-disconnect-user.php " . $_POST['username'], $out, $exit);
 } 
-$row = mysqli_fetch_array ( mysqli_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
+$row = mysqli_fetch_array ( mysqli_query($link, "SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
 ?>
 
 <!-- begin page-specific content ########################################### -->

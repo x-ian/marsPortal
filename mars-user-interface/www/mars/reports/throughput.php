@@ -42,7 +42,7 @@ $hour_ago_4 = date('H:i:s', strtotime('-4 hours'));
 
 <?
 function snapshottime($table) {
-	$result = mysqli_query("select datetime from $table limit 1") or trigger_error(mysqli_error()); 
+	$result = mysqli_query($link, "select datetime from $table limit 1") or trigger_error(mysqli_error()); 
 	if($row = mysqli_fetch_array($result)) { 
 		foreach($row AS $key => $value) { $row[$key] = stripslashes($value); }
 	} 
