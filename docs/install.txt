@@ -16,8 +16,16 @@ cp /home/marsPortal/setup-marsportal/initial_captiveportal_detection/system.inc_
 
 
 patching captiveportal.inc to allow dns traffic for non-auth'd clients (possibly bypassing traffic accounting)
-cp /etc/inc/system.inc /etc/inc/system.inc_original
-cp /home/marsPortal/setup-marsportal/initial_captiveportal_detection/system.inc_detection /etc/inc/system.inc
+cp /etc/inc/captiveportal.inc /etc/inc/captiveportal.inc_org
+cp /home/marsPortal/setup-marsportal/allow_nonauth_dns_in_captiveportal/captiveportal.inc /etc/inc/captiveportal.inc
+
+
+yaf
+   62  pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/libfixbuf-1.7.1.txz
+   63  pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/yaf-2.8.4.txz
+   69  pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/p5-DBI-1.636.txz
+   70  pkg add silktools-3.17.2.txz
+       # pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/silktools-3.11.0.1.txz
 
 
 Preparing memstick installation
@@ -94,7 +102,7 @@ Deactivate 'block private networks' if the WAN IP is not a public IP (Interfaces
 
 Disable IPv6 (System -> Advanced -> Networking -> Uncheck Allow IPv6). (not available on pfSense 2.3)
 
-Either use DNS Forwarder (deprecated for new installs) or DNS Resolver (Unbound). If using the DNS Resolver, enable forwarding mode in its config from the Services menu.
+TODO: Really??? Either use DNS Forwarder (deprecated for new installs) or DNS Resolver (Unbound). If using the DNS Resolver, enable forwarding mode in its config from the Services menu.
 
 TODO: Set DNS for each interface of DHCP server to matching interface IP.
 
@@ -110,32 +118,11 @@ Disable Dashboard auto-update check (System - Update - Update settings - Dashboa
 
 Disable Netgate Device ID (System - Advanced - Misc)
 
-Optionally disable Disable HTTP_REFERER enforcement check (System - Advanced - Admin Access)
+Optionally disable Disable HTTP_REFERRER enforcement check (System - Advanced - Admin Access)
 
 
 Installation of additional software/packages (requires Internet access)
 --------------------------------------------
-
-## Install pfSense packages 'squid3', 'lightsquid', 'mailreport' from 'system - packages - available packages'
-
-## Enable transparent Squid for HTTP and activate logging
-- Services - Squid Proxy Server
-  Local cache
-    Hard disk Cache Size: 1000
-    Save
-  General
-    Enable Squid Proxy
-    Keep Settings/Data
-    Allow Users in Interface
-    Transparent HTTP Proxy
-    Enable Access Logging
-  Save
-
-## Enable Lightsquid (Proxy report) reporting
-- Status - Squid Proxy Reports
-  Refresh Scheduler: 60 min
-  Save
-  Manual Refresh: Refresh Full
 
 Login with SSH as root and run these statements in the shell (to get to the shell press 8) with a working Internet connection. Carefully watch for error messages make sure that each command 'properly' finishes.
 
@@ -143,7 +130,7 @@ change /usr/local/etc/pkg/repos/FreeBSD.conf enabled: no -> yes
 change /usr/local/etc/pkg/repos/pfSense.conf enabled: no -> yes
 
 pkg update
-echo y | pkg install bash curl git php56-mysql wget ssmtp base64 autossh mysql56-client mysql56-server nap freeradius3 nmap
+echo y | pkg install bash curl git php56-mysql wget ssmtp base64 autossh mysql56-client mysql56-server freeradius3 nmap
 
 rehash
 ln -s /usr/local/bin/bash /bin/bash
@@ -157,6 +144,9 @@ Connect via SSH/Putty and execute these statements in the shell (press 8 to acce
 mkdir /home/client_activities_log
 mkdir /home/local_backups
 mkdir /home/mail_backlog
+mkdir /home/yaf
+mkdir /home/yaf_work
+mkdir /home/yaf_done
 cd /home
 git clone https://github.com/x-ian/marsPortal.git
 cd /home/marsPortal
