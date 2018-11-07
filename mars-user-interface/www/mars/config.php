@@ -11,12 +11,12 @@ while ($line=fgets($fh, 80)) {
 }
 
 // connect to db
-$link = mysql_connect('localhost', $MYSQL_USER, $MYSQL_PASSWD);
+$link = mysqli_connect('localhost', $MYSQL_USER, $MYSQL_PASSWD);
 if (!$link) {
-    die('Not connected to MySQL DB with error: ' . mysql_error());
+    die('Not connected to MySQL DB with error: ' . mysqli_error());
 }
 
-if (! mysql_select_db('radius') ) {
-    die ('Can\'t use MySQL instance radius with error: ' . mysql_error());
+if (! mysqli_select_db($link, 'radius') ) {
+    die ('Can\'t use MySQL instance radius with error: ' . mysqli_error());
 }
 ?>
