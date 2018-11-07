@@ -12,7 +12,7 @@ if (isset($_POST['submitted'])) {
 	$mac1 = $_POST['mac'][0]; 
 	$mac2 = $_POST['mac'][1]; 
 	
-	$mac_source = mysql_query("select * from userinfo where username = '" . $mac1 . "';");
+	$mac_source = mysqli_query("select * from userinfo where username = '" . $mac1 . "';");
 	$firstname = "";
 	$lastname = "";
 	$department = "";
@@ -21,14 +21,14 @@ if (isset($_POST['submitted'])) {
 		$lastname = $row['lastname'];
 		$department = $row['department'];
 	}
-	$mac_source_group = mysql_query("select * from radusergroup where username = '" . $mac1 . "'");
+	$mac_source_group = mysqli_query("select * from radusergroup where username = '" . $mac1 . "'");
 	$group = "";
 	if ($row_group = mysql_fetch_assoc($mac_source_group)) {
 		$group = $row_group['groupname'];
 	}
 		
-	$update_mac_target = mysql_query(" UPDATE userinfo set firstname = '$firstname', lastname = '$lastname', department = '$department' where username = '$mac2' ");
-	$update_mac_target_group = mysql_query(" UPDATE radusergroup set groupname = '$group' where username = '$mac2' ");
+	$update_mac_target = mysqli_query(" UPDATE userinfo set firstname = '$firstname', lastname = '$lastname', department = '$department' where username = '$mac2' ");
+	$update_mac_target_group = mysqli_query(" UPDATE radusergroup set groupname = '$group' where username = '$mac2' ");
 
 	echo "Devices joined.<br />"; 
 }
@@ -63,7 +63,7 @@ if (isset($_POST['submitted'])) {
 <?
 echo "<form action='' method='POST'>";
 
-$result = mysql_query("SELECT u.username AS username, u.firstname AS firstname, u.lastname AS lastname, u.mac_vendor AS mac_vendor, u.hostname AS hostname, u.email AS email, u.department AS department, u.organisation AS organisation, u.registration_date AS registration_date, u.initial_ip AS initial_ip, u.notes AS notes, radusergroup.groupname AS groupname FROM userinfo AS u LEFT JOIN radusergroup on u.username = radusergroup.username ORDER BY lastname, firstname ASC") or trigger_error(mysql_error()); 
+$result = mysqli_query("SELECT u.username AS username, u.firstname AS firstname, u.lastname AS lastname, u.mac_vendor AS mac_vendor, u.hostname AS hostname, u.email AS email, u.department AS department, u.organisation AS organisation, u.registration_date AS registration_date, u.initial_ip AS initial_ip, u.notes AS notes, radusergroup.groupname AS groupname FROM userinfo AS u LEFT JOIN radusergroup on u.username = radusergroup.username ORDER BY lastname, firstname ASC") or trigger_error(mysql_error()); 
 $previous_name = "";
 while($row = mysql_fetch_array($result)){ 
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 

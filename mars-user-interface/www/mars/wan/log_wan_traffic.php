@@ -23,7 +23,7 @@ function wan_traffic() {
 		order by when2 DESC;";
 }
 
-	$result = mysql_query(wan_traffic()) or trigger_error(mysql_error()); 
+	$result = mysqli_query(wan_traffic()) or trigger_error(mysql_error()); 
 
 	echo "<tbody>";
 while($row = mysql_fetch_array($result)){ 

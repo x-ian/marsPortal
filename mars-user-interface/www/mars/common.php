@@ -10,7 +10,7 @@ function dropdown_link_to_device($username) {
 LEFT JOIN radusergroup ON userinfo.username=radusergroup.username 
 WHERE userinfo.username='" . $username . "';";
 
-	$result = mysql_query($query) or trigger_error(mysql_error()); 
+	$result = mysqli_query($query) or trigger_error(mysql_error()); 
 
 	while($row = mysql_fetch_array($result)){ 
 		foreach($row AS $key => $value) { $row[$key] = stripslashes($value); }
@@ -73,7 +73,7 @@ function link_to_device($row) {
 }
 
 function query($query) {
-  $result = mysql_query($query);
+  $result = mysqli_query($query);
 	if (!$result) {
 		$message  = 'Invalid query: ' . mysql_error() . "\n";
 		$message .= 'Full query: ' . $query;

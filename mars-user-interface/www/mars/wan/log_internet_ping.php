@@ -30,7 +30,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tbody><tr>
 		<th>Last 5 minutes</th>
 		<td>
-			<? $result = mysql_query(internet_ping(4, "interval 5 minute")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(4, "interval 5 minute")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -39,7 +39,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last 15 minutes</th>
 		<td>
-			<? $result = mysql_query(internet_ping(14, "interval 15 minute")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(14, "interval 15 minute")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -48,7 +48,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last hour</th>
 		<td>
-			<? $result = mysql_query(internet_ping(59, "interval 1 hour")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(59, "interval 1 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -57,7 +57,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last 4 hours</th>
 		<td>
-			<? $result = mysql_query(internet_ping(239, "interval 4 hour")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(239, "interval 4 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -66,7 +66,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last 8 hours</th>
 		<td>
-			<? $result = mysql_query(internet_ping(479, "interval 8 hour")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(479, "interval 8 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -75,7 +75,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last 12 hours</th>
 		<td>
-			<? $result = mysql_query(internet_ping(719, "interval 12 hour")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(719, "interval 12 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -84,7 +84,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last day</th>
 		<td>
-			<? $result = mysql_query(internet_ping(1439, "interval 24 hour")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(1439, "interval 24 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -93,7 +93,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last 7 days</th>
 		<td>
-			<? $result = mysql_query(internet_ping(10079, "interval 7 day")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(10079, "interval 7 day")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>
@@ -102,7 +102,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 	<tr>
 		<th>Last 30 days</th>
 		<td>
-			<? $result = mysql_query(internet_ping(43199, "interval 30 day")) or trigger_error(mysql_error())?>
+			<? $result = mysqli_query(internet_ping(43199, "interval 30 day")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
 		</td>

@@ -1,7 +1,7 @@
 <?php
 echo "<hr/><p>Current group settings</p>";
 
-$result = mysql_query('
+$result = mysqli_query('
 select rr1.groupname, 
 	(select value from radgroupcheck r2 where attribute="mars-Max-Concurrent-Devices" and r2.groupname = r1.groupname)  "Max Concurrent Users", 
 	(select value from radgroupcheck r5 where attribute="mars-Output-Megabytes-Daily-Total" and r5.groupname = r1.groupname)  "Max Daily Down", 

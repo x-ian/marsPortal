@@ -8,9 +8,9 @@ include '../menu.php';
 
 <? 
 $groupname = $_GET['groupname']; 
-mysql_query("DELETE FROM radgroupcheck WHERE groupname = '" . $groupname . "' ") or die(mysql_error());
-mysql_query("DELETE FROM radgroupreply WHERE groupname = '" . $groupname . "' ") or die(mysql_error());
-mysql_query("DELETE FROM radusergroup WHERE groupname = '" . $groupname . "' ") or die(mysql_error());
+mysqli_query("DELETE FROM radgroupcheck WHERE groupname = '" . $groupname . "' ") or die(mysql_error());
+mysqli_query("DELETE FROM radgroupreply WHERE groupname = '" . $groupname . "' ") or die(mysql_error());
+mysqli_query("DELETE FROM radusergroup WHERE groupname = '" . $groupname . "' ") or die(mysql_error());
 ?> 
 
 <a href='list.php'>Back To Listing</a>

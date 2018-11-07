@@ -10,16 +10,16 @@ if (isset($_GET['username']) ) {
 $username = $_GET['username']; 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-mysql_query("DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysql_error()); 
-mysql_query("INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysql_error()); 
+mysqli_query("DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysql_error()); 
+mysqli_query("INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysql_error()); 
 
 $sql = "UPDATE `userinfo` SET  `username` =  '{$_POST['username']}' ,  `firstname` =  '{$_POST['firstname']}' ,  `lastname` =  '{$_POST['lastname']}' ,  `email` =  '{$_POST['email']}' ,  `department` =  '{$_POST['department']}' ,  `organisation` =  '{$_POST['organisation']}' ,  `initial_ip` =  '{$_POST['initial_ip']}' ,  `hostname` =  '{$_POST['hostname']}' ,  `registration_date` =  '{$_POST['registration_date']}' ,  `mac_vendor` =  '{$_POST['mac_vendor']}' ,  `notes` =  '{$_POST['notes']}'   WHERE `username` = '$username' "; 
-mysql_query($sql) or die(mysql_error()); 
+mysqli_query($sql) or die(mysql_error()); 
 echo (mysql_affected_rows()) ? "Values saved. " : "Nothing changed. "; 
 echo "<a href='list.php'>Back To Listing</a><br />"; 
 exec("/usr/local/bin/php -q /home/marsPortal/misc/captiveportal-disconnect-user.php " . $_POST['username'], $out, $exit);
 } 
-$row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
+$row = mysql_fetch_array ( mysqli_query("SELECT * FROM `userinfo` WHERE `username` = '$username' ")); 
 ?>
 
 <!-- begin page-specific content ########################################### -->
@@ -58,13 +58,13 @@ $row = mysql_fetch_array ( mysql_query("SELECT * FROM `userinfo` WHERE `username
     <div class="col-lg-4">
 	<? 
 	$query = "select groupname from radusergroup where username = '" . $row['username'] . "'";
-	$res = mysql_query($query);
+	$res = mysqli_query($query);
 	if (($row2 = mysql_fetch_row($res)) != null) {
 		$groupname = $row2[0];
 	}
 
 	$query = "(select distinct(groupname) from radgroupreply) union (select distinct(groupname) from radgroupcheck) order by groupname";
-	$res = mysql_query($query);
+	$res = mysqli_query($query);
 	echo "<select class='form-control input-sm' name = 'groupname'>";
 	while (($row3 = mysql_fetch_row($res)) != null)
 	{

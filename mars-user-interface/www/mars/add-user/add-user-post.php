@@ -32,13 +32,13 @@
 
 <div align="center">
 
-	<?php $result = mysql_query($insert_userinfo); ?>
-	<?php $result = mysql_query($insert_radcheck); ?>
-	<?php $result = mysql_query($insert_group); ?>
+	<?php $result = mysqli_query($insert_userinfo); ?>
+	<?php $result = mysqli_query($insert_radcheck); ?>
+	<?php $result = mysqli_query($insert_group); ?>
 
-	<?php $result = mysql_query($insert_userinfo_additional_mac); ?>
-	<?php $result = mysql_query($insert_radcheck_additional_mac); ?>
-	<?php $result = mysql_query($insert_group_additional_mac); ?>
+	<?php $result = mysqli_query($insert_userinfo_additional_mac); ?>
+	<?php $result = mysqli_query($insert_radcheck_additional_mac); ?>
+	<?php $result = mysqli_query($insert_group_additional_mac); ?>
 
 
 	<p><b>Device(s) added. Try again to access <a href="<?php echo $redirurl; ?>"><?php echo $redirurl; ?></a></b></p>
