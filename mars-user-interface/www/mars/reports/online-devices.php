@@ -31,7 +31,7 @@ function online() {
 	<tbody>
 
 <?php
-$result = mysqli_query(online()) or trigger_error(mysql_error()); 
+$result = mysqli_query(online()) or trigger_error(mysqli_error()); 
 while($row = mysql_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 	echo "<tr>";

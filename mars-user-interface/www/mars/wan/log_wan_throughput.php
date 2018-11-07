@@ -23,7 +23,7 @@ function wan_throughput() {
 		order by at DESC;";
 }
 
-	$result = mysqli_query(wan_throughput()) or trigger_error(mysql_error()); 
+	$result = mysqli_query(wan_throughput()) or trigger_error(mysqli_error()); 
 
 	echo "<tbody>";
 while($row = mysql_fetch_array($result)){ 

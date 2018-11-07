@@ -47,7 +47,7 @@ select rr1.groupname,
 	(select value from radgroupcheck r11 where attribute="Auth-Type" and r11.groupname = r1.groupname)  "Auth Type", 
 	(select value from radgroupreply rr12 where attribute ="Reply-Message" and rr12.groupname = rr1.groupname) "Reply Message"
 from radgroupreply rr1 left join radgroupcheck r1 on rr1.groupname = r1.groupname 
-group by rr1.groupname;') or trigger_error(mysql_error()); 
+group by rr1.groupname;') or trigger_error(mysqli_error()); 
 while($row = mysql_fetch_array($result)){ 
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } ?>
 <tr>
