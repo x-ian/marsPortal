@@ -55,18 +55,18 @@ $up_last30days = query(total($daysago30, $today, "upload"));
 	</tr></thead>
 	<tbody>
 <?php
-	while ($row_30 = mysql_fetch_assoc($up_last30days)) {
+	while ($row_30 = mysqli_fetch_assoc($up_last30days)) {
 		echo "<tr>";
 		echo "<td>";
-		if ($row_today = mysql_fetch_assoc($up_today)) {
+		if ($row_today = mysqli_fetch_assoc($up_today)) {
 			echo $row_today['upload'] . "&nbsp;" . $row_today['groupname'];
 		}
 		echo "</td><td>";
-		if ($row_yesterday = mysql_fetch_assoc($up_yesterday)) {
+		if ($row_yesterday = mysqli_fetch_assoc($up_yesterday)) {
 			echo $row_yesterday['upload'] . "&nbsp;" . $row_yesterday['groupname'];
 		}
 		echo "</td><td>";
-		if ($row_7 = mysql_fetch_assoc($up_last7days)) {
+		if ($row_7 = mysqli_fetch_assoc($up_last7days)) {
 			echo $row_7['upload'] . "&nbsp;" . $row_7['groupname'];
 		}
 		echo "</td><td>";
@@ -89,18 +89,18 @@ $up_last30days = query(total($daysago30, $today, "upload"));
 	<tbody>
 
 <?php
-	while ($row_30 = mysql_fetch_assoc($down_last30days)) {
+	while ($row_30 = mysqli_fetch_assoc($down_last30days)) {
 		echo "<tr>";
 		echo "<td>";
-		if ($row_today = mysql_fetch_assoc($down_today)) {
+		if ($row_today = mysqli_fetch_assoc($down_today)) {
 			echo $row_today['download'] . "&nbsp;" . $row_today['groupname'];
 		}
 		echo "</td><td>";
-		if ($row_yesterday = mysql_fetch_assoc($down_yesterday)) {
+		if ($row_yesterday = mysqli_fetch_assoc($down_yesterday)) {
 			echo $row_yesterday['download'] . "&nbsp;" . $row_yesterday['groupname'];
 		}
 		echo "</td><td>";
-		if ($row_7 = mysql_fetch_assoc($down_last7days)) {
+		if ($row_7 = mysqli_fetch_assoc($down_last7days)) {
 			echo $row_7['download'] . "&nbsp;" . $row_7['groupname'];
 		}
 		echo "</td><td>";

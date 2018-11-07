@@ -42,7 +42,7 @@ for ($i=0; $i<=23; $i++) {
 $all_activities = query(activity($username));
 $previous_day = date('Y-m-d');
 $previous_day_date = date_create_from_format('Y-m-d', $previous_day);
-while ($row = mysql_fetch_assoc($all_activities)) {
+while ($row = mysqli_fetch_assoc($all_activities)) {
 	$day = $row['day'];
 /*	echo $day. ' + ' . $previous_day;
 	echo "<br/>";

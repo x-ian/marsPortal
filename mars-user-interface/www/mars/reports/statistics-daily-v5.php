@@ -80,22 +80,22 @@ function generatedailytraffic($upordown, $today, $yesterday, $daysago7, $daysago
 
 		<td>Total</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_today)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_today)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_yesterday)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_yesterday)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_last7days)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_last7days)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_last30days)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_last30days)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
@@ -106,36 +106,36 @@ function generatedailytraffic($upordown, $today, $yesterday, $daysago7, $daysago
 			echo "<tr>";
 			echo "<td>Top #" . $i . "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_today)) {
+			if ($row = mysqli_fetch_assoc($upordown_today)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_yesterday)) {
+			if ($row = mysqli_fetch_assoc($upordown_yesterday)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_last7days)) {
+			if ($row = mysqli_fetch_assoc($upordown_last7days)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_last30days)) {
+			if ($row = mysqli_fetch_assoc($upordown_last30days)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "</tr>";
 		}
 		echo "</tbody></table>";
-		mysql_free_result($upordown_total_today);
-		mysql_free_result($upordown_total_yesterday);
-		mysql_free_result($upordown_total_last7days);
-		mysql_free_result($upordown_total_last30days);
-		mysql_free_result($upordown_today);
-		mysql_free_result($upordown_yesterday);
-		mysql_free_result($upordown_last7days);
-		mysql_free_result($upordown_last30days);
+		mysqli_free_result($upordown_total_today);
+		mysqli_free_result($upordown_total_yesterday);
+		mysqli_free_result($upordown_total_last7days);
+		mysqli_free_result($upordown_total_last30days);
+		mysqli_free_result($upordown_today);
+		mysqli_free_result($upordown_yesterday);
+		mysqli_free_result($upordown_last7days);
+		mysqli_free_result($upordown_last30days);
 	}
 
 ?>
@@ -167,22 +167,22 @@ function generatedailytraffic_gerry_mtl($upordown, $today, $yesterday, $daysago7
 
 		<td>Total</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_today_gerry_mtl)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_today_gerry_mtl)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_yesterday_gerry_mtl)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_yesterday_gerry_mtl)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_last7days_gerry_mtl)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_last7days_gerry_mtl)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
 		<td>
-			<? if ($row = mysql_fetch_assoc($upordown_total_last30days_gerry_mtl)) {
+			<? if ($row = mysqli_fetch_assoc($upordown_total_last30days_gerry_mtl)) {
 				echo $row[$upordown];
 			}?>	
 		</td>
@@ -193,36 +193,36 @@ function generatedailytraffic_gerry_mtl($upordown, $today, $yesterday, $daysago7
 			echo "<tr>";
 			echo "<td>Top #" . $i . "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_today_gerry_mtl)) {
+			if ($row = mysqli_fetch_assoc($upordown_today_gerry_mtl)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_yesterday_gerry_mtl)) {
+			if ($row = mysqli_fetch_assoc($upordown_yesterday_gerry_mtl)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_last7days_gerry_mtl)) {
+			if ($row = mysqli_fetch_assoc($upordown_last7days_gerry_mtl)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_last30days_gerry_mtl)) {
+			if ($row = mysqli_fetch_assoc($upordown_last30days_gerry_mtl)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "</tr>";
 		}
 		echo "</tbody></table>";
-		mysql_free_result($upordown_total_today_gerry_mtl);
-		mysql_free_result($upordown_total_yesterday_gerry_mtl);
-		mysql_free_result($upordown_total_last7days_gerry_mtl);
-		mysql_free_result($upordown_total_last30days_gerry_mtl);
-		mysql_free_result($upordown_today_gerry_mtl);
-		mysql_free_result($upordown_yesterday_gerry_mtl);
-		mysql_free_result($upordown_last7days_gerry_mtl);
-		mysql_free_result($upordown_last30days_gerry_mtl);
+		mysqli_free_result($upordown_total_today_gerry_mtl);
+		mysqli_free_result($upordown_total_yesterday_gerry_mtl);
+		mysqli_free_result($upordown_total_last7days_gerry_mtl);
+		mysqli_free_result($upordown_total_last30days_gerry_mtl);
+		mysqli_free_result($upordown_today_gerry_mtl);
+		mysqli_free_result($upordown_yesterday_gerry_mtl);
+		mysqli_free_result($upordown_last7days_gerry_mtl);
+		mysqli_free_result($upordown_last30days_gerry_mtl);
 	}
 
 ?>

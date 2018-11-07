@@ -26,7 +26,7 @@ function wan_throughput() {
 	$result = mysqli_query(wan_throughput()) or trigger_error(mysqli_error()); 
 
 	echo "<tbody>";
-while($row = mysql_fetch_array($result)){ 
+while($row = mysqli_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 ?>	
 	<tr>

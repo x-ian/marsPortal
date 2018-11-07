@@ -43,7 +43,7 @@ $hour_ago_4 = date('H:i:s', strtotime('-4 hours'));
 <?
 function snapshottime($table) {
 	$result = mysqli_query("select datetime from $table limit 1") or trigger_error(mysqli_error()); 
-	if($row = mysql_fetch_array($result)) { 
+	if($row = mysqli_fetch_array($result)) { 
 		foreach($row AS $key => $value) { $row[$key] = stripslashes($value); }
 	} 
 	return $row[0];
@@ -110,24 +110,24 @@ else if ($period == "hour_ago_4")
 	$result = mysqli_query(throughput_upordown(20, $order, $start, $now))  or trigger_error(mysqli_error()); 
 
 	echo "<tbody><tr><td>Total</td>";
-	if ($row = mysql_fetch_assoc(mysqli_query(throughput_total_upordown($min_ago_5, $now)))) {
+	if ($row = mysqli_fetch_assoc(mysqli_query(throughput_total_upordown($min_ago_5, $now)))) {
 		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
 		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
 	}	
-	if ($row = mysql_fetch_assoc(mysqli_query(throughput_total_upordown($min_ago_15, $now)))) {
+	if ($row = mysqli_fetch_assoc(mysqli_query(throughput_total_upordown($min_ago_15, $now)))) {
 		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
 		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
 	}	
-	if ($row = mysql_fetch_assoc(mysqli_query(throughput_total_upordown($hour_ago_1, $now)))) {
+	if ($row = mysqli_fetch_assoc(mysqli_query(throughput_total_upordown($hour_ago_1, $now)))) {
 		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
 		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
 	}	
-	if ($row = mysql_fetch_assoc(mysqli_query(throughput_total_upordown($hour_ago_4, $now)))) {
+	if ($row = mysqli_fetch_assoc(mysqli_query(throughput_total_upordown($hour_ago_4, $now)))) {
 		echo "<td>" . $row["input_rate"] . " (" . $row["input"] . ")</td>";
 		echo "<td>" . $row["output_rate"] . " (" . $row["output"] . ")</td>";
 	}	
 	echo "</tr>";
-while($row = mysql_fetch_array($result)){ 
+while($row = mysqli_fetch_array($result)){ 
 	foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 ?>
 	<tr>
@@ -137,7 +137,7 @@ while($row = mysql_fetch_array($result)){
 	<td><?=nl2br( $row["output_rate"])?> (<?=nl2br( $row["output"])?>)</td>
 <? } else {
 	$result2 = mysqli_query(throughput_device_upordown($row["username"], $min_ago_5, $now))  or trigger_error(mysqli_error()); 
-	$result3 = mysql_fetch_array($result2); ?>
+	$result3 = mysqli_fetch_array($result2); ?>
 	<td><?=nl2br( $result3["input_rate"])?> (<?=nl2br( $result3["input"])?>)</td>
 	<td><?=nl2br( $result3["output_rate"])?> (<?=nl2br( $result3["output"])?>)</td>
 <? } ?>
@@ -146,7 +146,7 @@ while($row = mysql_fetch_array($result)){
 	<td><?=nl2br( $row["output_rate"])?> (<?=nl2br( $row["output"])?>)</td>
 <? } else {
 	$result2 = mysqli_query(throughput_device_upordown($row["username"], $min_ago_15, $now))  or trigger_error(mysqli_error()); 
-	$result3 = mysql_fetch_array($result2); ?>
+	$result3 = mysqli_fetch_array($result2); ?>
 	<td><?=nl2br( $result3["input_rate"])?> (<?=nl2br( $result3["input"])?>)</td>
 	<td><?=nl2br( $result3["output_rate"])?> (<?=nl2br( $result3["output"])?>)</td>
 <? } ?>
@@ -155,7 +155,7 @@ while($row = mysql_fetch_array($result)){
 	<td><?=nl2br( $row["output_rate"])?> (<?=nl2br( $row["output"])?>)</td>
 <? } else {
 	$result2 = mysqli_query(throughput_device_upordown($row["username"], $hour_ago_1, $now))  or trigger_error(mysqli_error()); 
-	$result3 = mysql_fetch_array($result2); ?>
+	$result3 = mysqli_fetch_array($result2); ?>
 	<td><?=nl2br( $result3["input_rate"])?> (<?=nl2br( $result3["input"])?>)</td>
 	<td><?=nl2br( $result3["output_rate"])?> (<?=nl2br( $result3["output"])?>)</td>
 <? } ?>
@@ -164,7 +164,7 @@ while($row = mysql_fetch_array($result)){
 	<td><?=nl2br( $row["output_rate"])?> (<?=nl2br( $row["output"])?>)</td>
 <? } else {
 	$result2 = mysqli_query(throughput_device_upordown($row["username"], $hour_ago_4, $now))  or trigger_error(mysqli_error()); 
-	$result3 = mysql_fetch_array($result2); ?>
+	$result3 = mysqli_fetch_array($result2); ?>
 	<td><?=nl2br( $result3["input_rate"])?> (<?=nl2br( $result3["input"])?>)</td>
 	<td><?=nl2br( $result3["output_rate"])?> (<?=nl2br( $result3["output"])?>)</td>
 <? } ?>

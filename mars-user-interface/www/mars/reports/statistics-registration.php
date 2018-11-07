@@ -13,33 +13,33 @@ echo "<tr>";
 echo "<td>Active</td>";
 echo "<td>";
 $active_today = query(active($today, $today));
-while ($row = mysql_fetch_assoc($active_today)) {
+while ($row = mysqli_fetch_assoc($active_today)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $active_yesterday = query(active($yesterday, $yesterday));
-while ($row = mysql_fetch_assoc($active_yesterday)) {
+while ($row = mysqli_fetch_assoc($active_yesterday)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $active_7daysago = query(active($daysago7, $today));
-while ($row = mysql_fetch_assoc($active_7daysago)) {
+while ($row = mysqli_fetch_assoc($active_7daysago)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $active_30daysago = query(active($daysago30, $today));
-while ($row = mysql_fetch_assoc($active_30daysago)) {
+while ($row = mysqli_fetch_assoc($active_30daysago)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "</tr>";
-mysql_free_result($active_today);
-mysql_free_result($active_yesterday);
-mysql_free_result($active_7daysago);
-mysql_free_result($active_30daysago);
+mysqli_free_result($active_today);
+mysqli_free_result($active_yesterday);
+mysqli_free_result($active_7daysago);
+mysqli_free_result($active_30daysago);
 
 
 
@@ -62,33 +62,33 @@ echo "<tr>";
 echo "<td>Registered</td>";
 echo "<td>";
 $registered_today = query(registered($today, $today));
-while ($row = mysql_fetch_assoc($registered_today)) {
+while ($row = mysqli_fetch_assoc($registered_today)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $registered_yesterday = query(registered($yesterday, $yesterday));
-while ($row = mysql_fetch_assoc($registered_yesterday)) {
+while ($row = mysqli_fetch_assoc($registered_yesterday)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $registered_7daysago = query(registered($daysago7, $today));
-while ($row = mysql_fetch_assoc($registered_7daysago)) {
+while ($row = mysqli_fetch_assoc($registered_7daysago)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $registered_30daysago = query(registered($daysago30, $today));
-while ($row = mysql_fetch_assoc($registered_30daysago)) {
+while ($row = mysqli_fetch_assoc($registered_30daysago)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "</tr>";
-mysql_free_result($registered_today);
-mysql_free_result($registered_yesterday);
-mysql_free_result($registered_7daysago);
-mysql_free_result($registered_30daysago);
+mysqli_free_result($registered_today);
+mysqli_free_result($registered_yesterday);
+mysqli_free_result($registered_7daysago);
+mysqli_free_result($registered_30daysago);
 
 
 // ever registered as of ...
@@ -101,34 +101,34 @@ echo "<tr>";
 echo "<td>Ever reg. (cumul.)</td>";
 echo "<td>";
 $ever_today = query(ever($today));
-while ($row = mysql_fetch_assoc($ever_today)) {
+while ($row = mysqli_fetch_assoc($ever_today)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $ever_yesterday = query(ever($yesterday));
-while ($row = mysql_fetch_assoc($ever_yesterday)) {
+while ($row = mysqli_fetch_assoc($ever_yesterday)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $ever_7daysago = query(ever($daysago7));
-while ($row = mysql_fetch_assoc($ever_7daysago)) {
+while ($row = mysqli_fetch_assoc($ever_7daysago)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "<td>";
 $ever_30daysago = query(ever($daysago30));
-while ($row = mysql_fetch_assoc($ever_30daysago)) {
+while ($row = mysqli_fetch_assoc($ever_30daysago)) {
     echo $row['count'] . ' (' . $row['groupname'] . ')<br/>';
 }
 echo "</td>";
 echo "</tr>";
 echo "</table>";
 echo "<p>Statistics for groups -open-for-today and -non-work-hours are only accurate for today. Additionally if a device changed groups, only the most recent group assignment is taken (and also used for the periods before).</p>";
-mysql_free_result($ever_today);
-mysql_free_result($ever_yesterday);
-mysql_free_result($ever_7daysago);
-mysql_free_result($ever_30daysago);
+mysqli_free_result($ever_today);
+mysqli_free_result($ever_yesterday);
+mysqli_free_result($ever_7daysago);
+mysqli_free_result($ever_30daysago);
 
 ?>

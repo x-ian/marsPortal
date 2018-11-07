@@ -19,7 +19,7 @@ var d = {};
 <?php
 	// very stupid, very inefficient
 	$all_users2 = mysqli_query('select userinfo.firstname, userinfo.lastname, userinfo.department, radusergroup.groupname from userinfo, radusergroup where userinfo.username = radusergroup.username group by userinfo.firstname, userinfo.lastname order by userinfo.firstname ASC, userinfo.lastname ASC;');  
-	while($r = mysql_fetch_assoc($all_users2)) {
+	while($r = mysqli_fetch_assoc($all_users2)) {
 		echo "d['" . $r['firstname'] . ' ' . $r['lastname']  . "'] = { firstname : '" . $r['firstname'] . "', lastname : '" . $r['lastname'] . "', department : '" . $r['department'] . "', group : '" . $r['groupname'] . "'};";
 	}
 ?>
@@ -98,7 +98,7 @@ function onChangeUser() {
 					<select name="existing_user" onchange="onChangeUser();" id="existinguser">
 						<option value=''></option>
 						<?php
-							while ($row = mysql_fetch_assoc($all_users)) {
+							while ($row = mysqli_fetch_assoc($all_users)) {
 								$user = $row['firstname'] . " " . $row['lastname'];
 								echo "<option value='" . $user . "'>" . $user . "</option>";
 							}
@@ -126,7 +126,7 @@ function onChangeUser() {
 				<td>
 					<select name="group" id="group">
 						<?php
-							while ($row = mysql_fetch_assoc($all_groups)) {
+							while ($row = mysqli_fetch_assoc($all_groups)) {
 								$groupname = $row['groupname'];
 								if ($groupname == "Users") {
 									echo "<option value=" . $groupname . " selected>" . $groupname . "</option>";

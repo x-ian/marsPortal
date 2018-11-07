@@ -61,7 +61,7 @@ return '
   }
   
 $all_users = query(users());
-while ($row = mysql_fetch_assoc($all_users)) {
+while ($row = mysqli_fetch_assoc($all_users)) {
 	echo "<tr>";
     echo '<td>' . userdetailslink($row['username'], $row['id']) . '</a></td>';
     echo '<td>' . $row['groupname'] . '</td>';
@@ -80,6 +80,6 @@ while ($row = mysql_fetch_assoc($all_users)) {
     echo '<td>' . $row['download_ever'] . '</td>';
 	echo "</tr>";
 }
-mysql_free_result($all_users);
+mysqli_free_result($all_users);
 ?>
 </tbody></table>

@@ -14,7 +14,7 @@ include '../menu.php';
 if (isset($_GET['groupname']) ) { 
 $groupname = $_GET['groupname']; 
 if (isset($_POST['submitted'])) { 
-	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+	foreach($_POST AS $key => $value) { $_POST[$key] = mysqli_real_escape_string($value); } 
 
 	// re-create all radgroupcheck entries
 	mysqli_query("DELETE FROM radgroupcheck WHERE groupname='$groupname'") or die(mysqli_error());
@@ -48,7 +48,7 @@ if (isset($_POST['submitted'])) {
 	
 	echo "<a href='list.php'>Back To Listing</a>"; 
 } 
-$row = mysql_fetch_array ( mysqli_query('
+$row = mysqli_fetch_array ( mysqli_query('
 	
 	select rr1.groupname "groupname", 
 		(select value from radgroupcheck r2 where attribute="mars-Max-Concurrent-Devices" and r2.groupname = r1.groupname)  "Max Concurrent Users", 

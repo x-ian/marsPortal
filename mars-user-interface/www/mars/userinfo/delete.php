@@ -17,7 +17,7 @@ mysqli_query("DELETE FROM `radpostauth` WHERE `username` = '$username' ") ;
 mysqli_query("DELETE FROM `daily_accounting_v5` WHERE `username` = '$username' ") ; 
 mysqli_query("DELETE FROM `throughput` WHERE `username` = '$username' ") ; 
 mysqli_query("DELETE FROM `userinfo` WHERE `username` = '$username' ") ; 
-echo (mysql_affected_rows()) ? "Device including accounting history deleted.<br /> " : "Nothing deleted.<br /> "; 
+echo (mysqli_affected_rows()) ? "Device including accounting history deleted.<br /> " : "Nothing deleted.<br /> "; 
 exec("/usr/local/bin/php -q /home/marsPortal/misc/captiveportal-disconnect-user.php  " . $username, $out, $exit);
 ?> 
 <b>Note: Deleting a device will automatically close its session on the Captive Portal.</b>

@@ -52,22 +52,22 @@
 			<tr>
 				<td>Total</td>
 				<td>";
-				if ($row = mysql_fetch_assoc($upordown_total_today)) {
+				if ($row = mysqli_fetch_assoc($upordown_total_today)) {
 					echo $row[$upordown];
 				}	
 				echo '</td>';
 				echo '<td>';
-				if ($row = mysql_fetch_assoc($upordown_total_yesterday)) {
+				if ($row = mysqli_fetch_assoc($upordown_total_yesterday)) {
 					echo $row[$upordown];
 				}	
 				echo '</td>';
 				echo '<td>';
-				if ($row = mysql_fetch_assoc($upordown_total_last7days)) {
+				if ($row = mysqli_fetch_assoc($upordown_total_last7days)) {
 					echo $row[$upordown];
 				}	
 				echo '</td>';
 				echo '<td>';
-				if ($row = mysql_fetch_assoc($upordown_total_last30days)) {
+				if ($row = mysqli_fetch_assoc($upordown_total_last30days)) {
 					echo $row[$upordown];
 				}	
 				echo '</td></tr>';
@@ -76,35 +76,35 @@
 			echo "<tr>";
 			echo "<td>Top #" . $i . "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_today)) {
+			if ($row = mysqli_fetch_assoc($upordown_today)) {
 				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_yesterday)) {
+			if ($row = mysqli_fetch_assoc($upordown_yesterday)) {
 				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_last7days)) {
+			if ($row = mysqli_fetch_assoc($upordown_last7days)) {
 				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_last30days)) {
+			if ($row = mysqli_fetch_assoc($upordown_last30days)) {
 				userinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "</tr>";
 		}
 		echo "</table>";
-		mysql_free_result($upordown_total_today);
-		mysql_free_result($upordown_total_yesterday);
-		mysql_free_result($upordown_total_last7days);
-		mysql_free_result($upordown_total_last30days);
-		mysql_free_result($upordown_today);
-		mysql_free_result($upordown_yesterday);
-		mysql_free_result($upordown_last7days);
-		mysql_free_result($upordown_last30days);
+		mysqli_free_result($upordown_total_today);
+		mysqli_free_result($upordown_total_yesterday);
+		mysqli_free_result($upordown_total_last7days);
+		mysqli_free_result($upordown_total_last30days);
+		mysqli_free_result($upordown_today);
+		mysqli_free_result($upordown_yesterday);
+		mysqli_free_result($upordown_last7days);
+		mysqli_free_result($upordown_last30days);
 	}
 ?>

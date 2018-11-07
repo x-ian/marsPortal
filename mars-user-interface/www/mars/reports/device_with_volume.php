@@ -60,13 +60,13 @@ echo "<table class='table table-striped'>
 	}
     
 $all_traffic = query(user($username, $daysago30));
-while ($row = mysql_fetch_assoc($all_traffic)) {
+while ($row = mysqli_fetch_assoc($all_traffic)) {
 	echo "<tr>";
 	echo '<td>' . $row['day'] . '</td>';
     echo '<td>' . $row['upload'] . '</td>';
     echo '<td>' . $row['download'] . '</td>';
 	echo "</tr>";
 }
-mysql_free_result($all_traffic);
+mysqli_free_result($all_traffic);
 ?>
 </tbody></table>

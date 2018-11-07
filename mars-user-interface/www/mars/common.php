@@ -12,7 +12,7 @@ WHERE userinfo.username='" . $username . "';";
 
 	$result = mysqli_query($query) or trigger_error(mysqli_error()); 
 
-	while($row = mysql_fetch_array($result)){ 
+	while($row = mysqli_fetch_array($result)){ 
 		foreach($row AS $key => $value) { $row[$key] = stripslashes($value); }
 		$name = "";
 		if ($row['firstname'] !== '') {

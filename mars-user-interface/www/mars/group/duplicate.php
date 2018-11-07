@@ -9,7 +9,7 @@ include '../menu.php';
 
 <? 
 if (isset($_POST['submitted'])) { 
-foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+foreach($_POST AS $key => $value) { $_POST[$key] = mysqli_real_escape_string($value); } 
 
 // re-create all radgroupcheck entries
 mysqli_query("DELETE FROM radgroupcheck WHERE groupname='{$_POST['groupname']}'") or die(mysqli_error());

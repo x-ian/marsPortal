@@ -53,22 +53,22 @@
 			<tr>
 				<td>Total</td>
 				<td>";
-				if ($row = mysql_fetch_assoc($upordown_work_total_today)) {
+				if ($row = mysqli_fetch_assoc($upordown_work_total_today)) {
 					echo $row[$upordown];
 				}	
 				echo '</td>';
 				echo '<td>';
-				if ($row = mysql_fetch_assoc($upordown_work_total_yesterday)) {
+				if ($row = mysqli_fetch_assoc($upordown_work_total_yesterday)) {
 					echo $row[$upordown];
 				}	
 				echo '</td>';
 				echo '<td>';
-				if ($row = mysql_fetch_assoc($upordown_work_total_last7days)) {
+				if ($row = mysqli_fetch_assoc($upordown_work_total_last7days)) {
 					echo $row[$upordown];
 				}	
 				echo '</td>';
 				echo '<td>';
-				if ($row = mysql_fetch_assoc($upordown_work_total_last30days)) {
+				if ($row = mysqli_fetch_assoc($upordown_work_total_last30days)) {
 					echo $row[$upordown];
 				}	
 				echo '</td></tr>';
@@ -77,35 +77,35 @@
 			echo "<tr>";
 			echo "<td>Top #" . $i . "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_work_today)) {
+			if ($row = mysqli_fetch_assoc($upordown_work_today)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_work_yesterday)) {
+			if ($row = mysqli_fetch_assoc($upordown_work_yesterday)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_work_last7days)) {
+			if ($row = mysqli_fetch_assoc($upordown_work_last7days)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "<td>";
-			if ($row = mysql_fetch_assoc($upordown_work_last30days)) {
+			if ($row = mysqli_fetch_assoc($upordown_work_last30days)) {
 				deviceinfo($row, $upordown);
 			}
 			echo "</td>";
 			echo "</tr>";
 		}
 		echo "</table>";
-		mysql_free_result($upordown_work_total_today);
-		mysql_free_result($upordown_work_total_yesterday);
-		mysql_free_result($upordown_work_total_last7days);
-		mysql_free_result($upordown_work_total_last30days);
-		mysql_free_result($upordown_work_today);
-		mysql_free_result($upordown_work_yesterday);
-		mysql_free_result($upordown_work_last7days);
-		mysql_free_result($upordown_work_last30days);
+		mysqli_free_result($upordown_work_total_today);
+		mysqli_free_result($upordown_work_total_yesterday);
+		mysqli_free_result($upordown_work_total_last7days);
+		mysqli_free_result($upordown_work_total_last30days);
+		mysqli_free_result($upordown_work_today);
+		mysqli_free_result($upordown_work_yesterday);
+		mysqli_free_result($upordown_work_last7days);
+		mysqli_free_result($upordown_work_last30days);
 	}
 ?>

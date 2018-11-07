@@ -9,7 +9,7 @@ include '../common.php';
 
 <? 
 if (isset($_POST['submitted'])) { 
-foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+foreach($_POST AS $key => $value) { $_POST[$key] = mysqli_real_escape_string($value); } 
 
 mysqli_query("DELETE FROM radusergroup WHERE username = '{$_POST['username']}'") or die(mysqli_error()); 
 mysqli_query("INSERT INTO radusergroup (groupname, username) VALUES ('{$_POST['groupname']}', '{$_POST['username']}')") or die(mysqli_error()); 
@@ -34,14 +34,14 @@ echo "<a href='list.php'>Back To Listing</a>";
 	<? 
 	$query = "select groupname from radusergroup where username = '" . $row['username'] . "'";
 	$res = mysqli_query($query);
-	if (($row2 = mysql_fetch_row($res)) != null) {
+	if (($row2 = mysqli_fetch_row($res)) != null) {
 		$groupname = $row2[0];
 	}
 
 	$query = "(select distinct(groupname) from radgroupreply) union (select distinct(groupname) from radgroupcheck) order by groupname";
 	$res = mysqli_query($query);
 	echo "<select name = 'groupname'>";
-	while (($row3 = mysql_fetch_row($res)) != null)
+	while (($row3 = mysqli_fetch_row($res)) != null)
 	{
 	    echo "<option value = " . $row3[0];
 	    if ($groupname == $row3[0]) {

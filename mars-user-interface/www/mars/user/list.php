@@ -16,14 +16,14 @@ if (isset($_POST['submitted'])) {
 	$firstname = "";
 	$lastname = "";
 	$department = "";
-	if ($row = mysql_fetch_assoc($mac_source)) {
+	if ($row = mysqli_fetch_assoc($mac_source)) {
 		$firstname = $row['firstname'];
 		$lastname = $row['lastname'];
 		$department = $row['department'];
 	}
 	$mac_source_group = mysqli_query("select * from radusergroup where username = '" . $mac1 . "'");
 	$group = "";
-	if ($row_group = mysql_fetch_assoc($mac_source_group)) {
+	if ($row_group = mysqli_fetch_assoc($mac_source_group)) {
 		$group = $row_group['groupname'];
 	}
 		
@@ -65,7 +65,7 @@ echo "<form action='' method='POST'>";
 
 $result = mysqli_query("SELECT u.username AS username, u.firstname AS firstname, u.lastname AS lastname, u.mac_vendor AS mac_vendor, u.hostname AS hostname, u.email AS email, u.department AS department, u.organisation AS organisation, u.registration_date AS registration_date, u.initial_ip AS initial_ip, u.notes AS notes, radusergroup.groupname AS groupname FROM userinfo AS u LEFT JOIN radusergroup on u.username = radusergroup.username ORDER BY lastname, firstname ASC") or trigger_error(mysqli_error()); 
 $previous_name = "";
-while($row = mysql_fetch_array($result)){ 
+while($row = mysqli_fetch_array($result)){ 
 foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } 
 echo "<tr>";  
 $name = nl2br( $row['firstname']) . "&nbsp;" . nl2br( $row['lastname']);
