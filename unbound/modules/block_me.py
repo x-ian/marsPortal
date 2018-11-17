@@ -1,0 +1,103 @@
+'''
+'''
+import datetime
+import mysql.connector
+from subprocess import Popen, PIPE
+import subprocess
+import sh
+
+users_block_domains = []
+user_group_mapping = {}
+
+def init(id, cfg): 
+    
+    users_block_file = "/home/marsPortal/unbound/users-block.txt"
+
+    # Reading domains to lookup into the file
+    with open(users_block_file) as file:
+        for line in file: 
+            users_block_domains.append(line.rstrip('\n'))
+    
+    # get user - group mapping from DB
+    cnx = mysql.connector.connect(user='radius', password='radpass', database='radius')
+    cursor = cnx.cursor()
+
+    query = ("SELECT username, groupname FROM radusergroup")
+    cursor.execute(query)
+    for (username, groupname) in cursor:
+        log_info("XXX {}: {}".format(username, groupname))
+        user_group_mapping[username] = groupname
+
+    cursor.close()
+    cnx.close()
+    
+    return True
+    
+def deinit(id): return True
+
+def inform_super(id, qstate, superqstate, qdata): return True
+
+def operate(id, event, qstate, qdata):
+    print "Operate", event,"state:",qstate
+
+    # Please note that if this module blocks, by moving to the validator
+    # to validate or iterator to lookup or spawn a subquery to look up,
+    # then, other incoming queries are queued up onto this module and
+    # all of them receive the same reply.
+    # You can inspect the cache.
+
+    if (event == MODULE_EVENT_NEW) or (event == MODULE_EVENT_PASS):
+        if any(qstate.qinfo.qname_str in s for s in users_block_domains):
+            # get client IP
+            rl = qstate.mesh_info.reply_list
+            client_ip = ""
+            while(rl):
+                if rl.query_reply:
+                    q = rl.query_reply
+                    client_ip = q.addr
+                rl = rl.next
+            # get mac from IP, very slow!?!
+            pid = Popen(["/home/marsPortal/misc/resolve_mac_address.sh", client_ip], stdout=PIPE)
+            client_mac = pid.communicate()[0].rstrip('\n')
+            #s = subprocess.check_output(["/usr/sbin/arp", client_ip])
+            #log_info("DDD {}".format(s))
+            #client_mac = "08:00:27:d7:d7:e9"
+            # get marsPortal group from user
+            client_group = user_group_mapping[client_mac]
+            log_info("EE {}".format(client_group))
+            if (client_group == "Users"):
+                # do something to block
+                #create instance of DNS message (packet) with given parameters
+                msg = DNSMessage(qstate.qinfo.qname_str, RR_TYPE_TXT, RR_CLASS_IN, PKT_QR | PKT_RA | PKT_AA)
+                msg.answer.append("%s 0 IN TXT \"%s %d (%s)\"" % (qstate.qinfo.qname_str, q.addr,q.port,q.family))
+
+                log_info("BBB {}".format(q))
+                #set qstate.return_msg 
+                if not msg.set_return_msg(qstate):
+                    qstate.ext_state[id] = MODULE_ERROR 
+                    return True
+
+                #we don't need validation, result is valid
+                qstate.return_msg.rep.security = 2
+
+                qstate.return_rcode = RCODE_NOERROR
+                qstate.ext_state[id] = MODULE_FINISHED 
+                return True
+            else:
+                #pass the query to validator
+                qstate.ext_state[id] = MODULE_WAIT_MODULE
+                return True
+
+        else:
+            #pass the query to validator
+            qstate.ext_state[id] = MODULE_WAIT_MODULE 
+            return True
+
+    if event == MODULE_EVENT_MODDONE:
+        log_info("pythonmod: iterator module done")
+        qstate.ext_state[id] = MODULE_FINISHED 
+        return True
+      
+    log_err("pythonmod: bad event")
+    qstate.ext_state[id] = MODULE_ERROR
+    return True
