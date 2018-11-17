@@ -4,8 +4,8 @@ include '../common.php';
 include '../menu.php'; 
 include './crontab.php'; 
 
-define("CRONJOB_AUTOLOGIN", '*/5 * * * * /home/marsPortal/misc/captiveportal-auto-login-devices.sh');
-
+define("CRONJOB_AUTOLOGIN", '@reboot /home/marsPortal/misc/captiveportal-auto-login-devices-2.sh');
+define("CRONJOB_OPEN_FOR_TODAY", '59 23 * * * /home/marsPortal/freeradius-accounting/reset-groups-open-for-today.sh');
 ?>
 
 
@@ -34,23 +34,31 @@ define("CRONJOB_AUTOLOGIN", '*/5 * * * * /home/marsPortal/misc/captiveportal-aut
   </div>
 
   <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">Non-HTTP Portal auto-registration</label>
-    <div class="col-lg-4">
-       <input name="" type="hidden" value="0" />
-	   <input class="form-control input-sm" type="checkbox" value="1" name="" id="" />
-    </div>
-  </div>
-
-  <div class="form-group">
     <label class="control-label col-lg-2" for="value_type_name">Activate -open-for-today groups</label>
     <div class="col-lg-4">
        <input name="" type="hidden" value="0" />
-	   <input class="form-control input-sm" type="checkbox" value="1" name="" id="" />
+	   <? if (doesJobExist(CRONJOB_OPEN_FOR_TODAY)) { ?>
+	   <input checked class="form-control input-sm" type="checkbox" value="1" name="openfortoday" id="openfortoday" />
+	   <? } else { ?>
+	   <input class="form-control input-sm" type="checkbox" value="1" name="openfortoday" id="openfortoday" />
+		<? } ?>
     </div>
   </div>
 
   <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">Auto-login to Portal for all connected devices (every 5 mins)</label>
+    <label class="control-label col-lg-2" for="value_type_name">Unknown device handling</label>
+    <div class="col-lg-4">
+		<div class="radio">
+		  <label><input type="radio" name="optradio">Initial HTTP portal page</label>
+		</div>
+		<div class="radio">
+		  <label><input type="radio" name="optradio">Non-HTTP Portal auto-registration</label>
+		</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">Auto-login known devices</label>
     <div class="col-lg-4">
        <input name="" type="hidden" value="0" />
 	   <? if (doesJobExist(CRONJOB_AUTOLOGIN)) { ?>
@@ -58,6 +66,14 @@ define("CRONJOB_AUTOLOGIN", '*/5 * * * * /home/marsPortal/misc/captiveportal-aut
 	   <? } else { ?>
 	   <input class="form-control input-sm" type="checkbox" value="1" name="autologin" id="autologin" />
 		<? } ?>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">'Fool' captive portal detection for known devices</label>
+    <div class="col-lg-4">
+       <input name="" type="hidden" value="0" />
+	   <input checked class="form-control input-sm" type="checkbox" value="1" name="" id="" />
     </div>
   </div>
 

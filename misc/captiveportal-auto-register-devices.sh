@@ -31,6 +31,7 @@ do
 		grep $MAC $ALL_KNOWN_MACS
 		if [ $? -ne 0 ]; then
 			# radius user not found
+			echo "$MAC - $IP - w - automatic auto reg of new devices - `date +%Y%m%d-%H%M%S`" >> /home/client_activities_log/status-`date +%Y%m%d`.log
 			echo "$MAC with $IP to be registered"
 			/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh $IP "" "" "" "" $DEFAULT_GROUP
 			# auto login newly registered device

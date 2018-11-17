@@ -1,0 +1,9 @@
+default 0;
+"clients3.google.com:/generate_204" 1;
+"captive.apple.com:/generate_204" 1;
+"spectrum.s3.amazonaws.com:/kindle-wifi/wifistub.html" 1;
+"network-test.debian.org:/nm" 1;
+"connectivity-check.ubuntu.com:/" 1;
+"www.msftncsi.com:/ncsi.txt" 1;
+"www.msftconnecttest.com:/connecttest.txt" 1;
+"detectportal.firefox.com:/success.txt" 1;
