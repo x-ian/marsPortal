@@ -6,6 +6,10 @@
 BASEDIR=/home/marsPortal
 source $BASEDIR/config.txt
 
+# for now manage unbound outside of pfSense
+# stop service in pfSense and manually adjust config
+/usr/local/sbin/unbound -c /var/unbound/unbound.conf
+
 /usr/local/bin/mysqld_safe &
 sleep 10
 
