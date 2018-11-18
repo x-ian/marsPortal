@@ -60,18 +60,10 @@ def operate(id, event, qstate, qdata):
                     client_ip = q.addr
                 rl = rl.next
             if client_ip:
-                # get mac from IP, very slow!?!
-                log_info("marsmod: check IP for blocked domain: " + client_ip)
+                # get mac from IP
                 pid = Popen(["/home/marsPortal/misc/resolve_mac_address.sh", client_ip], stdout=PIPE)
                 client_mac = pid.communicate()[0].rstrip('\n')
-                log_info (client_mac)
-                #output = subprocess.check_output(("/bin/ls", "-l"))
-                #print output
-                #s = subprocess.check_output(["/usr/sbin/arp", client_ip])
-                #log_info("DDD {}".format(s))
-                #client_mac = "08:00:27:d7:d7:e9"
                 # get marsPortal group from user
-                log_info("marsmod: check MAC for IP: " + client_mac)
                 client_group = user_group_mapping[client_mac]
                 if (client_group == "Users"):
                     # do something to block
@@ -79,7 +71,7 @@ def operate(id, event, qstate, qdata):
                     msg = DNSMessage(qstate.qinfo.qname_str, RR_TYPE_TXT, RR_CLASS_IN, PKT_QR | PKT_RA | PKT_AA)
                     msg.answer.append("%s 0 IN TXT \"%s %d (%s)\"" % (qstate.qinfo.qname_str, q.addr,q.port,q.family))
                     #msg.answer.append('%s 0 IN A %s' % (qstate.qinfo.qname_str, '192.168.10.49'))
-                    log_info('marsmod: Deny access for %s / %s to %s' % (client_mac, client_ip, qstate.qinfo.qname_str))
+                    log_info('marsmod: blocking %s for %s / %s' % (qstate.qinfo.qname_str, client_mac, client_ip))
 
                     #set qstate.return_msg 
                     if not msg.set_return_msg(qstate):
@@ -95,26 +87,26 @@ def operate(id, event, qstate, qdata):
                     return True
                 else:
                     #pass the query to validator
-                    log_err("marsmod: bad event2")
+                    #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
                     qstate.ext_state[id] = MODULE_WAIT_MODULE
                     return True
             else:
                 #pass the query to validator
-                log_err("marsmod: bad event3 %s " % qstate.qinfo.qname_str)
+                #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
                 qstate.ext_state[id] = MODULE_WAIT_MODULE
                 return True
         else:
             #pass the query to validator
-            log_err("marsmod: bad event4 %s " % qstate.qinfo.qname_str)
+            #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
             qstate.ext_state[id] = MODULE_WAIT_MODULE 
             return True
 
     if event == MODULE_EVENT_MODDONE:
         #log_info("marsmod: iterator module done")
-        log_err("marsmod: bad event5 %s " % qstate.qinfo.qname_str)
+        #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
         qstate.ext_state[id] = MODULE_FINISHED 
         return True
       
-    log_err("marsmod: bad event6")
+    log_err("marsmod: bad event2")
     qstate.ext_state[id] = MODULE_ERROR
     return True
