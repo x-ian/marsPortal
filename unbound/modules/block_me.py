@@ -63,7 +63,10 @@ def operate(id, event, qstate, qdata):
                 # get mac from IP, very slow!?!
                 log_info("marsmod: check IP for blocked domain: " + client_ip)
                 pid = Popen(["/home/marsPortal/misc/resolve_mac_address.sh", client_ip], stdout=PIPE)
-                client_mac = "08:00:27:d7:d7:e9" #pid.communicate()[0].rstrip('\n')
+                client_mac = pid.communicate()[0].rstrip('\n')
+                log_info (client_mac)
+                #output = subprocess.check_output(("/bin/ls", "-l"))
+                #print output
                 #s = subprocess.check_output(["/usr/sbin/arp", client_ip])
                 #log_info("DDD {}".format(s))
                 #client_mac = "08:00:27:d7:d7:e9"
