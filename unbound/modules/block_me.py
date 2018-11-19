@@ -3,26 +3,25 @@
 import datetime
 import mysql.connector
 from subprocess import Popen, PIPE
-import subprocess
-import sh
+#import subprocess
 
-users_block_domains = []
+restricted_block_domains = []
 user_group_mapping = {}
 
 def init(id, cfg): 
     
-    users_block_file = "/home/marsPortal/unbound/users-block.txt"
+    restricted_block_file = "/home/marsPortal/unbound/restricted-block.txt"
 
     # Reading domains to lookup into the file
-    with open(users_block_file) as file:
+    with open(restricted_block_file) as file:
         for line in file: 
-            users_block_domains.append(line.rstrip('\n'))
+            restricted_block_domains.append(line.rstrip('\n'))
     
     # get user - group mapping from DB
     cnx = mysql.connector.connect(user='radius', password='radpass', database='radius')
     cursor = cnx.cursor()
 
-    query = ("SELECT username, groupname FROM radusergroup")
+    query = ("SELECT lcase(username), lcase(groupname) FROM radusergroup")
     cursor.execute(query)
     for (username, groupname) in cursor:
         log_info("marsmod: register user for group: {} {}".format(username, groupname))
@@ -48,8 +47,7 @@ def operate(id, event, qstate, qdata):
 
     if (event == MODULE_EVENT_NEW) or (event == MODULE_EVENT_PASS):
 #        if any(qstate.qinfo.qname_str in s for s in users_block_domains):
-        if any(qstate.qinfo.qname_str.endswith(s) for s in users_block_domains):
-#        if (qstate.qinfo.qname_str.endswith("youtube.com.")):
+        if any(qstate.qinfo.qname_str.endswith(s) for s in restricted_block_domains):
 
             # get client IP
             rl = qstate.mesh_info.reply_list
@@ -65,7 +63,7 @@ def operate(id, event, qstate, qdata):
                 client_mac = pid.communicate()[0].rstrip('\n')
                 # get marsPortal group from user
                 client_group = user_group_mapping[client_mac]
-                if (client_group == "Users"):
+                if (client_group == "restricted"):
                     # do something to block
                     #create instance of DNS message (packet) with given parameters
                     msg = DNSMessage(qstate.qinfo.qname_str, RR_TYPE_TXT, RR_CLASS_IN, PKT_QR | PKT_RA | PKT_AA)
@@ -87,23 +85,23 @@ def operate(id, event, qstate, qdata):
                     return True
                 else:
                     #pass the query to validator
-                    #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
+                    log_info("marsmod 1: allowing %s " % qstate.qinfo.qname_str)
                     qstate.ext_state[id] = MODULE_WAIT_MODULE
                     return True
             else:
                 #pass the query to validator
-                #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
+                log_info("marsmod 2: allowing %s " % qstate.qinfo.qname_str)
                 qstate.ext_state[id] = MODULE_WAIT_MODULE
                 return True
         else:
             #pass the query to validator
-            #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
+            log_info("marsmod 3: allowing %s " % qstate.qinfo.qname_str)
             qstate.ext_state[id] = MODULE_WAIT_MODULE 
             return True
 
     if event == MODULE_EVENT_MODDONE:
-        #log_info("marsmod: iterator module done")
-        #log_info("marsmod: allowing %s " % qstate.qinfo.qname_str)
+        log_info("marsmod: iterator module done")
+        log_info("marsmod 4: allowing %s " % qstate.qinfo.qname_str)
         qstate.ext_state[id] = MODULE_FINISHED 
         return True
       
