@@ -3,24 +3,40 @@
 import datetime
 import mysql.connector
 from subprocess import Popen, PIPE
-#import subprocess
+import os.path
 
 restricted_block_domains = []
 user_group_mapping = {}
 
 def init(id, cfg): 
     
-    restricted_block_file = "/home/marsPortal/unbound/restricted-block.txt"
-
-    # Reading domains to lookup into the file
-    with open(restricted_block_file) as file:
-        for line in file: 
-            restricted_block_domains.append(line.rstrip('\n'))
-    
-    # get user - group mapping from DB
     cnx = mysql.connector.connect(user='radius', password='radpass', database='radius')
     cursor = cnx.cursor()
 
+    # figure out which block file(s) to use base don work vs non-work mode
+    #restricted_block_file = "/home/marsPortal/unbound/restricted-block.txt"
+    restricted_block_file = ''
+    query = ("select count(*) as nonwork from radusergroup where groupname like \'\%-non-work-hours\';")
+    cursor.execute(query)
+    nonwork = cursor.fetchone()
+    if nonwork[0] == 0:
+        log_info("marsmod: work mode")
+        restricted_block_file = "/home/marsPortal/unbound/block-files/restricted-block.txt"
+    else:
+        log_info("marsmod: nonwork mode")
+        restricted_block_file = "/home/marsPortal/unbound/block-files/restricted-block-non-work.txt"
+    cursor.close()
+
+
+    if os.path.isfile(restricted_block_file):
+        log_info("marsmod: loading blockfile: {}".format(restricted_block_file))
+        # Reading domains to lookup into the file
+        with open(restricted_block_file) as file:
+            for line in file: 
+                restricted_block_domains.append(line.rstrip('\n'))
+
+    # get user - group mapping from DB
+    cursor = cnx.cursor()
     query = ("SELECT lcase(username), lcase(groupname) FROM radusergroup")
     cursor.execute(query)
     for (username, groupname) in cursor:
