@@ -34,7 +34,8 @@ WHERE userinfo.username='" . $username . "';";
 		    <span class='caret'></span>
 		  </a>
 		  <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>
-			<li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device-traffic-details.php?username={$row[username]}'>Traffic details</a></li>
+			<li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device-traffic-details.php?username={$row[username]}'>Traffic details (by IP)</a></li>
+			<li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device-traffic-details.php?username={$row[username]}'>Traffic details (by 2nd level domain)</a></li>
 		    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device_with_volume.php?username={$row[username]}'>Traffic history</a></li>
 		    <li role='presentation'><a role='menuitem' tabindex='-1' href='/mars/reports/device-activity.php?username={$row[username]}'>Activity history</a></li>
 		    <li role='presentation' class='divider'></li>
