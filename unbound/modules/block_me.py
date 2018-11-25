@@ -101,23 +101,23 @@ def operate(id, event, qstate, qdata):
                     return True
                 else:
                     #pass the query to validator
-                    log_info("marsmod 1: allowing %s " % qstate.qinfo.qname_str)
+                    #log_info("marsmod 1: allowing %s " % qstate.qinfo.qname_str)
                     qstate.ext_state[id] = MODULE_WAIT_MODULE
                     return True
             else:
                 #pass the query to validator
-                log_info("marsmod 2: allowing %s " % qstate.qinfo.qname_str)
+                #log_info("marsmod 2: allowing %s " % qstate.qinfo.qname_str)
                 qstate.ext_state[id] = MODULE_WAIT_MODULE
                 return True
         else:
             #pass the query to validator
-            log_info("marsmod 3: allowing %s " % qstate.qinfo.qname_str)
+            #log_info("marsmod 3: allowing %s " % qstate.qinfo.qname_str)
             qstate.ext_state[id] = MODULE_WAIT_MODULE 
             return True
 
     if event == MODULE_EVENT_MODDONE:
-        log_info("marsmod: iterator module done")
-        log_info("marsmod 4: allowing %s " % qstate.qinfo.qname_str)
+        #log_info("marsmod: iterator module done")
+        #log_info("marsmod 4: allowing %s " % qstate.qinfo.qname_str)
         qstate.ext_state[id] = MODULE_FINISHED 
         return True
       

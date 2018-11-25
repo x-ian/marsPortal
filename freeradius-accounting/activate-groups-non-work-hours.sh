@@ -25,3 +25,9 @@ do
 	/usr/bin/sed -i '' -n '/'"$line"'/!p' /tmp/auto_login_all_previous_macs
 	/usr/local/bin/php -q $BASEDIR/../misc/captiveportal-disconnect-user.php $line
 done <<< $MACS
+
+# restart unbound to load new block files
+# kind of sucks, unbound-control didn't work?
+/usr/bin/killall unbound
+sleep 5
+/usr/local/sbin/unbound -c /var/unbound/unbound.conf
