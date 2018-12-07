@@ -21,12 +21,12 @@ echo "<table  class='table table-striped'>";
 echo "<thead><tr>"; 
 echo "<th>Groupname</th>"; 
 echo "<th>Work Total</th>"; 
-echo "<th>User Work Total</th>"; 
+// echo "<th>User Work Total</th>";
 echo "<th>Bandwidth</th>"; 
 echo "<th>Session Timeout</th>"; 
 echo "<th>Max Concurrent Users</th>"; 
 echo "<th>Day Total</th>"; 
-echo "<th>User Day Total</th>"; 
+// echo "<th>User Day Total</th>";
 echo "<th>Auth Type</th>"; 
 //echo "<th>Reply Message</th>"; 
 echo "</tr></thead><tbody>"; 
@@ -57,8 +57,8 @@ foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } ?>
 <td><?=nl2br( empty2($row['Max Work Hours Up'], '&nbsp;&#8593;'))?><br/>
 <?=nl2br( empty2($row['Max Work Hours Down'], '&nbsp;&#8595;'))?></td>
 
-<td><?=nl2br( empty2($row['User Max Work Hours Up'], '&nbsp;&#8593;'))?><br/>
-<?=nl2br( empty2($row['User Max Work Hours Down'], '&nbsp;&#8595;'))?></td>
+<!-- <td><?=nl2br( empty2($row['User Max Work Hours Up'], '&nbsp;&#8593;'))?><br/>
+<?=nl2br( empty2($row['User Max Work Hours Down'], '&nbsp;&#8595;'))?></td> -->
 
 <td><?=nl2br( empty2($row['WISPr-Bandwidth-Max-Up'], '&nbsp;&#8593;'))?><br/>
 <?=nl2br( empty2($row['WISPr-Bandwidth-Max-Down'], '&nbsp;&#8595;'))?></td>
@@ -69,8 +69,8 @@ foreach($row AS $key => $value) { $row[$key] = stripslashes($value); } ?>
 <td><?=nl2br( empty2($row['Max Daily Up'], '&nbsp;&#8593;'))?><br/>
 <?=nl2br( empty2($row['Max Daily Down'], '&nbsp;&#8595;'))?></td>
 
-<td><?=nl2br( empty2($row['User Max Daily Up'], '&nbsp;&#8593;'))?><br/>
-<?=nl2br( empty2($row['User Max Daily Down'], '&nbsp;&#8595;'))?></td>
+<!-- <td><?=nl2br( empty2($row['User Max Daily Up'], '&nbsp;&#8593;'))?><br/>
+<?=nl2br( empty2($row['User Max Daily Down'], '&nbsp;&#8595;'))?></td> -->
 
 <td><?=nl2br( $row['Auth Type'])?></td>  
 <!--<td><?=nl2br( $row['Reply Message'])?></td>-->

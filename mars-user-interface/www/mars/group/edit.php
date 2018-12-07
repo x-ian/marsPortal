@@ -11,6 +11,14 @@ include '../menu.php';
 	  </div>
 
 <? 
+// configuration
+$url = 'http://mars/editor.php';
+$file = '/home/marsPortal/unbound/block-files/restricted-block.txt';
+	
+# weird line ending behaviour
+$dns_filter1 = file_get_contents($file);
+$dns_filter = str_replace(array("\\r\\n"), "\n", $dns_filter1);
+
 if (isset($_GET['groupname']) ) { 
 $groupname = $_GET['groupname']; 
 if (isset($_POST['submitted'])) { 
@@ -45,6 +53,9 @@ if (isset($_POST['submitted'])) {
 	// cleanup
 	mysql_query("delete from radgroupcheck where value =''") or die(mysql_error());
 	mysql_query("delete from radgroupreply where value =''") or die(mysql_error());
+	
+	# weird line ending behaviour
+    file_put_contents($file, str_replace(array("\\r\\n"), "\n", $_POST['dns_filter']));
 	
 	echo "<a href='list.php'>Back To Listing</a>"; 
 } 
@@ -81,68 +92,36 @@ $row = mysql_fetch_array ( mysql_query('
     <div class="col-lg-4 input-sm">(only characters, digits, and dash; no spaces or symbols allowed)</div>
   </div>
 
-  <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">Work Total Input</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Up']) ?>" name="work_total_input" id="value_type_name" />
-    </div>
-    <div class="col-lg-4 input-sm"> (#) (Upload, in MB)</div>
-  </div>
 
   <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">Work Total Output</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Down']) ?>" name="work_total_output" id="value_type_name" />
-    </div>
-    <div class="col-lg-4 input-sm"> (#) (Download, in MB)</div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">Day Total Input</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Up']) ?>" name="day_total_input" id="value_type_name" /> 
-    </div>
-    <div class="col-lg-4 input-sm">(#) (Upload, in MB)</div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">Day Total Output</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Down']) ?>" name="day_total_output" id="value_type_name" />
-    </div>
-    <div class="col-lg-4 input-sm"> (#) (Download, in MB)</div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">User Work Total Input</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Up']) ?>" name="user_work_total_input" id="value_type_name" /> 
-    </div>
-    <div class="col-lg-4 input-sm"> (#) (Upload, in MB)</div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">User Work Total Output</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Down']) ?>" name="user_work_total_output" id="value_type_name" /> 
-    </div>
-    <div class="col-lg-4 input-sm">(#) (Download, in MB)</div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">User Day Total Input</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Up']) ?>" name="user_day_total_input" id="value_type_name" /> 
-    </div>
-    <div class="col-lg-4 input-sm">(#) (Upload, in MB)</div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-lg-2" for="value_type_name">User Day Total Output</label>
-    <div class="col-lg-2">
-      <input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Down']) ?>" name="user_day_total_output" id="value_type_name" /> 
-    </div>
-    <div class="col-lg-4 input-sm">(#) (Download, in MB)</div>
+    <label class="control-label col-lg-2" for="value_type_name">Bundles</label>
+    <div class="col-lg-6">
+		<table  class='table'>
+			<thead><tr> 
+			<th></th>
+			<th>Work Total </th> 
+			<th>Day Total </th> 
+			<!-- <th>User Work Total </th>
+			<th>User Day Total </th>  -->
+		</tr></thead>
+		<tr>
+			<td>Input/Upload</td>
+			<td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Up']) ?>" name="work_total_input" id="value_type_name" /></td>
+			<td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Up']) ?>" name="day_total_input" id="value_type_name" /></td>
+			<!-- <td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Up']) ?>" name="user_work_total_input" id="value_type_name" /> </td>
+			<td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Up']) ?>" name="user_day_total_input" id="value_type_name" /></td> -->
+			<td>(#)&nbsp;(in&nbsp;MB)</td>
+		</tr>
+		<tr>
+			<td>Output/Download</td>
+			<td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Work Hours Down']) ?>" name="work_total_output" id="value_type_name" /></td>
+			<td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['Max Daily Down']) ?>" name="day_total_output" id="value_type_name" /></td>
+			<!-- <td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Work Hours Down']) ?>" name="user_work_total_output" id="value_type_name" /> </td>
+			<td><input class="form-control input-sm" type="text" value="<?= stripslashes($row['User Max Daily Down']) ?>" name="user_day_total_output" id="value_type_name" /></td> -->
+			<td>(#)&nbsp;(in&nbsp;MB)</td>
+		</tr>
+		</table>
+	</div>
   </div>
 
   <div class="form-group">
@@ -166,7 +145,7 @@ $row = mysql_fetch_array ( mysql_query('
     <div class="col-lg-2">
       <input class="form-control input-sm" type="text" value="<?= stripslashes($row['Session Timeout']) ?>" name="session_timeout" id="value_type_name" />
     </div>
-    <div class="col-lg-4 input-sm"> (*) (in seconds; usually 43200)</div>
+    <div class="col-lg-4 input-sm"> (*) (in seconds; usually 43200, 86400, or 604800)</div>
   </div>
 
   <div class="form-group">
@@ -204,6 +183,14 @@ $row = mysql_fetch_array ( mysql_query('
 		<? } ?>
     </div>
     <div class="col-lg-4 input-sm">(when activated under Configuration - Change Settings)</div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-lg-2" for="value_type_name">DNS filter</label>
+    <div class="col-lg-2">
+	   	<textarea class="form-control input-sm" type="textarea" name="dns_filter" id="dns_filter" rows="5"><?= htmlspecialchars($dns_filter) ?></textarea>
+    </div>
+    <div class="col-lg-4 input-sm">(to be blocked DNS names,<br/>one entry per line,<br/>end with an .<br/>e.g. youtube.com. or itunes.apple.com.)<br/><br/>Currently only works for group Restricted,<br/><br/>depends on browser caching and DNS Time-to-live</div>
   </div>
 
   <div class="form-group">
