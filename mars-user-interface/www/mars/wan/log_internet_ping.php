@@ -1,3 +1,17 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/mars/libs/chartist.min.css">
+</head>
+
+<style>
+.ct-series-b .ct-bar, .ct-series-b .ct-line, .ct-series-b .ct-point, .ct-series-b .ct-area, .ct-series-b .ct-slice-donut {
+    stroke: lightgreen;
+    fill: lightgreen;
+}
+.ct-chart .ct-area {
+  fill-opacity: 1
+}
+</style>
+
 <? 
 $HEADLINE = 'Internet Ping'; 
 include '../menu.php'; 
@@ -6,6 +20,8 @@ include '../common.php';
 
 <!-- begin page-specific content ########################################### -->
     <div id="main">
+
+    <div class="ct-chart" id="chart"></div>
 
 <? 
 $order = $_GET['order']; 
@@ -21,6 +37,8 @@ $hour_ago_12 = date('Y-m-d H:i:s', strtotime('-12 hours'));
 $day_ago_1 = date('Y-m-d H:i:s', strtotime('-1 day'));
 $day_ago_7 = date('Y-m-d H:i:s', strtotime('-7 days'));
 $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
+
+$rates = [];
 ?>
 
 <table class='table table-striped'>
@@ -33,6 +51,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(4, "interval 5 minute")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_5_min"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 4)</td>
 	</tr>
@@ -42,6 +61,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(14, "interval 15 minute")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_15_min"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 14)</td>
 	</tr>
@@ -51,6 +71,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(59, "interval 1 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_hour"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 59)</td>
 	</tr>
@@ -60,6 +81,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(239, "interval 4 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_4_hour"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 239)</td>
 	</tr>
@@ -68,6 +90,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 		<td>
 			<? $result = mysql_query(internet_ping(479, "interval 8 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
+			<? $rates["last_8_hour"] = get_percent($row[3]); ?>
 			<?=get_percent($row[3]) ?> %
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 479)</td>
@@ -78,6 +101,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(719, "interval 12 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_12_hour"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 719)</td>
 	</tr>
@@ -87,6 +111,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(1439, "interval 24 hour")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_day"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 1439)</td>
 	</tr>
@@ -96,6 +121,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(10079, "interval 7 day")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_7_day"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 10079)</td>
 	</tr>
@@ -105,6 +131,7 @@ $day_ago_30 = date('Y-m-d H:i:s', strtotime('-30 days'));
 			<? $result = mysql_query(internet_ping(43199, "interval 30 day")) or trigger_error(mysql_error())?>
 			<? $row = mysql_fetch_array($result)?>
 			<?=get_percent($row[3]) ?> %
+			<? $rates["last_30_day"] = get_percent($row[3]); ?>
 		</td>
 		<td><?=$row[1] ?> / <?=$row[2] ?> (<?=$row[0]?> / 43199)</td>
 	</tr></tbody>
@@ -137,4 +164,27 @@ function internet_ping($expectedPings, $interval) {
 <br/>
 
 </div>
+
+<script type="text/javascript" src="/mars/libs/chartist.js"></script>
+<script>
+new Chartist.Line('.ct-chart', {
+	  labels: ['Last 5 mins', 'Last 15 mins', 'Last hour', 'Last 4 hours', 'Last 8 hours', 'Last 12 hours', 'Last day', 'Last 7 days', 'Last 30 days'],
+	  series: [
+		  [ <?=100-$rates['last_5_min'] ?>, <?=100-$rates['last_15_min'] ?>, <?=100-$rates['last_hour'] ?>, <?=100-$rates['last_4_hour'] ?>, <?=100-$rates['last_8_hour'] ?>, <?=100-$rates['last_12_hour'] ?>, <?=100-$rates['last_day'] ?>, <?=100-$rates['last_7_day'] ?>, <?=100-$rates['last_30_day'] ?> ],
+		  [ 100, 100, 100, 100, 100, 100, 100, 100, 100 ],
+		  // [ <?=$rates['last_5_min'] ?>, <?=$rates['last_15_min'] ?>, <?=$rates['last_hour'] ?>, <?=$rates['last_4_hour'] ?>, <?=$rates['last_8_hour'] ?>, <?=$rates['last_12_hour'] ?>, <?=$rates['last_day'] ?>, <?=$rates['last_7_day'] ?>, <?=$rates['last_30_day'] ?> ],
+	 	  ]
+	}, {
+		height: '100px',
+		high: 100,
+		low: 0,
+		fullWidth: true,
+		showPoint: false,
+		showArea: true,
+		chartPadding: {
+			right: 40
+		},
+	});
+</script>
+
 </body>
