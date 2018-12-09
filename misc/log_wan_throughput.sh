@@ -11,11 +11,12 @@ do
 	
 	TRAFFIC=`netstat -w 10  -q 1 -b -d -I $WAN_INTERFACE | tail -1`
 
-	RX=$(echo $(echo $TRAFFIC | awk '{print $4}') / 1000 | bc)
+	# abbove netstat reports in bytes per 10 seconds. so / 1000 / 10 to get kbytes/sec
+	RX=$(echo $(echo $TRAFFIC | awk '{print $4}') / 10000 | bc)
 	if [ -z "$RX" ]; then
 		RX=-1
 	fi
-	TX=$(echo $(echo $TRAFFIC | awk '{print $7}') / 1000 | bc)
+	TX=$(echo $(echo $TRAFFIC | awk '{print $7}') / 10000 | bc)
 	if [ -z "$TX" ]; then
 		TX=-1
 	fi
