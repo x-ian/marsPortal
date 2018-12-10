@@ -26,7 +26,7 @@
 		<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">WAN Statistics<span class="caret"></span></a>
           <ul class="dropdown-menu">
-					<li><a href="/mars/wan/log_internet_ping.php">Availability (ping)</a> </li>
+					<li><a href="/mars/wan/log_internet_ping.php">Availability</a> </li>
 					<li><a href="/mars/wan/log_wan_throughput.php">Throughput (netstat)</a> </li>
 		   			<li><a href="/mars/wan/log_wan_traffic.php">Traffic volume</a></li>
             <!--<li role="separator" class="divider"></li>-->
@@ -38,18 +38,21 @@
           <ul class="dropdown-menu">
 					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput / Most active devices</a> </li>
 		   			<li><a href="/mars/reports/statistics-v5.php">Traffic volume</a></li>
+				<li role="separator" class="divider"></li>
 					<li><a href="/mars/reports/devices_with_volume.php">Devices history</a></li>
 					<li><a href="/mars/reports/online-devices.php">Devices currently online</a></li>
+				<li role="separator" class="divider"></li>
+	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
           </ul>
         </li>
 		
-        <li class="dropdown">
+        <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Users & Groups)<span class="caret"></span></a>
           <ul class="dropdown-menu">
 	       		<li><a href=".">Statistics (disabled)</a></li>
 	       		<li><a href="/mars/reports/groups.php">Groups</a></li>
           </ul>
-        </li>
+        </li> -->
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>

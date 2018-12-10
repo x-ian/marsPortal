@@ -6,7 +6,7 @@ include '../menu.php';
 <!-- begin page-specific content ########################################### -->
     <div id="main">
 <ul>
-<li>Ping an external serger from shell/terminal/command line, like 'ping 8.8.8.8' (and keep it running)</li>
+<li>Ping an external server from shell/terminal/command line, like 'ping 8.8.8.8' (and keep it running)</li>
 <li>Open an external static IP webpage, like http://212.227.88.109</li>
 <li>Open an external web page, like http://http://www.marsgeneral.com/</li>
 <li>Keep an eye on bridged virtual machines. They might either fool their MAC address or 'reuse' the one from the host system (which will cause constant switching on Captive Portal).</li>

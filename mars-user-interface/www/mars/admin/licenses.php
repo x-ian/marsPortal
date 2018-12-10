@@ -20,6 +20,7 @@ marsPortal gratefully is built on top of the following open source project:
 		<tr><td><a href="http://www.squid-cache.org/">Squid</a> &amp; <a href="http://lightsquid.sourceforge.net/Index2.html">Lightsquid</td><td>GPL v2</td></tr>
 		<tr><td><a href="http://tools.netsa.cert.org/yaf/libyaf/">yaf</a></td><td>GPL</td></tr>
 		<tr><td>bash/wget/curl/perl/php/ssmtp</td><td></td></tr>
+		<tr><td><a href="https://github.com/gionkunz/chartist-js">Chartist</a></td><td>MIT</td></tr>
 	</tr></tbody>
 </table>
 </div>
