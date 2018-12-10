@@ -5,6 +5,30 @@ include('config.php');
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past to bypass browser caching
 
+function name_to_device($username) {
+	if ($username == "total") return "Total";
+	$query = "SELECT radusergroup.groupname as groupname, userinfo.* from userinfo
+LEFT JOIN radusergroup ON userinfo.username=radusergroup.username 
+WHERE userinfo.username='" . $username . "';";
+
+	$result = mysql_query($query) or trigger_error(mysql_error()); 
+
+	while($row = mysql_fetch_array($result)){ 
+		foreach($row AS $key => $value) { $row[$key] = stripslashes($value); }
+		$name = "";
+		if ($row['firstname'] !== '') {
+			$name .= $row['firstname'] . " ";
+		}
+		if ($row['lastname'] !== '') {
+			$name .= $row['lastname'] . " ";
+		}
+		if ($row['hostname'] !== '') {
+			$name .= '(' . $row['hostname'] . ')';
+		}
+	}
+	return $name;
+}
+
 function dropdown_link_to_device($username) {
 	$query = "SELECT radusergroup.groupname as groupname, userinfo.* from userinfo
 LEFT JOIN radusergroup ON userinfo.username=radusergroup.username 
