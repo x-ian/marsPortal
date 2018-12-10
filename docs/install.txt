@@ -21,11 +21,11 @@ cp /home/marsPortal/setup-marsportal/allow_nonauth_dns_in_captiveportal/captivep
 
 
 yaf
-   62  pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/libfixbuf-1.7.1.txz
-   63  pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/yaf-2.8.4.txz
-   69  pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/p5-DBI-1.636.txz
-   70  pkg add silktools-3.17.2.txz
-       # pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/silktools-3.11.0.1.txz
+pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/libfixbuf-1.7.1.txz
+pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/yaf-2.8.4.txz
+pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/p5-DBI-1.636.txz
+pkg add /home/marsPortal/setup-marsportal/silktools-3.17.2.txz
+# pkg add http://pkg.freebsd.org/FreeBSD:11:amd64/release_0/All/silktools-3.11.0.1.txz
 
 
 Preparing memstick installation
