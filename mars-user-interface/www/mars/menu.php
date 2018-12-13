@@ -34,7 +34,7 @@
         </li>
 		
 		<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics (Devices)<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Traffic Statistics<span class="caret"></span></a>
           <ul class="dropdown-menu">
 					<li><a href="/mars/reports/throughput.php?order=output_rate&period=min_ago_5">Throughput / Most active devices</a> </li>
 		   			<li><a href="/mars/reports/statistics-v5.php">Traffic volume</a></li>
@@ -80,7 +80,7 @@
           <ul class="dropdown-menu">
 	       		<li><a href="">Invoke Backup</a></li>
 	       		<li><a href="/mars/config/edit.php">Change Settings</a></li>
-	       		<li><a href="./monitor-network-devices.php">Edit network devices to monitor</a></li>
+	       		<li><a href="/mars/admin/monitor-network-devices.php">Edit network devices to monitor</a></li>
 	       		<li><a href="">Change password</a></li>
           </ul>
         </li>
