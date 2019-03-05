@@ -27,3 +27,9 @@ truncate radpostauth;
 truncate traffic_details;
 truncate ip_registry;
 EOF
+
+cd /home/client_activities_log/; find . -maxdepth 1 -name '*' -delete
+cd /home/yaf/; find . -maxdepth 1 -name '*' -delete
+cd /home/yaf_work/; find . -maxdepth 1 -name '*' -delete
+cd /home/yaf_done/; find . -maxdepth 1 -name '*' -delete
+cd /home/mail_backlog; find . -maxdepth 1 -name '*' -delete
