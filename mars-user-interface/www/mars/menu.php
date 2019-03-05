@@ -57,20 +57,20 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="">View Logs</a></li>
-	       		<li><a href="">Activate remote administration</a></li>
-	       		<li><a href="">Notify when device comes online</a></li>
-	       		<li><a href="">Activate VIP/emergency mode</a></li>
+	       		<li class="disabled"><a href="">View Logs</a></li>
+	       		<li class="disabled"><a href="">Activate remote administration</a></li>
+	       		<li class="disabled"><a href="">Notify when device comes online</a></li>
+	       		<li class="disabled"><a href="">Activate VIP/emergency mode</a></li>
 	       		<li><a href="/mars/admin/devices_not_yet_registered.php">Devices without Portal Registration</a></li>
 				<li role="separator" class="divider"></li>
 	       		<li><a href="/mars/admin/troubleshooting.php">Troubleshooting</a></li>
 				<li role="separator" class="divider"></li>
 	       		<li><a href="/mars/admin/check-radius-inconsistencies.php">RADIUS inconsistencies</a></li>
-	       		<li><a href="">Cleanup devices not seen for last x months</a></li>
-	       		<li><a href="">Reset all accounting data</a></li>
-	       		<li><a href="">Delete all registered devices</a></li>
+	       		<li class="disabled"><a href="">Cleanup devices not seen for last x months</a></li>
+	       		<li class="disabled"><a href="">Reset all accounting data</a></li>
+	       		<li class="disabled"><a href="">Delete all registered devices</a></li>
 				<li role="separator" class="divider"></li>
-	       		<li><a href="">Useful links</a></li>
+	       		<li class="disabled"><a href="">Useful links</a></li>
 	       		<li><a href="/mars/admin/licenses.php">License notes</a></li>
           </ul>
         </li>
@@ -78,10 +78,10 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuration<span class="caret"></span></a>
           <ul class="dropdown-menu">
-	       		<li><a href="">Invoke Backup</a></li>
+	       		<li class="disabled"><a href="">Invoke Backup</a></li>
 	       		<li><a href="/mars/config/edit.php">Change Settings</a></li>
 	       		<li><a href="/mars/admin/monitor-network-devices.php">Edit network devices to monitor</a></li>
-	       		<li><a href="">Change password</a></li>
+	       		<li class="disabled"><a href="">Change password</a></li>
           </ul>
         </li>
       </ul>
@@ -90,8 +90,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
           <ul class="dropdown-menu">
-			<li><a href="/users/edit">Edit account</a></li>
-			<li><a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a></li>
+			<li class="disabled"><a href="/users/edit">Edit account</a></li>
+			<li class="disabled"><a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a></li>
           </ul>
         </li>
       </ul>
