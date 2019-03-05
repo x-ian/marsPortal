@@ -15,6 +15,7 @@ truncate accounting_snapshot_3;
 truncate daily_accounting_v2;
 truncate daily_accounting_v5;
 
+truncate log_internet;
 truncate log_internet_ping;
 truncate log_wan_throughput;
 truncate log_wan_traffic;
