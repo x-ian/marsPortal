@@ -15,6 +15,7 @@ sleep 10
 
 echo 'radiusd_enable="YES"' >> /etc/rc.conf
 mkdir /var/run/radiusd/
+chmod go+w /var/run/radiusd
 /usr/local/etc/rc.d/radiusd start
 
 # wipe out all radacct sessions
