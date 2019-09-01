@@ -43,7 +43,10 @@ delete from radacct where acctstarttime < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
 
 truncate ip_registry;
 delete from traffic_details where day < DATE_ADD(CURDATE(),INTERVAL -3 MONTH);
-#truncate traffic_details;
+-- truncate traffic_details;
+
+-- get rid of devices not showed up recently
+-- select i.u, i.d from (select username u,max( day) d from daily_accounting_v5 group by username) as i where i.d < '2019-01-01';
 EOF
 	
 # update MAC vendor list, http://standards.ieee.org/develop/regauth/oui/public.html

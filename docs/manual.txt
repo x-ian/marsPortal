@@ -163,6 +163,7 @@ If there is a problem in the configuration between pfSense and daloRADIUS no out
 
 radtest 00:25:00:48:60:10 radius 127.0.0.1 0 testing123
 radtest 08:00:27:d7:d7:e9 radius 192.168.0.2 0 radius
+radtest f4:5c:89:92:f0:83 radius 127.0.0.1 0 testing123
 
 Problems trying to connect to DHCP
 ----------------------------------

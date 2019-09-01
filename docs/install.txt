@@ -256,6 +256,8 @@ mv /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-available/s
 cp /home/marsPortal/freeradius-config/freeradius3/sql /usr/local/etc/raddb/mods-available
 
 cp /home/marsPortal/setup-captiveportal/freeradius3/rlm_sql_mysql.* /usr/local/lib/freeradius-3.0.17
+# problems with dependent libs????
+#cp /home/marsPortal/setup-captiveportal/freeradius3/rlm_sql_mysql.* /usr/local/lib/freeradius-3.0.15
 ln -s /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-enabled/sql
 
 ##cd / && tar xzf /home/marsPortal/setup-marsportal/freeradius-2.2.6-rlm_sql_mysql_amd64.tgz
@@ -263,6 +265,7 @@ ln -s /usr/local/etc/raddb/mods-available/sql /usr/local/etc/raddb/mods-enabled/
 
 Below are some background information; only for informational purpose. Continue installation with next section 'Captive portal':
 
+chmod go+w /var
 'stolen' rlm_sql_mysql.* from pfsense freeradius package (/usr/local/lib/freeradius-2.2.6/)
 make sure you use the matching version for AMG64 or i386 !!!
 
@@ -405,3 +408,9 @@ radtest testingSQL password localhost 0 testing123
 On some installations the local console is not shown - it stops with the 'bootup complete' message, unclear how to solve this: https://forum.pfsense.org/index.php?topic=34814.0. In my case the file /etc/ttys was corrupt and was replaced with a working file from another system. This file is available under docs/install - ttys.example.
 
 When temporarily deactivating a network interface to shutdown a certain area of the network, pfSense needs to be rebooted.
+
+Optional installation of local speedtest service:
+cd /home
+git clone https://github.com/adolfintel/speedtest
+ln -s /home/speedtest/ /home/marsPortal/mars-user-interface/www/mars/speedtest
+--> http://localhost:8888/mars/speedtest/example-gauges.html
