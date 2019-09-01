@@ -167,24 +167,47 @@ function internet_ping($expectedPings, $interval) {
 
 <script type="text/javascript" src="/mars/libs/chartist.js"></script>
 <script>
-new Chartist.Line('.ct-chart', {
+new Chartist.Bar('.ct-chart', {
 	  labels: ['Last 5 mins', 'Last 15 mins', 'Last hour', 'Last 4 hours', 'Last 8 hours', 'Last 12 hours', 'Last day', 'Last 7 days', 'Last 30 days'],
 	  series: [
 		  [ <?=100-$rates['last_5_min'] ?>, <?=100-$rates['last_15_min'] ?>, <?=100-$rates['last_hour'] ?>, <?=100-$rates['last_4_hour'] ?>, <?=100-$rates['last_8_hour'] ?>, <?=100-$rates['last_12_hour'] ?>, <?=100-$rates['last_day'] ?>, <?=100-$rates['last_7_day'] ?>, <?=100-$rates['last_30_day'] ?> ],
-		  [ 100, 100, 100, 100, 100, 100, 100, 100, 100 ],
-		  // [ <?=$rates['last_5_min'] ?>, <?=$rates['last_15_min'] ?>, <?=$rates['last_hour'] ?>, <?=$rates['last_4_hour'] ?>, <?=$rates['last_8_hour'] ?>, <?=$rates['last_12_hour'] ?>, <?=$rates['last_day'] ?>, <?=$rates['last_7_day'] ?>, <?=$rates['last_30_day'] ?> ],
+		  //[ 100, 100, 100, 100, 100, 100, 100, 100, 100 ],
+		   [ <?=$rates['last_5_min'] ?>, <?=$rates['last_15_min'] ?>, <?=$rates['last_hour'] ?>, <?=$rates['last_4_hour'] ?>, <?=$rates['last_8_hour'] ?>, <?=$rates['last_12_hour'] ?>, <?=$rates['last_day'] ?>, <?=$rates['last_7_day'] ?>, <?=$rates['last_30_day'] ?> ],
 	 	  ]
-	}, {
-		height: '100px',
-		high: 100,
-		low: 0,
-		fullWidth: true,
-		showPoint: false,
-		showArea: true,
-		chartPadding: {
-			right: 40
-		},
-	});
+	}, 
+	{
+	  stackBars: true,
+	height: '100px',
+	high: 100,
+	low: 0,
+			chartPadding: {
+				right: 40
+			},
+	fullWidth: true,
+	  axisY: {
+	    labelInterpolationFnc: function(value) {
+	      return (value / 1000) + 'k';
+	    }
+	  }
+	}).on('draw', function(data) {
+	  if(data.type === 'bar') {
+	    data.element.attr({
+	      style: 'stroke-width: 30px'
+	    });
+	  }
+	});	
+	
+	// {
+	// 	height: '100px',
+	// 	high: 100,
+	// 	low: 0,
+	// 	fullWidth: true,
+	// 	showPoint: false,
+	// 	showArea: true,
+	// 	chartPadding: {
+	// 		right: 40
+	// 	},
+	// });
 </script>
 
 </body>
