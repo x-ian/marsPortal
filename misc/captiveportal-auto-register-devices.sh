@@ -36,6 +36,7 @@ do
 			/home/marsPortal/freeradius-integration/self-registration/captive-portal-add_user_to_radius.sh $IP "" "" "" "" $DEFAULT_GROUP
 			# auto login newly registered device
 			# TODO: should only for groups with auto-login activated
+			# doesn't appear to properly work in pfsense 2.3 ALIX
 			/usr/local/bin/php -e $BASEDIR/misc/captiveportal-connect-user.php $IP $MAC
 		fi
 	fi
