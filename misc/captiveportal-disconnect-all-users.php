@@ -21,5 +21,8 @@ foreach ($a_cp as $captiveportalzone) {
 }
 unset($a_cp);
 
+// delete temp file for auto login
+unlink('/tmp/auto_login_all_previous_macs');
+
 ?>
 
