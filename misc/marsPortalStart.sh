@@ -13,6 +13,9 @@ source $BASEDIR/config.txt
 /usr/local/bin/mysqld_safe &
 sleep 10
 
+# for plSense 2.3 ALIX
+#sleep 110
+
 echo 'radiusd_enable="YES"' >> /etc/rc.conf
 mkdir /var/run/radiusd/
 chmod go+w /var/run/radiusd
@@ -24,5 +27,5 @@ chmod go+w /var/run/radiusd
 #truncate radacct;
 #EOF
 
-/usr/local/bin/yaf --mac --in bridge0 --live pcap --out /home/yaf/yaf --log /home/yaf/yaf.log --verbose --rotate 300 &
+/usr/local/bin/yaf --mac --in $LAN_INTERFACE --live pcap --out /home/yaf/yaf --log /home/yaf/yaf.log --verbose --rotate 300 &
 
