@@ -11,7 +11,7 @@ USER=admin
 PASSWD=pfsense
 ZONE=mars
 
-SSH_TUNNEL_PORT=17778
+SSH_TUNNEL_PORT=17773
 NETGATE_ID=`cat /var/db/uniqueid`
 DEVICE_NAME=new_install
 
