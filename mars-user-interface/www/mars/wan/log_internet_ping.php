@@ -210,4 +210,80 @@ new Chartist.Bar('.ct-chart', {
 	// });
 </script>
 
+
+
+
+
+<?php
+  
+  echo "
+  <table class='table table-striped table-bordered '>
+  	<thead><tr>
+	<th>Day</th>";
+    
+for ($i=0; $i<=23; $i++) {
+	echo "<td align='left'>" . $i . ":00</td>";
+}
+
+	echo "</tr></thead><tbody>";
+	//  bgcolor="#00FF00">
+	
+  function activity() {
+	  $a = "
+		  SELECT DATE(`begin`) as day, 
+		  sum(IF(hour(`begin`) >=  0 AND hour(`begin`) <  1, received, 0)) / sum(IF(hour(`begin`) >=  0 AND hour(`begin`) <  1, transmitted, 0)) as t0, 
+		  sum(IF(hour(`begin`) >=  1 AND hour(`begin`) <  2, received, 0)) / sum(IF(hour(`begin`) >=  1 AND hour(`begin`) <  2, transmitted, 0)) as t1, 
+		  sum(IF(hour(`begin`) >=  2 AND hour(`begin`) <  3, received, 0)) / sum(IF(hour(`begin`) >=  2 AND hour(`begin`) <  3, transmitted, 0)) as t2, 
+		  sum(IF(hour(`begin`) >=  3 AND hour(`begin`) <  4, received, 0)) / sum(IF(hour(`begin`) >=  3 AND hour(`begin`) <  4, transmitted, 0)) as t3,
+		  sum(IF(hour(`begin`) >=  4 AND hour(`begin`) <  5, received, 0)) / sum(IF(hour(`begin`) >=  4 AND hour(`begin`) <  5, transmitted, 0)) as t4,
+		  sum(IF(hour(`begin`) >=  5 AND hour(`begin`) <  6, received, 0)) / sum(IF(hour(`begin`) >=  5 AND hour(`begin`) <  6, transmitted, 0)) as t5,
+		  sum(IF(hour(`begin`) >=  6 AND hour(`begin`) <  7, received, 0)) / sum(IF(hour(`begin`) >=  6 AND hour(`begin`) <  7, transmitted, 0)) as t6, 
+		  sum(IF(hour(`begin`) >=  7 AND hour(`begin`) <  8, received, 0)) / sum(IF(hour(`begin`) >=  7 AND hour(`begin`) <  8, transmitted, 0)) as t7, 
+		  sum(IF(hour(`begin`) >=  8 AND hour(`begin`) <  9, received, 0)) / sum(IF(hour(`begin`) >=  8 AND hour(`begin`) <  9, transmitted, 0)) as t8, 
+		  sum(IF(hour(`begin`) >=  9 AND hour(`begin`) < 10, received, 0)) / sum(IF(hour(`begin`) >=  9 AND hour(`begin`) < 10, transmitted, 0)) as t9, 
+		  sum(IF(hour(`begin`) >= 10 AND hour(`begin`) < 11, received, 0)) / sum(IF(hour(`begin`) >= 10 AND hour(`begin`) < 11, transmitted, 0)) as t10, 
+		  sum(IF(hour(`begin`) >= 11 AND hour(`begin`) < 12, received, 0)) / sum(IF(hour(`begin`) >= 11 AND hour(`begin`) < 12, transmitted, 0)) as t11, 
+		  sum(IF(hour(`begin`) >= 12 AND hour(`begin`) < 13, received, 0)) / sum(IF(hour(`begin`) >= 12 AND hour(`begin`) < 13, transmitted, 0)) as t12, 
+		  sum(IF(hour(`begin`) >= 13 AND hour(`begin`) < 14, received, 0)) / sum(IF(hour(`begin`) >= 13 AND hour(`begin`) < 14, transmitted, 0)) as t13, 
+		  sum(IF(hour(`begin`) >= 14 AND hour(`begin`) < 15, received, 0)) / sum(IF(hour(`begin`) >= 14 AND hour(`begin`) < 15, transmitted, 0)) as t14, 
+		  sum(IF(hour(`begin`) >= 15 AND hour(`begin`) < 16, received, 0)) / sum(IF(hour(`begin`) >= 15 AND hour(`begin`) < 16, transmitted, 0)) as t15, 
+		  sum(IF(hour(`begin`) >= 16 AND hour(`begin`) < 17, received, 0)) / sum(IF(hour(`begin`) >= 16 AND hour(`begin`) < 17, transmitted, 0)) as t16,
+		  sum(IF(hour(`begin`) >= 17 AND hour(`begin`) < 18, received, 0)) / sum(IF(hour(`begin`) >= 17 AND hour(`begin`) < 18, transmitted, 0)) as t17,
+		  sum(IF(hour(`begin`) >= 18 AND hour(`begin`) < 19, received, 0)) / sum(IF(hour(`begin`) >= 18 AND hour(`begin`) < 19, transmitted, 0)) as t18,
+		  sum(IF(hour(`begin`) >= 19 AND hour(`begin`) < 20, received, 0)) / sum(IF(hour(`begin`) >= 19 AND hour(`begin`) < 20, transmitted, 0)) as t19,
+		  sum(IF(hour(`begin`) >= 20 AND hour(`begin`) < 21, received, 0)) / sum(IF(hour(`begin`) >= 20 AND hour(`begin`) < 21, transmitted, 0)) as t20,
+		  sum(IF(hour(`begin`) >= 21 AND hour(`begin`) < 22, received, 0)) / sum(IF(hour(`begin`) >= 21 AND hour(`begin`) < 22, transmitted, 0)) as t21,
+		  sum(IF(hour(`begin`) >= 22 AND hour(`begin`) < 23, received, 0)) / sum(IF(hour(`begin`) >= 22 AND hour(`begin`) < 23, transmitted, 0)) as t22,
+		  sum(IF(hour(`begin`) >= 23 AND hour(`begin`) < 24, received, 0)) / sum(IF(hour(`begin`) >= 23 AND hour(`begin`) < 24, transmitted, 0)) as t23
+		  FROM log_internet_ping 
+		  where date(`begin`) BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
+		  group by DATE(`begin`) order by DATE(`begin`) desc;
+		  ";
+	return $a;
+  }
+  
+$all_activities = query(activity());
+$previous_day = date('Y-m-d');
+$previous_day_date = date_create_from_format('Y-m-d', $previous_day);
+while ($row = mysql_fetch_assoc($all_activities)) {
+	$day = $row['day'];
+/*	echo $day. ' + ' . $previous_day;
+	echo "<br/>";
+	date_sub($previous_day_date, date_interval_create_from_date_string('1 day'));
+	$previous_day = date_format($previous_day_date, 'Y-m-d');
+	echo $day. ' _ ' . $previous_day;
+	echo "<br/>";
+*/	
+
+	echo "<tr>";
+    echo '<td class="text-nowrap">' . $row['day'] . '</td>';
+	for ($i=0; $i<=23; $i++) {
+		echo '<td>' . round($row["t" . $i]*100) . '</td>';
+	}
+	
+	echo "</tr>";
+}
+?>
+</tbody></table>
+
 </body>
