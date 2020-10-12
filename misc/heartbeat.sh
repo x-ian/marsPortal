@@ -25,7 +25,7 @@ TEMP_MAIL=`mktemp /home/mail_backlog/$TIMESTAMP-XXXXXX`.sh
 echo "FromLineOverride=YES
 mailhub=smtp.gmail.com:587
 AuthUser=notification@marsgeneral.com
-AuthPass=GoingToIbiza
+#AuthPass=CHANGE_ME
 UseSTARTTLS=YES" > $TEMP_MAIL.config
 echo "From: notification@marsgeneral.com
 To: cneumann@marsgeneral.com
