@@ -17,7 +17,7 @@ TEMP_CONFIG=`mktemp /tmp/ssmtp.config.XXXXXX`
 echo "FromLineOverride=YES
 mailhub=smtp.gmail.com:587
 AuthUser=notification@marsgeneral.com
-AuthPass=GoingToIbiza
+#AuthPass=CHANGE_ME
 UseSTARTTLS=YES" > $TEMP_CONFIG
 TEMP_MAIL=`mktemp /tmp/ssmtp.mail.XXXXXX`
 echo "From: notification@marsgeneral.com
